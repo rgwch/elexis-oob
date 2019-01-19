@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:alpine as builder
 EXPOSE 3030
 
 WORKDIR /home/node

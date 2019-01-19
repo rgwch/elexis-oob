@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  appserver:
+    build: ./appserver
+    container_name: d_appserver
+    ports:
+      - "8080:8080"
+    networks:
+      - "elexisnet"  
+
+  elexisdb:
+    image: mariadb:latest
+    container_name: d_elexisdb
+    environment:
+      - MYSQL_ROOT_PASSWORD=elexisadmin
+    volumes: 
+      - elexisdb:/var/lib/mysql
+    ports:
+      - "3312:3306"
+    networks:
+      - "elexisnet"    
+
+  webelexis:
+    image: rgwch/webelexis:latest
+    container_name: d_webelexis
+    volumes:
+      - webelexisdata:/home/node/webelexis/data
+    ports:
+      - "2018:3030"
+    networks: 
+      - "elexisnet"
+    depends_on:
+      - elexisdb    
+
+  lucinda:
+    image: rgwch/lucinda-server:2.0.6
+    container_name: d_lucinda
+    volumes:
+      - lucindadata:/var/lucinda/data
+      - lucindabase:/var/öucinda/base    
+    ports: 
+      - "2016:2016"
+    networks: 
+      - elexisnet    
+
+volumes:
+  webelexisdata:
+  elexisdb:
+  lucindadata:
+  lucindabase:
+
+networks:
+  elexisnet: 
+  
