@@ -1,5 +1,5 @@
 FROM maven:3.6.0-jdk-8-slim as build-stage
-LABEL maintainer="Gerry Weirich"
+LABEL maintainer="weirich@webelexis.ch"
 LABEL version=1.0
 LABEL description="generate elexis products and download sites"
 
@@ -21,6 +21,9 @@ WORKDIR /opt/elexis-ungrad
 RUN mvn verify
 
 FROM openjdk:8-jre-slim
+LABEL maintainer="weirich@webelexis.ch"
+LABEL version=1.0
+LABEL description="deploy elexis products"
 EXPOSE 8080
 
 COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products /opt/products/

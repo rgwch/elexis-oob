@@ -18,7 +18,7 @@ Dies es docker-compose Projekt erstellt eine vollständige Elexis-Arveitsumgebun
 
 ## Voraussetzungen
 
-Als Vorbedingung benötigen Sie nur Docker und DockerCompose auf dem Server, sowie Java JRE 8 auf den Clients. 
+Als Vorbedingung benötigen Sie nur Docker und Docker-Compose auf dem Server, sowie Java JRE 8 auf den Clients. 
 
 ## Installation und start
 
