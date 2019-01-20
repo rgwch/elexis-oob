@@ -1,0 +1,21 @@
+FROM maven:3.6.0-jdk-8-slim as build-stage
+LABEL maintainer="Gerry Weirich"
+LABEL version=1.0
+LABEL description="generate elexis products and download sites"
+
+WORKDIR /opt
+
+RUN apt-get update \
+    && apt-get install -y git \
+    && git clone -b ungrad2019 https://github.com/rgwch/elexis-3-core \
+    && git clone -b ungrad2019 https://github.com/rgwch/elexis-3-base \
+    && git clone -b ungrad2019 https://github.com/rgwch/elexis-ungrad 
+
+WORKDIR /opt/elexis-3-core
+RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs 
+
+WORKDIR /opt/elexis-3-base
+RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true 
+
+WORKDIR /opt/elexis-ungrad
+RUN mvn verify

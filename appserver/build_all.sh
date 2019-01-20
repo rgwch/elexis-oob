@@ -13,4 +13,3 @@ cd ../elexis-ungrad
 mvn clean verify
 cd ../Lucinda/lucinda-server
 mvn clean package
-

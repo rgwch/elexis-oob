@@ -24,4 +24,4 @@ Als Vorbedingung benötigen Sie nur Docker und DockerCompose auf dem Server, sow
 
       sudo docker-compose up -d
 
-Der Vorgang wird beim ersten Mal sehr lang dauern (Eine halbe Stunde oder mehr)
+Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie einen Browser auf http://&lt;serveradresse&gt;:8080 (setzen Sie für &lt;serveradresse&gt; den Netzwerknamen oder die IP Adresse des Servers ein, auf dem Sie Elexis-OOB installiert haben).

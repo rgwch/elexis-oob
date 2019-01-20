@@ -1,0 +1,6 @@
+FROM openjdk:8-jre-slim
+
+COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products /opt/products/
+COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/repository /opt/core-repository/
+
+RUN apt-get update && apt-get install lighttpd
