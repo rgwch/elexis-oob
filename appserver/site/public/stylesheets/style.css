@@ -5,4 +5,20 @@ body {
 a {
   color: #00B7FF; }
 
+.h1 {
+  color: blue;
+  margin-bottom: 20px; }
+
+table {
+  margin-bottom: 10px; }
+
+td {
+  margin-left: 4px;
+  margin-right: 8px;
+  padding-right: 4px;
+  padding-left: 4px; }
+
+tr {
+  margin-bottom: 2px; }
+
 /*# sourceMappingURL=style.css.map */

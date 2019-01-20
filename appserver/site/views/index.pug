@@ -1,37 +1,70 @@
 extends layout
 
 block content
-  h1= title
-  h2 Downloads
-  ul
-    li
-      a(href="/products/ch.elexis.core.application.ElexisApp-win32.win32.x86.zip") Elexis Windows 32 Bit
-    li
-      a(href="/products/ch.elexis.core.application.ElexisApp-win32.win32.x86_64.zip") Elexis Windows 64 Bit
-    li
-      a(href="products/ch.elexis.core.application.ElexisApp-linux.gtk.x86.zip") Elexis Linux 32 Bit
-    li
-      a(href="/products/ch.elexis.core.application.ElexisApp-linux.gtk.x86_64.zip") Elexis Linux 64 Bit
-    li
-      a(href="/products/ch.elexis.core.application.ElexisApp-macosx.cocoa.x86_64.zip") Elexis macOS 64 Bit
+  .container
+    h1.h1= title
+    .row
+      .col
+        h2.h2 Downloads
+        ul.list-group
+          li.list-group-item
+            a(href="/products/ch.elexis.core.application.ElexisApp-win32.win32.x86.zip") Elexis Windows 32 Bit
+            p Meistens ist es empfehlenswert, diese Version zu verwenden. Achtung. Sie müssen dann auch die 32-Bit-Version von Java installieren.
 
-  h2 Update Sites
-  
-  p (Sie benötigen diese Adressen, um von Elexis aus Zusatz-Plugins zu installieren)
-    
-  ul
-    li
-      a(href="/core-repository") Elexis Core 
-      span (wird nur selten benötigt)
-    li 
-      a(href="/base-repository") Elexis Base 
-      span (Hier sind die meisten Plugins
-    li
-      a(href="/ungrad-repository") Ungrad
-      span  (Zusätzliche Plugins von Elexis Ungrad)
-  
-  h2 Verwaltung
-  ul
-    li Elexis Datenbank neu aufsetzen
-    li Datensicherung durchführen
-    li Elexis Datenbank für Webelexis vorbereiten  
+          li.list-group-item
+            a(href="/products/ch.elexis.core.application.ElexisApp-win32.win32.x86_64.zip") Elexis Windows 64 Bit
+            p Mit dieser Version kann es Probleme mit der Einbindung des Textsystems geben.
+          li.list-group-item
+            a(href="products/ch.elexis.core.application.ElexisApp-linux.gtk.x86.zip") Elexis Linux 32 Bit
+            p Nicht empfohlen, ausser wenn Sie wirklich ein 32 Bit Linux haben
+          li.list-group-item
+            a(href="/products/ch.elexis.core.application.ElexisApp-linux.gtk.x86_64.zip") Elexis Linux 64 Bit
+            p Empfohlene Version für Linux
+          li.list-group-item
+            a(href="/products/ch.elexis.core.application.ElexisApp-macosx.cocoa.x86_64.zip") Elexis macOS 64 Bit
+            p Aktuelle Versionen von macOS können gar keine 32-Bit Software mehr ausführen.
+      
+      .col
+        h2 Verbindungsdaten
+        p Wählen Sie aus der Liste links die zu Ihrem Arbeitsplatz-Betriebssystem passende Version aus und laden Sie sie
+          | herunter. Entpacken Sie ise in einem Verzeichnis Ihrer Wahl und starten Sie das darin befindliche Elexis.
+          | Für die Verbindungsdaten geben Sie bitte Folgendes ein:
+        table
+          tr
+            td Server
+            td d_elexisdb
+          tr 
+            td Datenbank
+            td elexis  
+          tr
+            td Benutzername
+            td Den Namen für die Datenbankverbindung
+          tr
+            td Passwort
+            td Das Passwort für die Datenbankverbindung
+        p (Die hier gefragte Benutzeridentifikation ist NICHT Ihr Elexis-Login, sondern die Verbindungsdaten zur 
+          | Datenbank, wie sie bei der Einrichtung der Datenbank angegeben wurden.)    
+
+
+    .row
+      .col
+        h2 Update Sites
+        
+        p (Sie benötigen diese Adressen, um von Elexis aus Zusatz-Plugins zu installieren)
+          
+        ul.list-group
+          li.list-group-item
+            p <b>http://#{ip}:8080/core-repository</b> 
+            p Elexis Core (wird nur selten benötigt)
+          li.list-group-item
+            a(href="/base-repository") Elexis Base 
+            span (Hier sind die meisten Plugins
+          li.list-group-item
+            a(href="/ungrad-repository") Ungrad
+            span  (Zusätzliche Plugins von Elexis Ungrad)
+      .col 
+        h2 Verwaltung
+        ul.list-group
+          li.list-group-item Elexis Datenbank neu aufsetzen
+          li.list-group-item Datensicherung durchführen
+          li.list-group-item Elexis Datenbank für Webelexis vorbereiten  

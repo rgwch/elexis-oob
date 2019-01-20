@@ -20,18 +20,21 @@ RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true
 WORKDIR /opt/elexis-ungrad
 RUN mvn verify
 
-FROM openjdk:8-jre-slim
+FROM node:alpine
 LABEL maintainer="weirich@webelexis.ch"
 LABEL version=1.0
 LABEL description="deploy elexis products"
-EXPOSE 8080
+EXPOSE 3000
 
-COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products /opt/products/
-COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/repository /opt/core-repository/
-COPY --from=build-stage /opt/elexis-3-base/ch.elexis.base.p2site/target/repository /opt/base-repository/
-COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository /opt/ungrad-repository/
+COPY site /home/node/site
 
-RUN apt-get update && apt-get install -y lighttpd
-COPY index.html /opt/
-COPY lighttpd.conf /root
-CMD ['lighttpd', '-f', '/root/lighttpd.conf']
+COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products /home/node/site/public/products/
+COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/repository /home/node/site/public/core-repository/
+COPY --from=build-stage /opt/elexis-3-base/ch.elexis.base.p2site/target/repository /home/node/site/public/base-repository/
+COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository /home/node/site/public/ungrad-repository/
+
+WORKDIR /home/node/site
+
+RUN npm install
+
+CMD ["npm","start"]
