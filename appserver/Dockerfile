@@ -35,12 +35,11 @@ COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository /home
 
 WORKDIR /home/node/site
 
-# RUN npm install && npm start &
-#CMD ["npm","start"]
 
-RUN mkdir /config /shared
+RUN mkdir /config
 COPY *.conf /config/
-RUN apk --no-cache upgrade \
+RUN npm install \ 
+    && apk --no-cache upgrade \
     && apk --no-cache add samba samba-common-tools supervisor \
     && addgroup -g 1001 elexisadmin \
     && adduser -D -H -G elexisadmin -s /bin/false -u 1001 elexisadmin \
@@ -49,4 +48,5 @@ RUN apk --no-cache upgrade \
 
 VOLUME /config /shared
 
+#CMD ["npm","start"]
 ENTRYPOINT [ "supervisord", "-c", "/config/supervisord.conf" ]
