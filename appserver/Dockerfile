@@ -1,7 +1,7 @@
 FROM maven:3.6.0-jdk-8-slim as build-stage
-LABEL maintainer="weirich@webelexis.ch"
-LABEL version=1.0
-LABEL description="generate elexis products and download sites"
+LABEL maintainer="weirich@webelexis.ch" \
+version=1.0 \
+description="generate and serve elexis products and download sites"
 
 WORKDIR /opt
 
@@ -35,7 +35,7 @@ COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository /home
 
 WORKDIR /home/node/site
 
-
+# Samba setup inspired from pwntr/samba-alpine
 RUN mkdir /config
 COPY *.conf /config/
 RUN npm install \ 
