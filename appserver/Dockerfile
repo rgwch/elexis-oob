@@ -24,7 +24,7 @@ FROM node:alpine
 LABEL maintainer="weirich@webelexis.ch"
 LABEL version=1.0
 LABEL description="deploy elexis products"
-EXPOSE 3000
+EXPOSE 3000 137/udp 138/udp 139 445
 
 COPY site /home/node/site
 
@@ -35,6 +35,18 @@ COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository /home
 
 WORKDIR /home/node/site
 
-RUN npm install
+# RUN npm install && npm start &
+#CMD ["npm","start"]
 
-CMD ["npm","start"]
+RUN mkdir /config /shared
+COPY *.conf /config/
+RUN apk --no-cache upgrade \
+    && apk --no-cache add samba samba-common-tools supervisor \
+    && addgroup -g 1001 elexisadmin \
+    && adduser -D -H -G elexisadmin -s /bin/false -u 1001 elexisadmin \
+    && echo -e "elexis\nelexis" | smbpasswd -a -s -c /config/smb.conf elexisadmin
+
+
+VOLUME /config /shared
+
+ENTRYPOINT [ "supervisord", "-c", "/config/supervisord.conf" ]
