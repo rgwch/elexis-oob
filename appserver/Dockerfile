@@ -1,15 +1,16 @@
 FROM maven:3.6.0-jdk-8-slim as build-stage
 LABEL maintainer="weirich@webelexis.ch" \
 version=1.0 \
-description="generate and serve elexis products and download sites"
+description="create elexis products and repositories"
 
 WORKDIR /opt
+ENV BRANCH=ungrad2019
 
 RUN apt-get update \
     && apt-get install -y git \
-    && git clone -b ungrad2019 https://github.com/rgwch/elexis-3-core \
-    && git clone -b ungrad2019 https://github.com/rgwch/elexis-3-base \
-    && git clone -b ungrad2019 https://github.com/rgwch/elexis-ungrad 
+    && git clone -b ${BRANCH} https://github.com/rgwch/elexis-3-core \
+    && git clone -b ${BRANCH} https://github.com/rgwch/elexis-3-base \
+    && git clone -b ${BRANCH} https://github.com/rgwch/elexis-ungrad 
 
 WORKDIR /opt/elexis-3-core
 RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs 
@@ -21,9 +22,10 @@ WORKDIR /opt/elexis-ungrad
 RUN mvn verify
 
 FROM node:alpine
-LABEL maintainer="weirich@webelexis.ch"
-LABEL version=1.0
-LABEL description="deploy elexis products"
+LABEL maintainer="weirich@webelexis.ch" \
+      version=1.0 \
+      description="deploy elexis products"
+
 EXPOSE 3000 137/udp 138/udp 139 445
 
 COPY site /home/node/site
