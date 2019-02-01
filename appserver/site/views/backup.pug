@@ -10,11 +10,11 @@ block content
       |  entsprechendes Verzeichnis für die Datensicherung eingebunden haben! Bitte prüfen Sie, ob am
       | gewünschten Ort ein Backup erscheint!
 
-    form(action="backupsettings")
+    form(action="/backup/exec" method="POST")
       .form-row
         .form-group.mx-3
           label(for="sel_hours") Stunde
-          select#sel_hours.form-control
+          select#sel_hours.form-control(name="hour")
             - var i=0
             while i<24
               - var val=i
@@ -25,11 +25,11 @@ block content
             - var days=["Mo","Di","Mi","Do","Fr","Sa","So"]
             each day in days
               .form-check
-                input.form-check-input(type="checkbox" value="" id="id_"+day)
+                input.form-check-input(type="checkbox" value="1" name=day id="id_"+day)
                 label.form-check-label(for="id_"+day) #{day}
 
       .form-check
-        input.form-check-input(type="checkbox" value="" id="doBackupNow")
+        input.form-check-input(type="checkbox" name="backupNow" value="1" id="doBackupNow")
         label.form-check-label(for="doBackupNow") Sofort erstellen      
       button.my-3(type="submit") Einstellen
       

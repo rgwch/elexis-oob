@@ -25,13 +25,6 @@ router.get("/", function(req, res, next) {
   res.render("index", { title: "Elexis Out-Of-The-Box", ip: ip })
 })
 
-router.get("/backup", (req, res) => {
-  res.render("backup")
-})
-
-router.post("/backup", (req, res) => {
-  
-})
 /**
  * Serve the Core repository dir listing and files
  */

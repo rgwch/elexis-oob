@@ -7,17 +7,19 @@ Dies es docker-compose Projekt erstellt eine vollständige Elexis-Arveitsumgebun
   * Download von Elexis Installationen für alle unterstützten Betriebssysteme via http oder über 
   Samba-Share.
 
-  * Update Site zur Nachinstallation von Plugins
+  * Update Site zur Nachinstallation von Plugins.
 
-  * Backup Service zur regelmässigen Datensicherung
+  * Backup Service zur regelmässigen Datensicherung.
 
-  * Zugriff via Samba auf die Dokumentenverzeichnisse von Lucinda
+  * Zugriff via Samba auf die Dokumentenverzeichnisse von Lucinda.
 
 * Elexisdb: Elexis Datenbank, einfache Basiskonfiguration
 
 * Webelexis: Webapp-Zugriff auf die Elexis-Datenbank.
 
 * Lucinda: Dokumentenmanager mit ausgefeilter Suchfunktion.
+
+* PACS (Picture Archiving and Communication System): Ein Verwaltungssystem für z.B. DICOM-Dateien (Röntgenbilder etc.)
 
 ## Voraussetzungen
 

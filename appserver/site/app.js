@@ -3,14 +3,15 @@
  * Copyright (c) 2019 by G. Weirich     *
  ****************************************/
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const serveIndex=require('serve-index')
-var indexRouter = require('./routes/index');
-var app = express();
+const indexRouter = require('./routes/index');
+const backupRouter = require('./routes/backup')
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use("/backup", backupRouter)
 app.use('/core',serveIndex('public/core-repository'))
 app.use('/base',serveIndex('public/base-repository'))
 app.use('/ungrad',serveIndex('public/ungrad-repository'))
