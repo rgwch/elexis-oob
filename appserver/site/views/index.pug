@@ -23,7 +23,7 @@ block content
         button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_macos") macOS
         button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_linux") Linux
 
-        .collapse(id="dl_windows")
+        .collapse#dl_windows
           .card.card-body
             ul.list-group
               li.list-group-item
@@ -103,5 +103,6 @@ block content
         h2 Verwaltung
         ul.list-group
           li.list-group-item Elexis Datenbank neu aufsetzen
-          li.list-group-item Datensicherung durchführen
+          li.list-group-item 
+            a(href="/backup") Datensicherung durchführen
           li.list-group-item Elexis Datenbank für Webelexis vorbereiten  
