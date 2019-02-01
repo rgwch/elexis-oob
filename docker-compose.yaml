@@ -28,7 +28,7 @@ services:
       - elexisdb    
 
   lucinda:
-    image: rgwch/lucinda-server:2.0.6
+    image: rgwch/lucinda-server:2.0.7
     container_name: elx_lucinda
     volumes:
       - lucindadata:/var/lucinda/data

@@ -4,17 +4,20 @@ Dies es docker-compose Projekt erstellt eine vollständige Elexis-Arveitsumgebun
 
 * Appserver: Eine Website, die folgende Dienste anbietet:
   
-  * Download von Elexis Installationen für alle unterstützten Betriebssysteme
+  * Download von Elexis Installationen für alle unterstützten Betriebssysteme via http oder über 
+  Samba-Share.
 
   * Update Site zur Nachinstallation von Plugins
 
   * Backup Service zur regelmässigen Datensicherung
 
-* Elexisdb: Elexis Datenbank
+  * Zugriff via Samba auf die Dokumentenverzeichnisse von Lucinda
 
-* Webelexis
+* Elexisdb: Elexis Datenbank, einfache Basiskonfiguration
 
-* Lucinda
+* Webelexis: Webapp-Zugriff auf die Elexis-Datenbank.
+
+* Lucinda: Dokumentenmanager mit ausgefeilter Suchfunktion.
 
 ## Voraussetzungen
 
