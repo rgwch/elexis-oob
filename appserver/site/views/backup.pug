@@ -1,0 +1,19 @@
+//- This file is part of elexis-oob
+    Copyright (c) 2019 by G. Weirich
+
+extends layout
+
+block content
+
+  h2 Backup Einstellungen
+  p Das Backup wird nur funktionieren, wenn Sie in der Grundeinstellung (docker.compose.yaml) ein 
+    |  entsprechendes Verzeichnis für die Datensicherung eingebunden haben! Bitte prüfen Sie, ob am
+    | gewünschten Ort ein Backup erscheint!
+
+  form(action="backupsettings")
+    .form-row  
+      .input-group
+        select
+          - var i=0          
+          while i<24
+            option(value="i")=i++
