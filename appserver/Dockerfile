@@ -21,6 +21,8 @@ RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true
 WORKDIR /opt/elexis-ungrad
 RUN mvn verify
 
+# ------------------------------- end of build stage --------------------------------
+
 FROM node:alpine
 LABEL maintainer="weirich@webelexis.ch" \
       version=1.0 \
@@ -50,5 +52,4 @@ RUN npm install \
 
 VOLUME /config /shared
 
-#CMD ["npm","start"]
 ENTRYPOINT [ "supervisord", "-c", "/config/supervisord.conf" ]

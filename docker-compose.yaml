@@ -4,6 +4,8 @@ services:
   appserver:
     build: ./appserver
     container_name: elx_appserver
+    volumes:
+      - backup: /backup
     ports:
       - "8030:3000"
    
@@ -28,7 +30,7 @@ services:
       - elexisdb    
 
   lucinda:
-    image: rgwch/lucinda-server:2.0.7
+    image: rgwch/lucinda-server:2.1.0
     container_name: elx_lucinda
     volumes:
       - lucindadata:/var/lucinda/data
