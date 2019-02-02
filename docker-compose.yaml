@@ -5,7 +5,12 @@ services:
     build: ./appserver
     container_name: elx_appserver
     volumes:
-      - backup: /backup
+      - backup:/backup
+      - webelexisdata:/mnt/webelexisdata:ro
+      - elexisdb:/mnt/elexisdb:ro
+      - lucindadata:/mnt/lucindadata:ro
+      - lucindabase:/mnt/lucindabase:ro
+      - pacsdata:/mnt/pacsdata:ro
     ports:
       - "8030:3000"
     restart: always  
@@ -44,6 +49,7 @@ services:
 
   pacs:
     image: sparklyballs/pacs
+    container_name: elx_pacs
     ports:
       - "8100:8080"
       - "11112:11112"
@@ -58,4 +64,5 @@ volumes:
   lucindadata:
   lucindabase:
   pacsdata:
+  backup:
 
