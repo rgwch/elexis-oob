@@ -1,12 +1,20 @@
 #! /bin/sh
 
+####################################
+# THis file is part of elexis-oob  #
+# Copyright (c) 2019 by G. Weirich #
+####################################
+
+# Backup all Elexxis-OOB Volumes into the
+# Volume mounted at /backup
+
 fdate=`date '+%Y-%m-%d-%H%M'`
 dest=/backup
 dirname=$dest'/elexisbackup_'$fdate
 log=/backup/lastlog.log
 
 echo $dirname > $log
-mkdirs $dirname
+mkdir -p $dirname
 rc=$?; if [[ $rc != 0 ]]; then
 	echo could not create $dirname: $rc >>$log
 	exit $rc
