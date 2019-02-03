@@ -32,5 +32,4 @@ make_backup lucindabase
 make_backup webelexisdata
 make_backup pacsdata
 
-
 echo elexisbackup ended normally >>$log
