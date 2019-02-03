@@ -14,6 +14,9 @@ services:
     ports:
       - "8030:3000"
     restart: always  
+    network_mode: "host"
+
+
    
   elexisdb:
     image: mariadb:latest
@@ -66,3 +69,4 @@ volumes:
   pacsdata:
   backup:
 
+    
