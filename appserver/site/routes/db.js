@@ -12,3 +12,5 @@ router.get("/init", (req, res) => {
 router.get("/do_initialize",(req,res)=>{
     
 })
+
+module.exports=router

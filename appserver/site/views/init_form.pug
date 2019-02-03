@@ -1,19 +1,20 @@
 extends layout
 
 block content
+    .container
+        h1.h1 Datenbank initialisieren
 
-    h1.h1 Datenbank initialisieren
+        p Achtung: Diese Funktion wird die Datenbank (falls vorhanden) komplett löschen und neu initialisieren.
+        | Führen Sie diese Funktion nur beim ersten Start aus!
 
-    p Achtung: Diese Funktion wird die Datenbank (falls vorhanden) komplett löschen und neu initialisieren.
-    | Führen Sie diese Funktion nur beim ersten Start aus!
-
-    form(action="/do_initialize" method="POST")
-        .form-group
-            label(for="dbname") Name der Datenbank
-            input.form-control#dbname(type="text" name="dbname" value="elexisoob") 
-        .form-group
-            label(for="dbuser") Username für Datenbankverbindung
-            input.form-control#dbuser(type="text" name="dbuser" value="elexisuser")
-        .form-group
-            label(for="dbpwd") Paawort für Datenbankverbindung
-            input.form-control#dbpwd(type="text" name="dbpwd" placeholder="topsecret")        
+        form(action="/db/do_initialize" method="POST")
+            .form-group
+                label(for="dbname") Name der Datenbank
+                input.form-control#dbname(type="text" name="dbname" value="elexisoob") 
+            .form-group
+                label(for="dbuser") Username für Datenbankverbindung
+                input.form-control#dbuser(type="text" name="dbuser" value="elexisuser")
+            .form-group
+                label(for="dbpwd") Paawort für Datenbankverbindung
+                input.form-control#dbpwd(type="text" name="dbpwd" value="topsecret")        
+            button.btn.btn-primary(type="submit" value="Senden") Ok
