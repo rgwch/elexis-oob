@@ -7,6 +7,10 @@ const router = express.Router()
 const cfg = new (require("conf"))()
 const mysql = require("mysql")
 const request = require("request-promise-native")
+const crypto = require("crypto")
+const uuidv4 = require("uuid/v4")
+const HOST = "localhost"
+const PORT = 3312
 let connection
 
 router.get("/init", (req, res) => {
@@ -19,9 +23,9 @@ router.post("/do_initialize", async (req, res) => {
   cfg.set("db.username", req.body.dbuser)
   cfg.set("db.userpwd", req.body.dbpwd)
   connection = mysql.createConnection({
-    host: "localhost",
+    host: HOST,
     user: "root",
-    port: 3312,
+    port: PORT,
     password: cfg.get("db").rootpwd
   })
   connection.connect(err => {
@@ -44,9 +48,9 @@ router.post("/do_initialize", async (req, res) => {
     let cr1 = response.replace(/#.*\r?\n/g, "")
     const createdb = cr1.split(";")
     connection = mysql.createConnection({
-      host: "localhost",
+      host: HOST,
       user: cfg.get("db").username,
-      port: 3312,
+      port: PORT,
       password: cfg.get("db").userpwd,
       database: cfg.get("db").name
     })
@@ -56,12 +60,39 @@ router.post("/do_initialize", async (req, res) => {
         await exec(trimmed)
       }
     }
-    res.render("index")
+    connection.end()
+    res.render("init_step2")
   } catch (err) {
     res.render("error", { message: "Database error", error: err })
   }
 })
 
+router.post("/createaccount", async (req, res) => {
+  connection = mysql.createConnection({
+    host: HOST,
+    user: cfg.get("db").username,
+    port: PORT,
+    password: cfg.get("db").userpwd,
+    database: cfg.get("db").name
+  })
+  try {
+    const salt = crypto.randomBytes(8)
+    const key = crypto.pbkdf2Sync(req.body.adminpwd, salt, 20000, 160, "sha1")
+    const adminpwd = key.toString("hex")
+    await exec(`INSERT INTO USER_ (id, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
+  VALUES ('Administrator', '1', salt, adminpwd,'0')`)
+    const uid=uuidv4()
+    const usalt=crypto.randomBytes(8)
+    const ukey= crypto.pbkdf2Sync(req.body.userpwd, salt, 20000, 160, "sha1")
+  
+    await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung1,istperson,istanwender,deleted") 
+  VALUES (${uid},${req.body.lastname},${req.body.firstname},'1','1','0')`)
+    await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
+      VALUES (${uuidv4()},${uid},'0',${usalt},${ukey})`)
+  } catch (err) {
+    res.render("error", { message: "Could not insert initialize data", error: err })
+  }
+})
 function exec(sql) {
   return new Promise((resolve, reject) => {
     connection.query(sql, (err, resp, fields) => {
