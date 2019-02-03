@@ -76,19 +76,20 @@ router.post("/createaccount", async (req, res) => {
     database: cfg.get("db").name
   })
   try {
-    const salt = crypto.randomBytes(8)
+    const salt = crypto.randomBytes(8).toString('hex')
     const key = crypto.pbkdf2Sync(req.body.adminpwd, salt, 20000, 160, "sha1")
+    
     const adminpwd = key.toString("hex")
     await exec(`INSERT INTO USER_ (id, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
-  VALUES ('Administrator', '1', salt, adminpwd,'0')`)
+  VALUES ('Administrator', '1', '${salt}', '${adminpwd}','0')`)
     const uid=uuidv4()
-    const usalt=crypto.randomBytes(8)
+    const usalt=crypto.randomBytes(8).toString('hex')
     const ukey= crypto.pbkdf2Sync(req.body.userpwd, salt, 20000, 160, "sha1")
-  
+    const upwd=ukey.toString('hex')
     await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung1,istperson,istanwender,deleted") 
-  VALUES (${uid},${req.body.lastname},${req.body.firstname},'1','1','0')`)
+  VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','0')`)
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
-      VALUES (${uuidv4()},${uid},'0',${usalt},${ukey})`)
+      VALUES ('${uuidv4()}','${uid}','0','${usalt}','${upwd}')`)
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })
   }
