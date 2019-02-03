@@ -1,0 +1,26 @@
+//- This file is part of elexis-oob
+    Copyright (c) 2019 by G. Weirich
+
+extends layout
+
+block content
+  .container
+    h1.h1 Daten einlesen
+
+    p Der Administrator und der Hauptanwender wurden eingerichtet. Sie können sich jetzt von Elexis aus mit dieser Datenbank verbinden. Bitte geben Sie an, ob und ggf. welche Initialdaten (möglicherweise nicht aktuell) eingelesen werden sollen.
+
+    form(action="/db/loaddata" method="POST")
+      .form-check
+        input.form-check-input#tarmed(type="checkbox" value="1" name="tarmed")
+        label.form-check-label(for="tarmed") Tarmed
+      .form-check
+        input.form-check-input#articles(type="checkbox" value="1" name="articles")
+        label.form-check-label(for="articles") Artikel
+      .form-check
+        input.form-check-input#icd10(type="checkbox" value="1" name="icd10")
+        label.form-check-label(for="icd10") ICD-10
+      .form-check
+        input.form-check-input#ticode(type="checkbox" value="1" name="ticode")
+        label.form-check-label(for="ticode") TI-Code
+        
+      button.btn.btn-default(type="submit") OK  

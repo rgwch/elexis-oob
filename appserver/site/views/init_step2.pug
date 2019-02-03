@@ -7,8 +7,7 @@ block content
   .container
     h1.h1 Datenbank vorbereiten
 
-    p Die Datenbank wurde erfolgreich erstellt. Jetzt muss das Administrator-Konto und das Konto
-    | des Hauptmandanten eingerichtet werden.
+    p Die Datenbank wurde erfolgreich erstellt. Jetzt muss das Administrator-Konto und das Konto des Hauptmandanten eingerichtet werden.
 
     form(action="/db/createaccount" method="POST")
       .form-row
@@ -21,17 +20,17 @@ block content
       .form-row
         .form-group.col
           label(for="username") Username des Hauptmandanten
-          input.form-control#username(type="text" value="" name="username")
+          input.form-control#username(type="text" value="Chef" name="username")
         .form-group.col
           label(for="userpwd") Passwort des Hauptmandanten
-          input.form-control#userpwd(type="text" value="" name="userpwd")
+          input.form-control#userpwd(type="text" value="muchsecret" name="userpwd")
       .form-row
         .form-group.col
           label(for="lastname") Name des Hauptmandanten
-          input.form-control#lastname(type="text" value="" name="lastname")
+          input.form-control#lastname(type="text" value="Userman" name="lastname")
         .form-group.col
           label(for="firstname") Vorname(n)
-          input.form-control#lastname(type="text" value="" name="firstname")
+          input.form-control#lastname(type="text" value="User" name="firstname")
         .form-group.col
           label(for="title") Titel
           input.form-control#title(type="text" value="" name="title")
