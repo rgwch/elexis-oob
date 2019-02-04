@@ -1,6 +1,6 @@
 # Elexis - Out Of The Box
 
-Dies es docker-compose Projekt erstellt eine vollständige Elexis-Arveitsumgebung aus:
+Dies es docker-compose Projekt erstellt eine vollständige Elexis-Arbeitsumgebung aus:
 
 * Appserver: Eine Website, die folgende Dienste anbietet:
   
@@ -29,4 +29,4 @@ Als Vorbedingung benötigen Sie nur Docker und Docker-Compose auf dem Server, so
 
       sudo docker-compose up -d
 
-Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie einen Browser auf http://&lt;serveradresse&gt;:8080 (setzen Sie für &lt;serveradresse&gt; den Netzwerknamen oder die IP Adresse des Servers ein, auf dem Sie Elexis-OOB installiert haben).
+Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie einen Browser auf http://&lt;serveradresse&gt;:3000 (setzen Sie für &lt;serveradresse&gt; den Netzwerknamen oder die IP Adresse des Servers ein, auf dem Sie Elexis-OOB installiert haben). Dort finden Sie dann auch eine detaillierte Anleitung.

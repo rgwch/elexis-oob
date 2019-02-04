@@ -7,14 +7,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch via NPM",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [
-        "bin/www",
-        "debug"
-      ],
-      "port": 9229
-    },
+      "name": "crypt",
+      "program": "${workspaceFolder}/appserver/site/routes/elxcrypt.js"
+   },
     {
       "type": "node",
       "request": "launch",

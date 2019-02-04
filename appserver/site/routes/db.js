@@ -7,7 +7,8 @@ const router = express.Router()
 const cfg = new (require("conf"))()
 const mysql = require("mysql")
 const request = require("request-promise-native")
-const crypto = require("crypto")
+//const crypto = require("crypto")
+const encrypt = require('./elxcrypt')
 const uuidv4 = require("uuid/v4")
 const HOST = "localhost"
 const PORT = 3312
@@ -17,7 +18,7 @@ router.get("/init", (req, res) => {
   res.render("init_form")
 })
 
-router.get("/restore",(req,res)=>{
+router.get("/restore", (req, res) => {
   res.render("restore_form")
 })
 
@@ -80,27 +81,22 @@ router.post("/createaccount", async (req, res) => {
     database: cfg.get("db").name
   })
   try {
-    const salt = crypto.randomBytes(8).toString('hex')
-    const key = crypto.pbkdf2Sync(req.body.adminpwd, salt, 20000, 20, "sha1")
-    
-    const adminpwd = key.toString("hex")
-    await exec(`INSERT INTO USER_ (id, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
-  VALUES ('Administrator', '1', '${salt}', '${adminpwd}','0')`)
-    const uid=uuidv4()
-    const usalt=crypto.randomBytes(8).toString('hex')
-    const ukey= crypto.pbkdf2Sync(req.body.userpwd, salt, 20000, 20, "sha1")
-    const upwd=ukey.toString('hex')
-    await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istperson,istanwender,deleted) 
-  VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','0')`)
+    const uid = uuidv4()
+    await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
+  VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','1','0')`)
+    const hashes = encrypt(req.body.adminpwd,'1254bb9a05856b9e')
+    await exec(`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
+  VALUES ('Administrator', '${uid}', '1', '1254bb9a05856b9e', '${hashes.hashed}','0')`) // TODO salt
+    const uhashes = encrypt(req.body.userpwd)
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
-      VALUES ('${uuidv4()}','${uid}','0','${usalt}','${upwd}')`)
-    res.render('init_step3')  
+      VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
+    res.render('init_step3')
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })
   }
 })
 
-router.post("/loaddata",(req,res)=>{
+router.post("/loaddata", (req, res) => {
   res.render("finish")
 })
 function exec(sql) {
