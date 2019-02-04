@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  - const x=checkurl
+  p bitte warten...
+  img(src="/images/clock.gif", alt="Uhr", width="100px" height="100px")
+  #running(style="display:block") Fortschritt:
+    span#process 
+  #finished(style="display:none")  
+    h2.h2 Fertig!
+    form(action="/" method="GET")
+      button.btn.btn.primary(type="submit") Zurück
+
+  script(src="/poller.js")

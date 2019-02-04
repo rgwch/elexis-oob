@@ -25,6 +25,17 @@ router.get("/", function(req, res, next) {
   res.render("index", { title: "Elexis Out-Of-The-Box", ip: ip })
 })
 
+let proc
+router.get("/wait/:rum?",(req,res)=>{
+  
+  if(req.params.rum){
+    proc+=10
+    res.json({status: (proc>=100 ? "finished" : "running"), process: proc})
+  }else{
+    proc=0;
+    res.render("wait",{ checkurl: "/wait/123",process: 0})
+  }
+})
 /**
  * Serve the Core repository dir listing and files
  */
