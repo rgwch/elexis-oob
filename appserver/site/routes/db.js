@@ -17,6 +17,10 @@ router.get("/init", (req, res) => {
   res.render("init_form")
 })
 
+router.get("/restore",(req,res)=>{
+  res.render("restore_form")
+})
+
 router.post("/do_initialize", async (req, res) => {
   cfg.set("db.name", req.body.dbname)
   cfg.set("db.rootpwd", req.body.dbrootpwd)

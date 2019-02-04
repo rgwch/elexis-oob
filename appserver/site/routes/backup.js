@@ -10,6 +10,8 @@ router.get("/settings", (req, res) => {
 })
 
 router.post("/exec", (req, res) => {
+  // FLUSH TABLES WITH READ LOCK;
+
   console.log(req.body)
 })
 

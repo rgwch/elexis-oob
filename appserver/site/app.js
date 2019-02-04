@@ -27,9 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use("/backup", backupRouter)
 app.use("/db", dbRouter)
-app.use('/core', serveIndex('public/core-repository'))
-app.use('/base', serveIndex('public/base-repository'))
-app.use('/ungrad', serveIndex('public/ungrad-repository'))
+app.use('/elexis-core', serveIndex('public/core-repository'))
+app.use('/elexis-base', serveIndex('public/base-repository'))
+app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
