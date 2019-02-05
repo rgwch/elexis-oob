@@ -30,9 +30,13 @@ const initWebelexis = () => {
       url: "http://localhost:2016/lucinda/2.0"
     }
   }
-  const str=JSON.stringify(defaults)
-  fs.writeFileSync("/mnt/webelexisdata/settings.js",str)
-  fs.mkdirSync("/mnt/webelexisdata/sample-docbase")
+  const str = JSON.stringify(defaults)
+  try {
+    fs.writeFileSync("/mnt/webelexisdata/settings.js", str)
+    fs.mkdirSync("/mnt/webelexisdata/sample-docbase")
+  } catch (err) {
+    console.log(str)
+  }
 }
 
 module.exports = initWebelexis

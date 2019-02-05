@@ -26,6 +26,7 @@ router.get("/restore", (req, res) => {
  * Initialize DB: First step. Set Database name, mariadb root password, database user and password
  */
 router.post("/do_initialize", async (req, res) => {
+  cfg.clear() // start over
   body2cfg(req.body)
   /*
   cfg.set("db.name", req.body.dbname)
@@ -37,7 +38,7 @@ router.post("/do_initialize", async (req, res) => {
     host: HOST,
     user: "root",
     port: PORT,
-    password: cfg.get("db").rootpwd
+    password: cfg.get("dbrootpwd")
   })
   connection.connect(err => {
     if (err) {
@@ -46,12 +47,12 @@ router.post("/do_initialize", async (req, res) => {
     }
   })
   try {
-    await exec(`CREATE  DATABASE ${cfg.get("db").name}`)
+    await exec(`CREATE  DATABASE ${cfg.get("dbname")}`)
     await exec(
-      `CREATE USER ${cfg.get("db").username}@'%' identified by '${cfg.get("db").userpwd}'`
+      `CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`
     )
     await exec("flush privileges")
-    await exec(`grant all on ${cfg.get("db").name}.* to ${cfg.get("db").username}@'%'`)
+    await exec(`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
     connection.end()
     const response = await request.get(
       "https://raw.githubusercontent.com/rgwch/elexis-3-core/ungrad2019/bundles/ch.elexis.core.data/rsc/createDB.script"
@@ -60,10 +61,10 @@ router.post("/do_initialize", async (req, res) => {
     const createdb = cr1.split(";")
     connection = mysql.createConnection({
       host: HOST,
-      user: cfg.get("db").username,
+      user: cfg.get("dbuser"),
       port: PORT,
-      password: cfg.get("db").userpwd,
-      database: cfg.get("db").name
+      password: cfg.get("dbpwd"),
+      database: cfg.get("dbname")
     })
     for (const stm of createdb) {
       const trimmed = stm.trim()
@@ -85,10 +86,10 @@ router.post("/createaccount", async (req, res) => {
   body2cfg(req.body)
   connection = mysql.createConnection({
     host: HOST,
-    user: cfg.get("db").username,
+    user: cfg.get("dbuser"),
     port: PORT,
-    password: cfg.get("db").userpwd,
-    database: cfg.get("db").name
+    password: cfg.get("dbpwd"),
+    database: cfg.get("dbname")
   })
   try {
     const uid = uuidv4()

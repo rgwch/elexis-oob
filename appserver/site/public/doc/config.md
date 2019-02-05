@@ -12,13 +12,13 @@ Klicken Sie auf den Link "Datenbank initialisieren" im rechten unteren Bereich u
 
 * Für den Namen der Datenbank können Sie etwas Beliebiges eingeben. Es muss allerdings ein Wort ohne Leerzeichen und Sonderzeichen sein, und es ist empfehlenswert, nur Kleinschreibung zu verwenden.
 
-* Das Root-Paswort der Datenbank ist das, welches der Datenbankadministrator benötigt, um etwa neue Uer oder neue Datenbanken anzulegen. Falls Sie hier etwas Anderes als die Vorgabe eintragen wollen, müssen Sie auch den entsprechenden Eintrag (MYSQL_ROOT_PASSWORD) in docker-compose.yaml ändern und dann elexis-oob neu starten.
+* Das Root-Paswort der Datenbank ist das, welches der Datenbankadministrator benötigt, um etwa neue User oder neue Datenbanken anzulegen. Falls Sie hier etwas Anderes als die Vorgabe eintragen wollen, müssen Sie auch den entsprechenden Eintrag (MYSQL_ROOT_PASSWORD) in docker-compose.yaml ändern und dann elexis-oob neu starten. Ich würde aber empfehlen, es für jetzt so zu lassen, und das Passwort des Datenbankadministrators dann am Ende der Ertseinrichtung in etwas zu ändern, was hier nirgends steht.
 
 * Username und Passwort für die Datenbankverbindung sind die Angaben, mit denen Elexis-Clients sich mit der Datenbank verbinden müssen. Mit diesen Angaben erhalten die Clients nur Zugriff auf die Elexis-Datenbank.
 
 Wenn alles in Ordnung ist, klicken Sie "OK".
 
-Als nächstes wird die Elexis-Datenbank eingerichtet. Hier benötigen wir einen Administrator (der andere Anwender erstellen und ihnen Rechte zuteilen kann), und einen Hauptmandanten. Achtung: Dieser Administrator ist nicht derselbe, wie der Datenbank-Administrator, den wir im vorigen Screen erstellt haben. Der Administrator hier ist für die Verwaltung von Elexis zuständig.
+Als nächstes wird die Elexis-Datenbank eingerichtet. Hier benötigen wir einen Administrator (der andere Anwender erstellen und ihnen Rechte zuteilen kann), und einen Hauptmandanten. Dieser Administrator ist nicht derselbe, wie der Datenbank-Administrator, den wir im vorigen Screen erstellt haben. Der Administrator hier ist für die Verwaltung von Elexis zuständig.
 
 ![](/images/oobdoc_03.png)
 

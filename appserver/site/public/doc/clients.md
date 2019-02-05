@@ -8,19 +8,19 @@ Starten Sie auf dem gewünschten Client einen Webbrowser (am besten Chrome oder 
 
 Sie erhalten, je nach Betriebssytem 32- und 64-Bit-Varianten zur Auswahl vorgeschlagen. Laden Sie den passenden Client herunter.
 
-Anmerkung: Alternativ können Sie auf vielen System auch eine Netzwerkverbindung zur Ressource "elexisapps" herstellen:
+Hinweis: Alternativ können Sie auf vielen System auch eine Netzwerkverbindung zur Ressource "elexisapps" herstellen:
 
 ![](/images/oobdoc_07.png)
 
 Dort finden Sie dann die Freigaben "lucinda" (Wo später Ihre Dokumente abgelegt werden) und "repositories", wo unter anderem die Elexis-Clients zu finden sind. Beide Freigaben sind standardmässig nur für Lesezugriffe geöffnet.
 
-So oder so sollten Sie den heruntergeladenen Client nun auf Ihrem System entpacken und starten. Auf dem Mac kommt dabei manchmal eine etwas skurrile Warnung:
+So oder so sollten Sie den heruntergeladenen Client nun auf Ihrem System entpacken und starten. Auf dem Mac kommt dabei manchmal eine etwas skurrile Warnung, wie hier:
 
 ![](/images/oobdoc_08.png)
 
 Nein, lieber Apple, das empfiehlt sich nicht. Stattdessen klickt man auf Apfel-&gt;Systemeinstellungen-&gt;Sicherheit und wählt auf der Seite “Allgemein” unten “Apps Download erlauben von” -&gt; “Keine Einschränkungen”. Dann startet man Elexis Ungrad noch einmal. Sobald es einmal gestartet wurde, kann man die Sicherheitseinstellungen wieder auf das zurückstellen, was vorher war. weitere Starts von Elexis sollten nun problemlos gehen.
 
-Anmerkung: Unter macOS High Sierra kann es noch übler kommen: Dort fehlt die Möglichkeit, die Sicherheitseinstellungen zurückzustellen standardmässig. Man kann sich nur mit einem “Trick” behelfen: Öffnen sie ein Terminal und geben Sie ein: `sudo spctl --master-disable`. Danach muss man das Administratorpasswort eingeben, dann nochmal Systemeinstellungen -> Sicherheit öffnen und voilà - die Option “Keine Einschränkungen” bei den Systemeinstellungen ist wieder da.
+Hinweis: Unter macOS High Sierra und später kann es noch übler kommen: Dort fehlt die Möglichkeit, die Sicherheitseinstellungen zurückzustellen standardmässig. Man kann sich nur mit einem “Trick” behelfen: Öffnen sie ein Terminal und geben Sie ein: `sudo spctl --master-disable`. Danach muss man das Administratorpasswort eingeben, dann nochmal Systemeinstellungen -> Sicherheit öffnen und voilà - die Option “Keine Einschränkungen” bei den Systemeinstellungen ist wieder da.
 
 Beim nächsten Start will es der treue Apfel aber noch einmal genau wissen:
 
