@@ -23,10 +23,14 @@ Dies es docker-compose Projekt erstellt eine vollständige Elexis-Arbeitsumgebun
 
 ## Voraussetzungen
 
-Als Vorbedingung benötigen Sie nur Docker und Docker-Compose auf dem Server, sowie Java JRE 8 auf den Clients. 
+Als Vorbedingung benötigen Sie nur Git, Docker und Docker-Compose auf dem Server, sowie Java JRE 8 auf den Clients. 
 
 ## Installation und start
 
+Auf dem Server:
+
+      git clone https://github.com/rgwch/elexis-oob
+      cd elexis-oob
       sudo docker-compose up -d
 
-Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie einen Browser auf http://&lt;serveradresse&gt;:3000 (setzen Sie für &lt;serveradresse&gt; den Netzwerknamen oder die IP Adresse des Servers ein, auf dem Sie Elexis-OOB installiert haben). Dort finden Sie dann auch eine detaillierte Anleitung.
+Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie von einem im selben Netzwerk befindlichen Client-Computer aus einen Browser auf <http://elexisapps:3000>. Dort finden Sie dann auch eine detaillierte Anleitung (<http://elexisapps:3000/doc>. Falls die Adresse nicht aufgelöst werden kann (Falls Ihr Computer keine SMB/nmbd Namensauflösung "versteht"), dann versuchen Sie <http://IhrServer:3000>, wobei Sie für IhrServer entweder die IP Adresse oder den sympolischen Netzwerknamen einsetzen.

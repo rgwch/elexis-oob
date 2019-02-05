@@ -21,10 +21,12 @@ Einen oder mehrere Computer als Clients, auf denen [Java](http://java.sun.com), 
 
 Auf dem Server:
 
+        git clone https://github.com/rgwch/elexis-oob
+        cd elexis-oob
         docker-compose up -d
 
 Dieser Vorgang wird beim ersten Mal sehr lange dauern (eine halbe Stunde oder so). Weitere Starts gehen dann schnell.
 Ich werde im Folgenden die Adresse dieses Servers mit <em>IhrServer</em> bezeichnen. An diese Stelle müssen Sie dann jweils den Namen oder die IP-Adresse (wie 192.168.0.1 oder so ähnlich) eingeben.
 
-Für die Erstkonfiguration schauen Sie bitte [hier](config.md)
+Für die Erstkonfiguration lesen Sie bitte [hier](config.md) weiter.
 

@@ -8,7 +8,7 @@ Starten Sie auf dem gewünschten Client einen Webbrowser (am besten Chrome oder 
 
 Sie erhalten, je nach Betriebssytem 32- und 64-Bit-Varianten zur Auswahl vorgeschlagen. Laden Sie den passenden Client herunter.
 
-Hinweis: Alternativ können Sie auf vielen System auch eine Netzwerkverbindung zur Ressource "elexisapps" herstellen:
+Hinweis: Alternativ können Sie auf vielen Systemen auch eine Netzwerkverbindung zur Ressource "elexisapps" herstellen:
 
 ![](/images/oobdoc_07.png)
 
