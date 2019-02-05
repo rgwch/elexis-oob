@@ -22,26 +22,28 @@ router.post("/exec", (req, res) => {
     port: PORT,
     password: cfg.get("dbrootpwd")
   })
-  connection.query("FLUSH TABLES WITH READ LOCK;")
-  const { spawn } = require('child_process');
-  console.log(__dirname)
   try {
-    const backup = spawn("backup.sh")
+    //connection.query("FLUSH TABLES WITH READ LOCK;")
+    const bfile = path.join(__dirname, "../backup.sh")
+    console.log(bfile)
+    const backup = spawn(bfile)
     backup.stdout.on('data', data => {
-      console.log(data)
+      console.log(data.toString("utf8"))
     })
     backup.stderr.on("data", data => {
-      console.log(data)
-      res.render("error", { message: data, err: {} })
+      console.log(data.toString("utf8"))
+      // res.render("error", { message: data, err: {} })
+      // it's "tar: stripping leading / from file names"
     })
     backup.on('close', exit => {
-      conso9le.log(data)
-      connection.query("UNLOCK TABLES")
-      res.render("ok")
+      // connection.query("UNLOCK TABLES")
+      connection.end()
+      res.json({ "status": "ok" })
     })
   } catch (err) {
     console.log(err)
     console.log(__dirname)
+    res.render("error",{message:"Backup failed",error:err})
   }
   console.log(req.body)
 })
