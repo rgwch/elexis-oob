@@ -2,7 +2,7 @@
 
 Elexis läuft auf Windows, macOS und Linux-Computern. Einzige Vorbedingung: Eine [Java-Runtime](https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) (Version 8 empfohlen) muss installiert sein. Am selben Server können ohne Weiteres auch gemischt Clients der verschiedenen Systeme angeschlossen werden.
 
-Starten Sie auf dem gewünschten Client einen Webbrowser (am besten Chrome oder Firefox) und richten Sie ihn auf <http://IhrServer:3000>. Klicken Sie dann auf den Button, der dem Betriebssystem des aktuellen Clients entspricht.
+Starten Sie auf dem gewünschten Client einen Webbrowser (am besten Chrome oder Firefox) und richten Sie ihn auf <http://elexisapps:3000>, bzw., falls das nicht geht, auf <http://IhrServer:3000>. Klicken Sie dann auf den Button, der dem Betriebssystem des aktuellen Clients entspricht.
 
 ![](/images/oobdoc_06.png)
 
