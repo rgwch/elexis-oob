@@ -39,7 +39,7 @@ router.get("/wait/:rum?",(req,res)=>{
 /**
  * Serve the Core repository dir listing and files
  */
-router.get("/core/:dir?/:file", (req, res) => {
+router.get("/elexis-core/:dir?/:file", (req, res) => {
   let dname = req.params.dir
   let fname = req.params.file
   const fp = dname ? dname + "/" + fname : fname
@@ -49,7 +49,7 @@ router.get("/core/:dir?/:file", (req, res) => {
 /**
  * Serve the Base repository dir listing and files
  */
-router.get("/base/:dir?/:file", (req, res) => {
+router.get("/elexis-base/:dir?/:file", (req, res) => {
   let dname = req.params.dir
   let fname = req.params.file
   const fp = dname ? dname + "/" + fname : fname
@@ -59,7 +59,7 @@ router.get("/base/:dir?/:file", (req, res) => {
 /**
  * Serve the Ungrad repository dir listing and files
  */
-router.get("/ungrad/:dir?/:file", (req, res) => {
+router.get("/elexis-ungrad/:dir?/:file", (req, res) => {
   let dname = req.params.dir
   let fname = req.params.file
   const fp = dname ? dname + "/" + fname : fname
