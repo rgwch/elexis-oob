@@ -23,7 +23,7 @@ Auf dem Server:
 
         docker-compose up -d
 
-Dieser Vorgang wird beim ersten Mal ser lange dauern (eine halbe Stunde oder so). Weitere Starts gehen dann schnell.
+Dieser Vorgang wird beim ersten Mal sehr lange dauern (eine halbe Stunde oder so). Weitere Starts gehen dann schnell.
 Ich werde im Folgenden die Adresse dieses Servers mit <em>IhrServer</em> bezeichnen. An diese Stelle müssen Sie dann jweils den Namen oder die IP-Adresse (wie 192.168.0.1 oder so ähnlich) eingeben.
 
 Für die Erstkonfiguration schauen Sie bitte [hier](config.md)

@@ -1,6 +1,6 @@
 # Erstkonfiguration
 
-Achtung: Diesen Schritt müssen Sie nur machen, wenn Sie Elexis erstmals installieren!
+Achtung: Diesen Schritt müssen Sie nur machen, wenn Sie Elexis erstmals installieren! Falls Sie eine bestehende Datenbank in elexis-oob einbinden, oder eine Datensicherung zurückspielen wollen, lesen Sie bitte bei 'Wiederherstellen'.
 
 Ich gehe davon aus, dass Sie elexis-oob auf dem Server bereits gestartet haben. Gehen Sie nun an einen Client-Computer und starten Sie dort einen Web-Browser (am besten Chrome oder Firefox). Richten Sie diesen Browser auf <http://IhrServer:3000>. Folgendes Bild sollte Sie begrüssen:
 
@@ -12,7 +12,7 @@ Klicken Sie auf den Link "Datenbank initialisieren" im rechten unteren Bereich u
 
 * Für den Namen der Datenbank können Sie etwas Beliebiges eingeben. Es muss allerdings ein Wort ohne Leerzeichen und Sonderzeichen sein, und es ist empfehlenswert, nur Kleinschreibung zu verwenden.
 
-* Das Root-Paswort der Datenbank ist das, welches der Datenbankadministrator benötigt, um etwa neue User oder neue Datenbanken anzulegen. Falls Sie hier etwas Anderes als die Vorgabe eintragen wollen, müssen Sie auch den entsprechenden Eintrag (MYSQL_ROOT_PASSWORD) in docker-compose.yaml ändern und dann elexis-oob neu starten. Ich würde aber empfehlen, es für jetzt so zu lassen, und das Passwort des Datenbankadministrators dann am Ende der Ertseinrichtung in etwas zu ändern, was hier nirgends steht.
+* Das Root-Paswort der Datenbank ist das, welches der Datenbankadministrator benötigt, um etwa neue User oder neue Datenbanken anzulegen. Falls Sie hier etwas Anderes als die Vorgabe eintragen wollen, müssen Sie auch den entsprechenden Eintrag (MYSQL_ROOT_PASSWORD) in docker-compose.yaml ändern und dann elexis-oob neu starten. Ich würde aber empfehlen, es für jetzt so zu lassen, und das Passwort des Datenbankadministrators dann am Ende der Ersteinrichtung in etwas zu ändern, was hier nirgends steht.
 
 * Username und Passwort für die Datenbankverbindung sind die Angaben, mit denen Elexis-Clients sich mit der Datenbank verbinden müssen. Mit diesen Angaben erhalten die Clients nur Zugriff auf die Elexis-Datenbank.
 
@@ -34,7 +34,7 @@ Kreuzen Sie einfach die Felder an, die Sie interessieren, und klicken Sie dann "
 
 Der Vorgang kann je nach gewählten Datenbeständen eine ganze Weile dauern und ended mit folgendem Bild:
 
-![](/images/oobdoc_05.jpg)
+![](/images/oobdoc_05.png)
 
 Ein Klick auf "Zurück" bringt Sie wieder zum Startbildschirm.
 

@@ -28,12 +28,6 @@ router.get("/restore", (req, res) => {
 router.post("/do_initialize", async (req, res) => {
   cfg.clear() // start over
   body2cfg(req.body)
-  /*
-  cfg.set("db.name", req.body.dbname)
-  cfg.set("db.rootpwd", req.body.dbrootpwd)
-  cfg.set("db.username", req.body.dbuser)
-  cfg.set("db.userpwd", req.body.dbpwd)
-  */
   connection = mysql.createConnection({
     host: HOST,
     user: "root",
