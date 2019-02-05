@@ -34,4 +34,22 @@ block content
         .form-group.col
           label(for="title") Titel
           input.form-control#title(type="text" value="" name="title")
+      .form-row
+        .form-group.col
+          label(for="email") E-Mail
+          input.form-control#email(type="mail" value="me@nowhere.invalid")
+        .form-group.col
+          label(for="zsr") ZSR-Nummer
+          input.form-control#zsr(type="text" value="")
+        .form-group.col
+          label(for="gln") GLN (EAN) 
+          input.form-control#ean(type="text" value="")
+      .form-row
+        .form-group.col
+          label(for="street") Strasse
+          input.form-control#street(type="text" value="Hintergasse 77") 
+        .form-group.col
+          label(for="place") PLZ Ort
+          input.form-control#place(type="text" value="9999 Elexikon")         
+
       button.btn.btn-primary(type="submit" value="ok") OK        

@@ -7,9 +7,9 @@ const router = express.Router()
 const cfg = new (require("conf"))()
 const mysql = require("mysql")
 const request = require("request-promise-native")
-//const crypto = require("crypto")
 const encrypt = require('./elxcrypt')
 const uuidv4 = require("uuid/v4")
+const initwlx=require('./initwlx')
 const HOST = "localhost"
 const PORT = 3312
 let connection
@@ -22,11 +22,17 @@ router.get("/restore", (req, res) => {
   res.render("restore_form")
 })
 
+/**
+ * Initialize DB: First step. Set Database name, mariadb root password, database user and password
+ */
 router.post("/do_initialize", async (req, res) => {
+  body2cfg(req.body)
+  /*
   cfg.set("db.name", req.body.dbname)
   cfg.set("db.rootpwd", req.body.dbrootpwd)
   cfg.set("db.username", req.body.dbuser)
   cfg.set("db.userpwd", req.body.dbpwd)
+  */
   connection = mysql.createConnection({
     host: HOST,
     user: "root",
@@ -72,7 +78,11 @@ router.post("/do_initialize", async (req, res) => {
   }
 })
 
+/**
+ * Initialize db second step: Create Admin and first mandator
+ */
 router.post("/createaccount", async (req, res) => {
+  body2cfg(req.body)
   connection = mysql.createConnection({
     host: HOST,
     user: cfg.get("db").username,
@@ -96,9 +106,21 @@ router.post("/createaccount", async (req, res) => {
   }
 })
 
+/**
+ * Initialize db third step: import data sets and create configuration for Webelexis
+ * 
+ */
 router.post("/loaddata", (req, res) => {
+  body2cfg(req.body)
+  initwlx()
   res.render("finish")
 })
+
+function body2cfg(parms){
+  for(const key of Object.keys(parms)){
+    cfg.set(key,parms[key])
+  }
+}
 function exec(sql) {
   return new Promise((resolve, reject) => {
     connection.query(sql, (err, resp, fields) => {

@@ -6,7 +6,7 @@ services:
     container_name: elx_appserver
     volumes:
       - backup:/backup
-      - webelexisdata:/mnt/webelexisdata:ro
+      - webelexisdata:/mnt/webelexisdata
       - elexisdb:/mnt/elexisdb:ro
       - lucindadata:/mnt/lucindadata:ro
       - lucindabase:/mnt/lucindabase:ro
@@ -37,7 +37,7 @@ services:
     ports:
       - "2019:3030"
     depends_on:
-      - elexisdb    
+      - appserver    
     restart: always  
 
   lucinda:
