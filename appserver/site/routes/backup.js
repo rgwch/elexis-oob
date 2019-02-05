@@ -11,6 +11,9 @@ const PORT = 3312
 const path = require('path')
 const { spawn } = require('child_process');
 
+/**
+ * backup management routes (/backup/..)
+ */
 router.get("/settings", (req, res) => {
   res.render("backup")
 })

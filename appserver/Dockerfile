@@ -32,12 +32,13 @@ EXPOSE 3000 137/udp 138/udp 139 445
 
 COPY site /home/node/site
 
-COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products /home/node/site/public/products/
-COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/repository /home/node/site/public/core-repository/
-COPY --from=build-stage /opt/elexis-3-base/ch.elexis.base.p2site/target/repository /home/node/site/public/base-repository/
-COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository /home/node/site/public/ungrad-repository/
-
 WORKDIR /home/node/site
+
+COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products public/products/
+COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/repository public/core-repository/
+COPY --from=build-stage /opt/elexis-3-base/ch.elexis.base.p2site/target/repository public/base-repository/
+COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository public/ungrad-repository/
+
 
 # Samba setup inspired from pwntr/samba-alpine
 RUN mkdir /config

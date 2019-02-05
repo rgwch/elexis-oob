@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// configure valid routes
 app.use('/', indexRouter);
 app.use("/backup", backupRouter)
 app.use("/db", dbRouter)
@@ -31,7 +32,7 @@ app.use('/elexis-core', serveIndex('public/core-repository'))
 app.use('/elexis-base', serveIndex('public/base-repository'))
 app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
 
-// catch 404 and forward to error handler
+// all other routes: forward 404 to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });

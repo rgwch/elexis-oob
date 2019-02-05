@@ -14,6 +14,9 @@ const HOST = "localhost"
 const PORT = 3312
 let connection
 
+/**
+ * Database management routes (/db/...)
+ */
 router.get("/init", (req, res) => {
   res.render("init_form")
 })
