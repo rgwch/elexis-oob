@@ -10,26 +10,27 @@ block content
       |  entsprechendes Verzeichnis für die Datensicherung eingebunden haben! Bitte prüfen Sie, ob am
       | gewünschten Ort ein Backup erscheint!
 
-    form(action="/backup/exec" method="POST")
-      .form-row
-        .form-group.mx-3
-          label(for="sel_hours") Stunde
-          select#sel_hours.form-control(name="hour")
-            - var i=0
-            while i<24
-              - var val=i
-              option(value=val)= i++
-        .form-group.mx-3      
-          #days 
-            p Tage
-            - var days=["Mo","Di","Mi","Do","Fr","Sa","So"]
-            each day in days
-              .form-check
-                input.form-check-input(type="checkbox" value="1" name=day id="id_"+day)
-                label.form-check-label(for="id_"+day) #{day}
+    form(action="/backup/exec" method="POST")  
+      .form-group.row
+        .col-3
+          input.form-control#minute(type="text" value="*" name="minute")
+        label.col-form-label.col-9(for="minute") Minute  (0-59)
+      .form-group.row
+        .col-3
+          input.form-control#hour(type="text" value="*" name="hour")
+        label.col-form-label.col-9(for="hour") Stunde  (0-23)
+      .form-group.row
+        .col-3
+          input.form-control#day(type="text" value="*" name="day")
+        label.col-form-label.col-9(for="day") Tag  (0-31)
+      .form-group.row
+        .col-3
+          input.form-control#month(type="text" value="*" name="month")
+        label.col-form-label.col-9(for="month") Monat  (1-12)
+      .form-group.row
+        .col-3
+          input.form-control#weekday(type="text" value="*" name="weekday")
+        label.col-form-label.col-9(for="weekday") Wochentag (1-7, 1 ist Montag)
 
-      .form-check
-        input.form-check-input(type="checkbox" name="backupNow" value="1" id="doBackupNow")
-        label.form-check-label(for="doBackupNow") Sofort erstellen      
-      button.my-3(type="submit") Ausführen 
+      button.my-3(type="submit") Einrichten 
       
