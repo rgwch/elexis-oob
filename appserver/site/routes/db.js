@@ -6,11 +6,12 @@ const express = require("express")
 const router = express.Router()
 const cfg = new (require("conf"))()
 const mysql = require("mysql")
-const request = require("request-promise-native")
+const prequest = require("request-promise-native")
 const encrypt = require('./elxcrypt')
 const uuidv4 = require("uuid/v4")
-const initwlx=require('./initwlx')
+const initwlx = require('./initwlx')
 const HOST = "localhost"
+const {loadFromUrlXz,loadFromXz} = require('./loader')
 const PORT = 3312
 let connection
 
@@ -51,7 +52,7 @@ router.post("/do_initialize", async (req, res) => {
     await exec("flush privileges")
     await exec(`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
     connection.end()
-    const response = await request.get(
+    const response = await prequest.get(
       "https://raw.githubusercontent.com/rgwch/elexis-3-core/ungrad2019/bundles/ch.elexis.core.data/rsc/createDB.script"
     )
     let cr1 = response.replace(/#.*\r?\n/g, "")
@@ -92,7 +93,7 @@ router.post("/createaccount", async (req, res) => {
     const uid = uuidv4()
     await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
   VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','1','0')`)
-    const hashes = encrypt(req.body.adminpwd,'1254bb9a05856b9e')
+    const hashes = encrypt(req.body.adminpwd, '1254bb9a05856b9e')
     await exec(`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
   VALUES ('Administrator', '${uid}', '1', '1254bb9a05856b9e', '${hashes.hashed}','0')`) // TODO salt
     const uhashes = encrypt(req.body.userpwd)
@@ -111,16 +112,24 @@ router.post("/createaccount", async (req, res) => {
 router.post("/loaddata", async (req, res) => {
   body2cfg(req.body)
   initwlx()
-  if(req.articles){
-    const response=await fetch("http://elexis.ch/ungrad(articles.tar.xz")
-    const stream=response.body
+  if (cfg.get('articles')) {
+    connection = mysql.createConnection({
+      host: HOST,
+      user: cfg.get("dbuser"),
+      port: PORT,
+      password: cfg.get("dbpwd"),
+      database: cfg.get("dbname")
+    })
+    const result = await loadFromUrlXz(connection, "http://elexis.ch/ungrad/artikel.sql.xz")
+    connection.end()
   }
+
   res.render("finish")
 })
 
-function body2cfg(parms){
-  for(const key of Object.keys(parms)){
-    cfg.set(key,parms[key])
+function body2cfg(parms) {
+  for (const key of Object.keys(parms)) {
+    cfg.set(key, parms[key])
   }
 }
 function exec(sql) {
