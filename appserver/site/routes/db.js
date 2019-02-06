@@ -108,9 +108,13 @@ router.post("/createaccount", async (req, res) => {
  * Initialize db third step: import data sets and create configuration for Webelexis
  * 
  */
-router.post("/loaddata", (req, res) => {
+router.post("/loaddata", async (req, res) => {
   body2cfg(req.body)
   initwlx()
+  if(req.articles){
+    const response=await fetch("http://elexis.ch/ungrad(articles.tar.xz")
+    const stream=response.body
+  }
   res.render("finish")
 })
 
