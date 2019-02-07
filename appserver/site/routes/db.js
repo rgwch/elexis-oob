@@ -11,7 +11,7 @@ const encrypt = require('./elxcrypt')
 const uuidv4 = require("uuid/v4")
 const initwlx = require('./initwlx')
 const HOST = "localhost"
-const {loadFromUrlXz,loadFromXz} = require('./loader')
+const {loadFromUrlGzipped,loadGzipped} = require('./loader')
 const PORT = 3312
 let connection
 
@@ -31,6 +31,8 @@ router.get("/restore", (req, res) => {
  */
 router.post("/do_initialize", async (req, res) => {
   cfg.clear() // start over
+  cfg.dbport=PORT
+  cfg.dbhost=HOST
   body2cfg(req.body)
   connection = mysql.createConnection({
     host: HOST,
@@ -112,16 +114,12 @@ router.post("/createaccount", async (req, res) => {
 router.post("/loaddata", async (req, res) => {
   body2cfg(req.body)
   initwlx()
+
   if (cfg.get('articles')) {
-    connection = mysql.createConnection({
-      host: HOST,
-      user: cfg.get("dbuser"),
-      port: PORT,
-      password: cfg.get("dbpwd"),
-      database: cfg.get("dbname")
-    })
-    const result = await loadFromUrlXz(connection, "http://elexis.ch/ungrad/artikel.sql.xz")
-    connection.end()
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz")
+  }
+  if(cfg.get('tarmed')){
+    const result= await mysqlFromUrlGzipped("http://elexis.ch/ungrad/tarmed.sql.gz" )
   }
 
   res.render("finish")

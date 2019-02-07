@@ -13,6 +13,9 @@ const indexRouter = require('./routes/index');
 const backupRouter = require('./routes/backup')
 const dbRouter = require('./routes/db')
 const app = express();
+const winston=require('winston')
+winston.level="debug"
+winston.add(new winston.transports.Console())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,14 +1,14 @@
 const tar = require("tar-fs")
-const xz = require("xz")
 const fs = require("fs")
 const path = require("path")
 const scheduler = require("node-schedule")
+const zlib=require('zlib')
 
 class Archiver {
   constructor(outdir, numToKeep) {
     this.outdir = outdir
     this.num2keep = numToKeep
-    this.compressor = new xz.Compressor()
+    this.compressor = zlib.createGzip()
   }
 
   schedule(rule, jobs) {
