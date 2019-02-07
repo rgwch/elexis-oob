@@ -31,8 +31,8 @@ router.get("/restore", (req, res) => {
  */
 router.post("/do_initialize", async (req, res) => {
   cfg.clear() // start over
-  cfg.dbport=PORT
-  cfg.dbhost=HOST
+  cfg.set("dbport",PORT)
+  cfg.set("dbhost",HOST)
   body2cfg(req.body)
   connection = mysql.createConnection({
     host: HOST,
