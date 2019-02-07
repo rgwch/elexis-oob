@@ -11,7 +11,7 @@ const encrypt = require('./elxcrypt')
 const uuidv4 = require("uuid/v4")
 const initwlx = require('./initwlx')
 const HOST = "localhost"
-const {loadFromUrlGzipped,loadGzipped} = require('./loader')
+const {mysqlFromUrlGzipped} = require('./loader')
 const PORT = 3312
 let connection
 
