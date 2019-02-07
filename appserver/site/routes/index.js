@@ -2,8 +2,9 @@
  * This file is part of elexis-oob      *
  * Copyright (c) 2019 by G. Weirich     *
  ****************************************/
-var express = require("express")
-var router = express.Router()
+const express = require("express")
+const router = express.Router()
+const cfg = new (require("conf"))()
 
 const ip = require("ip").address()
 
@@ -22,7 +23,14 @@ function getNetworkIP(callback) {
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  res.render("index", { title: "Elexis Out-Of-The-Box", ip: ip })
+  const port=cfg.get('dbport') || 3312
+  //const host=cfg.get('dbhost') || "localhost"
+  const dbname=cfg.get('dbname') || "elexisoob"
+  const username=cfg.get('dbuser') || "(den Namen für die Datenbankverbindung)"
+  const password=cfg.get('dbpwd') || "(das Passwort für die Datenbakverbindung)"
+  res.render("index", { title: "Elexis Out-Of-The-Box", 
+  ip,port,dbname,username,password
+   })
 })
 
 let proc
