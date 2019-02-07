@@ -28,7 +28,7 @@ LABEL maintainer="weirich@webelexis.ch" \
       version=1.0 \
       description="deploy and manage elexis-oob products"
 
-EXPOSE 3000 137/udp 138/udp 139 445
+EXPOSE 3000 
 
 COPY site /home/node/site
 
@@ -40,19 +40,9 @@ COPY --from=build-stage /opt/elexis-3-base/ch.elexis.base.p2site/target/reposito
 COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository public/ungrad-repository/
 
 
-# Samba setup inspired from pwntr/samba-alpine
-RUN mkdir /config
-COPY *.conf /config/
-COPY backup.sh /home/node/site/backup.sh
 RUN npm install \ 
     && apk --no-cache upgrade \
-    && apk --no-cache add samba samba-common-tools supervisor mariadb-client\
-    && addgroup -g 1001 elexisadmin \
-    && adduser -D -H -G elexisadmin -s /bin/false -u 1001 elexisadmin \
-    && echo -e "elexis\nelexis" | smbpasswd -a -s -c /config/smb.conf elexisadmin \
-    && chmod +x backup.sh
+    && apk --no-cache add mariadb-client
+    
 
-
-VOLUME /config 
-
-ENTRYPOINT [ "supervisord", "-c", "/config/supervisord.conf" ]
+ENTRYPOINT [ "npm", "start" ]
