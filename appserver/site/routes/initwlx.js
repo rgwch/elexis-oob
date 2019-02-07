@@ -28,12 +28,12 @@ const initWebelexis = () => {
     },
     docbase: "../data/sample-docbase",
     elexisdb: {
-      host: "localhost",
+      host: "elexisdb",
       database: cfg.get("dbname"),
       user: cfg.get("dbuser"),
       password: cfg.get("dbpwd"),
       port: cfg.get("dbport"),
-      autmodify: true
+      automodify: true
     },
     lucinda: {
       url: "http://localhost:2016/lucinda/2.0"

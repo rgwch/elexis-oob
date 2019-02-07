@@ -10,9 +10,10 @@ const prequest = require("request-promise-native")
 const encrypt = require('../utils/elxcrypt')
 const uuidv4 = require("uuid/v4")
 const initwlx = require('./initwlx')
-const HOST = "localhost"
 const {mysqlFromUrlGzipped} = require('../utils/loader')
-const PORT = 3312
+
+const HOST = "elexisdb" // "localhost"
+const PORT = 3306  // 3312
 let connection
 
 /**
@@ -104,6 +105,7 @@ router.post("/createaccount", async (req, res) => {
     const uhashes = encrypt(req.body.userpwd)
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
+    initwlx()
     res.render('success',{header: "Datenbank erstellt", body:"Sie können jetzt einen Elexis-Client mit der Datenbank verbinden"})
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })
@@ -116,8 +118,7 @@ router.post("/createaccount", async (req, res) => {
  */
 router.post("/loaddata", async (req, res) => {
   body2cfg(req.body)
-  initwlx()
-
+ 
   if (cfg.get('articles')) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz")
   }
