@@ -8,6 +8,7 @@ p Klicken Sie auf den zu Ihrem Betriebssystem passenden Button und laden Sie das
 button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_windows") Windows
 button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_macos") macOS
 button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_linux") Linux
+button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_webelexis") Webelexis
 
 .collapse#dl_windows
   .card.card-body
@@ -21,7 +22,7 @@ button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_linux
         p Mit dieser Version kann es Probleme mit der Einbindung des Textsystems geben.
     
 
-.collapse(id="dl_linux")
+.collapse#dl_linux
   .card.card-body
     ul.list-group
       li.list-group-item
@@ -31,12 +32,18 @@ button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_linux
         a(href="/products/ch.elexis.core.application.ElexisApp-linux.gtk.x86_64.zip") Elexis Linux 64 Bit
         p Empfohlene Version für Linux
 
-.collapse(id="dl_macos")
+.collapse#dl_macos
   .card.card-body
-      ul.list-group       
-        li.list-group-item
-          a(href="/products/ch.elexis.core.application.ElexisApp-macosx.cocoa.x86_64.zip") Elexis macOS 64 Bit
-          p Aktuelle Versionen von macOS können gar keine 32-Bit Software mehr ausführen.
+    ul.list-group       
+      li.list-group-item
+        a(href="/products/ch.elexis.core.application.ElexisApp-macosx.cocoa.x86_64.zip") Elexis macOS 64 Bit
+        p Aktuelle Versionen von macOS können gar keine 32-Bit Software mehr ausführen.
+.collapse#dl_webelexis
+  .card.card-body
+    ul.list-group
+      li.list-group-item
+        a(href="http://#{ip}:2018") Webelexis
+        p Webelexis ist ein Elexis-Client, der in einem Web-Browser läuft. Sie können auf jedem Gerät in Ihrem Netzwerk (auch Mobilgeräten) einen Web-Browser öffnen und auf #{ip} surfen.
 
 p.mt-3 Sehen Sie z.B. 
   a(href="https://elexis.ch/ungrad/start/firstlaunch/") hier

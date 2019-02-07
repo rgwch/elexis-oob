@@ -8,7 +8,7 @@ const cfg = new (require('conf'))()
 const mysql = require('mysql')
 const HOST = "localhost"
 const PORT = 3312
-const archie=new (require('./archiver'))("/backup")
+const archie=new (require('../utils/archiver'))("/backup")
 const { spawn } = require('child_process');
 
 /**

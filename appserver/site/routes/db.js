@@ -7,11 +7,11 @@ const router = express.Router()
 const cfg = new (require("conf"))()
 const mysql = require("mysql")
 const prequest = require("request-promise-native")
-const encrypt = require('./elxcrypt')
+const encrypt = require('../utils/elxcrypt')
 const uuidv4 = require("uuid/v4")
 const initwlx = require('./initwlx')
 const HOST = "localhost"
-const {mysqlFromUrlGzipped} = require('./loader')
+const {mysqlFromUrlGzipped} = require('../utils/loader')
 const PORT = 3312
 let connection
 
@@ -26,6 +26,9 @@ router.get("/restore", (req, res) => {
   res.render("restore_form")
 })
 
+router.get("/loaddata", (req,res)=>{
+  res.render("loaddata")
+})
 /**
  * Initialize DB: First step. Set Database name, mariadb root password, database user and password
  */
@@ -101,7 +104,7 @@ router.post("/createaccount", async (req, res) => {
     const uhashes = encrypt(req.body.userpwd)
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
-    res.render('init_step3')
+    res.render('success',{header: "Datenbank erstellt", body:"Sie können jetzt einen Elexis-Client mit der Datenbank verbinden"})
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })
   }
@@ -122,7 +125,7 @@ router.post("/loaddata", async (req, res) => {
     const result= await mysqlFromUrlGzipped("http://elexis.ch/ungrad/tarmed.sql.gz" )
   }
 
-  res.render("finish")
+  res.render("success",{header:" Ausgeführt",body: "Die gewünschten Datenbestände wurden eingelesen."})
 })
 
 function body2cfg(parms) {
