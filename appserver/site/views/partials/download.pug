@@ -42,8 +42,9 @@ button.btn.btn-primary.mx-2(type="button" data-toggle="collapse" href="#dl_webel
   .card.card-body
     ul.list-group
       li.list-group-item
-        a(href="http://#{ip}:2018") Webelexis
-        p Webelexis ist ein Elexis-Client, der in einem Web-Browser läuft. Sie können auf jedem Gerät in Ihrem Netzwerk (auch Mobilgeräten) einen Web-Browser öffnen und auf #{ip} surfen.
+        - const url="http://"+ip+":2019"
+        a(href=url) Webelexis
+        p Webelexis ist ein Elexis-Client, der in einem Web-Browser läuft. Sie können auf jedem Gerät in Ihrem Netzwerk (auch Mobilgeräten) einen Web-Browser öffnen und auf <http://#{ip}:2019> surfen.
 
 p.mt-3 Sehen Sie z.B. 
   a(href="https://elexis.ch/ungrad/start/firstlaunch/") hier

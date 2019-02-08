@@ -13,6 +13,6 @@ RUN apk --no-cache upgrade \
     && echo -e "elexis\nelexis" | smbpasswd -a -s -c /config/smb.conf elexisadmin 
 
 VOLUME /config 
-VOLUME /mnt
+VOLUME /mnt/lucinda
 
 ENTRYPOINT [ "supervisord", "-c", "/config/supervisord.conf" ]

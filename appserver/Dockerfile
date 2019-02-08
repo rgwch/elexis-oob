@@ -31,7 +31,6 @@ LABEL maintainer="weirich@webelexis.ch" \
 EXPOSE 3000 
 
 COPY site /home/node/site
-
 WORKDIR /home/node/site
 
 COPY --from=build-stage /opt/elexis-3-core/ch.elexis.core.p2site/target/products public/products/

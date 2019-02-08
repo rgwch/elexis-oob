@@ -52,6 +52,15 @@ services:
       - "2017:2016"
     restart: always  
 
+  samba: 
+    build: ./elx-samba
+    container_name: elx_samba
+    depends_on:
+      - lucinda
+    volumes:
+      - lucindadata:/mnt/lucinda
+    network_mode: host
+          
   pacs:
     image: sparklyballs/pacs
     container_name: elx_pacs
