@@ -1,3 +1,9 @@
+/****************************************
+ * This file is part of elexis-oob      *
+ * Copyright (c) 2019 by G. Weirich     *
+ ****************************************/
+
+
 const { Writable } = require("stream")
 const fetch = require("node-fetch")
 const zlib = require("zlib")
@@ -9,7 +15,7 @@ const { spawn } = require("child_process")
 
 /**
  * Fetch a GZipped SQL-File from an URL and load it into the database
- * database credentials must be in cfg
+ * database credentials must be in cfg, 'mysql' must be in the path
  * @param {string} url 
  */
 function mysqlFromUrlGzipped(url) {
@@ -20,7 +26,7 @@ function mysqlFromUrlGzipped(url) {
 
 /**
  * load a stream with Gzipped SQL Statements into the database.
- * Database credentials must be in cfg
+ * Database credentials must be in cfg, 'mysql' must be in the path.
  * @param {readableStream} stream
  */
 

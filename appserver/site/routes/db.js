@@ -7,13 +7,13 @@ const router = express.Router()
 const cfg = new (require("conf"))()
 const mysql = require("mysql")
 const prequest = require("request-promise-native")
-const encrypt = require('../utils/elxcrypt')
+const encrypt = require("../utils/elxcrypt")
 const uuidv4 = require("uuid/v4")
-const initwlx = require('./initwlx')
-const { mysqlFromUrlGzipped } = require('../utils/loader')
+const initwlx = require("./initwlx")
+const { mysqlFromUrlGzipped } = require("../utils/loader")
 
-const HOST = "elexisdb" // "localhost"
-const PORT = 3306  // 3312
+const DBHOST = process.env.DBHOST || "localhost"
+const DBPORT = process.env.DBPORT || 3312
 let connection
 
 /**
@@ -35,13 +35,13 @@ router.get("/loaddata", (req, res) => {
  */
 router.post("/do_initialize", async (req, res) => {
   cfg.clear() // start over
-  cfg.set("dbport", PORT)
-  cfg.set("dbhost", HOST)
+  cfg.set("dbport", DBPORT)
+  cfg.set("dbhost", DBHOST)
   body2cfg(req.body)
   connection = mysql.createConnection({
-    host: HOST,
+    host: DBHOST,
     user: "root",
-    port: PORT,
+    port: DBPORT,
     password: cfg.get("dbrootpwd")
   })
   connection.connect(err => {
@@ -52,9 +52,7 @@ router.post("/do_initialize", async (req, res) => {
   })
   try {
     await exec(`CREATE  DATABASE ${cfg.get("dbname")}`)
-    await exec(
-      `CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`
-    )
+    await exec(`CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
     await exec("flush privileges")
     await exec(`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
     connection.end()
@@ -64,9 +62,9 @@ router.post("/do_initialize", async (req, res) => {
     let cr1 = response.replace(/#.*\r?\n/g, "")
     const createdb = cr1.split(";")
     connection = mysql.createConnection({
-      host: HOST,
+      host: DBHOST,
       user: cfg.get("dbuser"),
-      port: PORT,
+      port: DBPORT,
       password: cfg.get("dbpwd"),
       database: cfg.get("dbname")
     })
@@ -89,9 +87,9 @@ router.post("/do_initialize", async (req, res) => {
 router.post("/createaccount", async (req, res) => {
   body2cfg(req.body)
   connection = mysql.createConnection({
-    host: HOST,
+    host: DBHOST,
     user: cfg.get("dbuser"),
-    port: PORT,
+    port: DBPORT,
     password: cfg.get("dbpwd"),
     database: cfg.get("dbname")
   })
@@ -99,14 +97,17 @@ router.post("/createaccount", async (req, res) => {
     const uid = uuidv4()
     await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
   VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','1','0')`)
-    const hashes = encrypt(req.body.adminpwd, '1254bb9a05856b9e')
+    const hashes = encrypt(req.body.adminpwd, "1254bb9a05856b9e")
     await exec(`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
   VALUES ('Administrator', '${uid}', '1', '1254bb9a05856b9e', '${hashes.hashed}','0')`) // TODO salt
     const uhashes = encrypt(req.body.userpwd)
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
     initwlx()
-    res.render('success', { header: "Datenbank erstellt", body: "Sie können jetzt einen Elexis-Client mit der Datenbank verbinden" })
+    res.render("success", {
+      header: "Datenbank erstellt",
+      body: "Sie können jetzt einen Elexis-Client mit der Datenbank verbinden"
+    })
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })
   }
@@ -114,27 +115,30 @@ router.post("/createaccount", async (req, res) => {
 
 /**
  * Initialize db third step: import data sets and create configuration for Webelexis
- * 
+ *
  */
 router.post("/loaddata", async (req, res) => {
   body2cfg(req.body)
 
-  if (cfg.get('articles')) {
+  if (cfg.get("articles")) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz")
   }
-  if (cfg.get('tarmed')) {
+  if (cfg.get("tarmed")) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/tarmed.sql.gz")
   }
-  if (cfg.get('icd10')){
+  if (cfg.get("icd10")) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/icd10.sql.gz")
   }
-  if(cfg.get('labcode')){
+  if (cfg.get("labcode")) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/eal2009.sql.gz")
   }
-  if(cfg.get('kkdata')){
-    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/kkdata.sql.gz")
+  if (cfg.get("kkdata")) {
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/kkliste.sql.gz")
   }
-  res.render("success", { header: " Ausgeführt", body: "Die gewünschten Datenbestände wurden eingelesen." })
+  res.render("success", {
+    header: " Ausgeführt",
+    body: "Die gewünschten Datenbestände wurden eingelesen."
+  })
 })
 
 function body2cfg(parms) {

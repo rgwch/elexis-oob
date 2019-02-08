@@ -4,6 +4,9 @@ services:
   appserver:
     build: ./appserver
     container_name: elx_appserver
+    environment:
+      - DBHOST=elexisdb
+      - DBPORT=3306
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
@@ -14,7 +17,6 @@ services:
     restart: always  
     ports:
       - 3000:3000
-    #network_mode: "host"
     depends_on:
       - elexisdb
  
