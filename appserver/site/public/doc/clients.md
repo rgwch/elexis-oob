@@ -4,17 +4,11 @@ Elexis läuft auf Windows, macOS und Linux-Computern. Einzige Vorbedingung: Eine
 
 Starten Sie auf dem gewünschten Client einen Webbrowser (am besten Chrome oder Firefox) und richten Sie ihn auf <http://elexisapps:3000>, bzw., falls das nicht geht, auf <http://IhrServer:3000>. Klicken Sie dann auf den Button, der dem Betriebssystem des aktuellen Clients entspricht.
 
-![](/images/oobdoc_06.png)
+![](/images/oob_einstieg.png)
 
-Sie erhalten, je nach Betriebssytem 32- und 64-Bit-Varianten zur Auswahl vorgeschlagen. Laden Sie den passenden Client herunter.
+Sie erhalten, je nach Betriebssytem 32- und 64-Bit-Varianten zur Auswahl vorgeschlagen. Laden Sie den passenden Client herunter. (Den Punkt "Webelexis" werden wir etwas später ansehen)
 
-Hinweis: Alternativ können Sie auf vielen Systemen auch eine Netzwerkverbindung zur Ressource "elexisapps" herstellen:
-
-![](/images/oobdoc_07.png)
-
-Dort finden Sie dann die Freigaben "lucinda" (Wo später Ihre Dokumente abgelegt werden) und "repositories", wo unter anderem die Elexis-Clients zu finden sind. Beide Freigaben sind standardmässig nur für Lesezugriffe geöffnet.
-
-So oder so sollten Sie den heruntergeladenen Client nun auf Ihrem System entpacken und starten. Auf dem Mac kommt dabei manchmal eine etwas skurrile Warnung, wie hier:
+Den heruntergeladenen Client sollten Sie nun auf Ihrem System entpacken und starten. Auf dem Mac kommt dabei manchmal eine etwas skurrile Warnung, wie hier:
 
 ![](/images/oobdoc_08.png)
 
@@ -28,3 +22,6 @@ Beim nächsten Start will es der treue Apfel aber noch einmal genau wissen:
 
 Da wir das Programm eben selber von unserem eigenen Server (der wegen seiner Geräuschkulisse bei mir 'brumm' heisst) heruntergeladen haben, können wir diese Warnung getrost ignorieren.
 
+Was dann erscheint, hängt davon ab, ob auf diesem Computer schon einmal Elexis gelaufen ist. Wenn ja, wird das neue Exemplar versuchen, sich mit derselben Datenbank zu verbinden, wie das Vorherige. Wenn diese nicht erreichbar ist, erscheint eine entsprechende Meldung, gefolgt von der Frage, ob eine neue Verbindung konfiguriert werden soll. Diese sollten Sie tunlichst mit Ja beantworten.
+
+Danach (oder, falls dies das erste Elexis-Exemplar auf diesem Computer ist, gleich am Anfang), kommt die Anfrage zur Datenbankverbindung.

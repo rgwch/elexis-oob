@@ -26,7 +26,12 @@ Auf dem Server:
         docker-compose up -d
 
 Dieser Vorgang wird beim ersten Mal sehr lange dauern (eine halbe Stunde oder so). Weitere Starts gehen dann schnell.
-Ich werde im Folgenden die Adresse dieses Servers mit <em>IhrServer</em> bezeichnen. An diese Stelle müssen Sie dann jweils den Namen oder die IP-Adresse (wie 192.168.0.1 oder so ähnlich) eingeben.
+
+Lassen Sie sich nicht davon irritieren, wenn beim ersten Mal am Ende des Vorgangs immer wieder eine Fehlermeldung wie die Folgende erscheint:
+
+![](/images/webelexis_err.png)
+
+Dies kommt davon, dass Webelexis noch keine funktionierende Datenbankkonfiguration hat. Wir werden das gleich im nächsten Schritt ändern.
 
 Für die Erstkonfiguration lesen Sie bitte [hier](config.md) weiter.
 

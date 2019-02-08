@@ -10,7 +10,7 @@ const prequest = require("request-promise-native")
 const encrypt = require('../utils/elxcrypt')
 const uuidv4 = require("uuid/v4")
 const initwlx = require('./initwlx')
-const {mysqlFromUrlGzipped} = require('../utils/loader')
+const { mysqlFromUrlGzipped } = require('../utils/loader')
 
 const HOST = "elexisdb" // "localhost"
 const PORT = 3306  // 3312
@@ -27,7 +27,7 @@ router.get("/restore", (req, res) => {
   res.render("restore_form")
 })
 
-router.get("/loaddata", (req,res)=>{
+router.get("/loaddata", (req, res) => {
   res.render("loaddata")
 })
 /**
@@ -35,8 +35,8 @@ router.get("/loaddata", (req,res)=>{
  */
 router.post("/do_initialize", async (req, res) => {
   cfg.clear() // start over
-  cfg.set("dbport",PORT)
-  cfg.set("dbhost",HOST)
+  cfg.set("dbport", PORT)
+  cfg.set("dbhost", HOST)
   body2cfg(req.body)
   connection = mysql.createConnection({
     host: HOST,
@@ -106,7 +106,7 @@ router.post("/createaccount", async (req, res) => {
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
     initwlx()
-    res.render('success',{header: "Datenbank erstellt", body:"Sie können jetzt einen Elexis-Client mit der Datenbank verbinden"})
+    res.render('success', { header: "Datenbank erstellt", body: "Sie können jetzt einen Elexis-Client mit der Datenbank verbinden" })
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })
   }
@@ -118,15 +118,23 @@ router.post("/createaccount", async (req, res) => {
  */
 router.post("/loaddata", async (req, res) => {
   body2cfg(req.body)
- 
+
   if (cfg.get('articles')) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz")
   }
-  if(cfg.get('tarmed')){
-    const result= await mysqlFromUrlGzipped("http://elexis.ch/ungrad/tarmed.sql.gz" )
+  if (cfg.get('tarmed')) {
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/tarmed.sql.gz")
   }
-
-  res.render("success",{header:" Ausgeführt",body: "Die gewünschten Datenbestände wurden eingelesen."})
+  if (cfg.get('icd10')){
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/icd10.sql.gz")
+  }
+  if(cfg.get('labcode')){
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/eal2009.sql.gz")
+  }
+  if(cfg.get('kkdata')){
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/kkdata.sql.gz")
+  }
+  res.render("success", { header: " Ausgeführt", body: "Die gewünschten Datenbestände wurden eingelesen." })
 })
 
 function body2cfg(parms) {
