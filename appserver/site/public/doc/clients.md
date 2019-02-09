@@ -25,3 +25,22 @@ Da wir das Programm eben selber von unserem eigenen Server (der wegen seiner Ger
 Was dann erscheint, hängt davon ab, ob auf diesem Computer schon einmal Elexis gelaufen ist. Wenn ja, wird das neue Exemplar versuchen, sich mit derselben Datenbank zu verbinden, wie das Vorherige. Wenn diese nicht erreichbar ist, erscheint eine entsprechende Meldung, gefolgt von der Frage, ob eine neue Verbindung konfiguriert werden soll. Diese sollten Sie tunlichst mit Ja beantworten.
 
 Danach (oder, falls dies das erste Elexis-Exemplar auf diesem Computer ist, gleich am Anfang), kommt die Anfrage zur Datenbankverbindung.
+
+![](/images/oob_connect_01.png)
+
+Wählen Sie "Neue Verbindung erstellen" und klicken Sie auf "weiter".
+
+![](/images/oob_connect_02.png)
+
+Geben Sie die passenden Daten ein und klicken Sie "Fertigstellen". Danach müssen Sie Elexis neu starten.
+
+![](/images/oob_connect_03.png)
+
+Für Name und Passwort müssen Sie das eingeben, was Sie anfangs unter "Datenbank vorbereiten" als Username und Passwort des Administrators eingetragen hatten.
+
+Nun müssen Sie möglicherweise nochmal etwas Geduld haben, da Elexis je nach Version noch einige Einrichtungsarbeiten vornimmt. 
+
+Wenn alles geklappt hat, sollten Sie am Ende aber das mit Recht so beliebte Elexis-Fenster sehen: 
+
+![](/images/oob_connect_04.png)
+

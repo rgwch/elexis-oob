@@ -25,13 +25,7 @@ Auf dem Server:
         cd elexis-oob
         docker-compose up -d
 
-Dieser Vorgang wird beim ersten Mal sehr lange dauern (eine halbe Stunde oder so). Weitere Starts gehen dann schnell.
-
-Lassen Sie sich nicht davon irritieren, wenn beim ersten Mal am Ende des Vorgangs immer wieder eine Fehlermeldung wie die Folgende erscheint:
-
-![](/images/webelexis_err.png)
-
-Dies kommt davon, dass Webelexis noch keine funktionierende Datenbankkonfiguration hat. Wir werden das gleich im nächsten Schritt ändern.
+Dieser Vorgang wird beim ersten Mal sehr lange dauern (eine viertel Stunde oder so). Weitere Starts gehen dann schnell.
 
 Für die Erstkonfiguration lesen Sie bitte [hier](config.md) weiter.
 
