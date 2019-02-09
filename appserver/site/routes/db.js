@@ -132,6 +132,9 @@ router.post("/loaddata", async (req, res) => {
   if (cfg.get("labcode")) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/eal2009.sql.gz")
   }
+  if (cfg.get("migel")) {
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/migel.sql.gz")
+  }
   if (cfg.get("kkdata")) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/kkliste.sql.gz")
   }
