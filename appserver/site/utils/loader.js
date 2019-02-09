@@ -9,8 +9,6 @@ const fetch = require("node-fetch")
 const zlib = require("zlib")
 const logger = require("winston")
 const cfg = new (require("conf"))()
-const tmp = require("tmp")
-const fs = require("fs")
 const { spawn } = require("child_process")
 
 /**

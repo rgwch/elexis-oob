@@ -14,6 +14,9 @@ const { mysqlFromUrlGzipped } = require("../utils/loader")
 
 const DBHOST = process.env.DBHOST || "localhost"
 const DBPORT = process.env.DBPORT || 3312
+cfg.set("dbport", DBPORT)
+cfg.set("dbhost", DBHOST)
+
 let connection
 
 /**
@@ -118,24 +121,23 @@ router.post("/createaccount", async (req, res) => {
  *
  */
 router.post("/loaddata", async (req, res) => {
-  body2cfg(req.body)
 
-  if (cfg.get("articles")) {
+  if (req.body.articles) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz")
   }
-  if (cfg.get("tarmed")) {
+  if (req.body.tarmed) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/tarmed.sql.gz")
   }
-  if (cfg.get("icd10")) {
+  if (req.body.icd10) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/icd10.sql.gz")
   }
-  if (cfg.get("labcode")) {
+  if (req.body.labcode) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/eal2009.sql.gz")
   }
-  if (cfg.get("migel")) {
+  if (req.body.migel) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/migel.sql.gz")
   }
-  if (cfg.get("kkdata")) {
+  if (req.body.kkdata) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/kkliste.sql.gz")
   }
   res.render("success", {
