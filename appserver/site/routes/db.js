@@ -100,9 +100,9 @@ router.post("/createaccount", async (req, res) => {
     const uid = uuidv4()
     await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
   VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','1','0')`)
-    const hashes = encrypt(req.body.adminpwd, "1254bb9a05856b9e")
+    const hashes = encrypt(req.body.adminpwd)
     await exec(`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
-  VALUES ('Administrator', '${uid}', '1', '1254bb9a05856b9e', '${hashes.hashed}','0')`) // TODO salt
+  VALUES ('Administrator', '${uid}', '1', '${hashes.salt}', '${hashes.hashed}','0')`)
     const uhashes = encrypt(req.body.userpwd)
     await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
