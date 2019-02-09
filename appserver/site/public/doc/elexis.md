@@ -6,17 +6,17 @@ Eine ausführlichere Anleitung dessen, was Sie nach der Installation von Server 
 
 ## Mandanten und Anwender erstellen
 
-Starten Sie Elexis und wählen Sie im Hauptmenü *Datei->Einstellungen*. Dort findne Sie folgende Seite:
+Starten Sie Elexis und wählen Sie im Hauptmenü *Datei->Einstellungen*. Dort finden Sie folgende Seite:
 
 ![](/images/elx_config_01.png)
 
-Ernennen Sie Ihren vorhin erstellten hauptmandanten zum "verantwortlichen" Arzt und weisen Sie ihm passende Rollen zu. (Durch "Rollen" wird festgelegt, wer in Elexis was tun darf - belassen Sie am Besten zunächst alles auf den Standardwerten).
+Ernennen Sie Ihren vorhin erstellten Hauptmandanten zum "verantwortlichen" Arzt und weisen Sie ihm passende Rollen zu. (Durch "Rollen" wird festgelegt, wer in Elexis was tun darf - belassen Sie am Besten zunächst alles auf den Standardwerten).
 
 Klicken Sie dann "Anwenden und Schließen".
 
 ## Benötigte Features nachinstallieren
 
-Wählen Sie im Elexis-Hauptmenü den Punkt *Hilfe->Neue Software installieren*. Sie können eine der vordefinierten Sites auswählen, oder mit *Hinzufügen* beispielsweise eine oder mehrere der mit Elexis-OOB installierten Software.Sites hinzufügen.
+Wählen Sie im Elexis-Hauptmenü den Punkt *Hilfe->Neue Software installieren*. Sie können eine der vordefinierten Sites auswählen, oder mit *Hinzufügen* beispielsweise eine oder mehrere der mit Elexis-OOB installierten Software-Sites hinzufügen.
 
 ![](/images/elx_config_02.png)
 
@@ -38,4 +38,4 @@ Klicken Sie oben links auf neu und erstellen Sie zunächst ein KVG Abrechnungssy
 
 Eine ausführlichere Erläuterung des Abrechnungssystems finden Sie [hier](https://wiki.elexis.info/Ch.elexis.base.ch.arzttarife).
 
-Jetzt können wir loslegen. Und wie, das zeige ich [hier](elexis_how2.md)
+Jetzt können wir loslegen. Einen Einstieg zeige ich [hier](elexis_how2.md)

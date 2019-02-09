@@ -12,7 +12,9 @@ Elexis-OOB ist eine komplette [Elexis](http://elexis.info)-Umgebung bestehend au
 
 Sowie einer Web-Oberfläche zur initialien Einrichtung des Systems, sowie Konfiguration, Erstellung und Zurückspielen von Backups.
 
-Das Ganze ist als Docker - Komposition entworfen. Dadurch ist es (ziemlich) systemunabhängig und ausserordentlich leicht einzurichten. Im Prinzip genügt ein einziger docker-compose Befehl, um das System audzusetzen, und danach einige Schritte für die Konfgiguration. Diese Anleitung führt sie durch den Vorgang.
+Das Ganze ist als Docker - Komposition entworfen. Dadurch ist es (ziemlich) systemunabhängig und ausserordentlich leicht einzurichten. Im Prinzip genügt ein einziger docker-compose Befehl, um das System audzusetzen, und danach einige Schritte für die Konfiguration. Damit ist Elexis-OOB ein System, mit dem Sie eine komplexe Arztpraxis-Software auf einfache Weise fast überall installieren können. Sei es als Test-Installation, sei es als produktive Praxissoftware. Sie können auch relativ leicht mehrere Instanzen parallel laufen lassen.
+
+Diese Anleitung führt sie durch den Installations- und Konfigurationsvorgang.
 
 ## Was Sie benötigen
 
