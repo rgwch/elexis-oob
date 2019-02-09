@@ -7,12 +7,13 @@ const crypto = require("crypto")
 
 /**
  * Encrypt a password the same way as Elexis
+ * (see ch.rgw.tools.PasswordEncryptionService)
  * @param {string} pwd 
  * @param {string} salt (optional) 
  */
 const encrypt = (pwd, salt) => {
     if (!salt) {
-        salt = crypto.randomBytes(8).toString('hex')
+        salt = crypto.randomBytes(8)
     }else{
         salt=Buffer.from(salt,'hex')
     }
