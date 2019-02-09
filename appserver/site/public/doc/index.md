@@ -28,7 +28,7 @@ Auf dem Server:
         cd elexis-oob
         docker-compose up -d
 
-Dieser Vorgang wird beim ersten Mal sehr lange dauern (ca. 15-25 Minuten auf einem zeitgemässen Computer mit schnellem Internet). Weitere Starts gehen dann schnell (wenige Sekunden).
+Dieser Vorgang wird beim ersten Mal sehr lange dauern (ca. 15-25 Minuten auf einem zeitgemässen Computer mit ADSL/LTE Internet). Weitere Starts gehen dann schnell (wenige Sekunden).
 
 Um das ganze System zu stoppen, geben Sie ein: `docker-compose stop`. Um es dann wieder zu starten, genügt `docker-compose start`. Eine Regeneration der Container erreicht man mit `docker-compose up -d`. Normalerweise brauchen Sie sich aber nicht darum zu kümmern: Wenn Sie den Server herunterfahren, wird docker automatisch vorher "sanft" gestoppt, und nach einem Neustart wird das Elexis-OOB-System ebenfalls automatisch neu gestartet.
 
