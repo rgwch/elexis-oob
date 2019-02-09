@@ -5,8 +5,10 @@
 const express = require("express")
 const router = express.Router()
 const cfg = new (require("conf"))()
+const os=require('os')
 
 const ip = require("ip").address()
+const hostname= process.env.HOST_HOSTNAME || ip
 
 var net = require("net")
 
@@ -29,7 +31,7 @@ router.get("/", function(req, res, next) {
   const username=cfg.get('dbuser') || "(den Namen für die Datenbankverbindung)"
   const password=cfg.get('dbpwd') || "(das Passwort für die Datenbakverbindung)"
   res.render("index", { title: "Elexis Out-Of-The-Box", 
-  ip,port,dbname,username,password
+  hostname,port,dbname,username,password
    })
 })
 

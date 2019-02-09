@@ -44,3 +44,4 @@ Wenn alles geklappt hat, sollten Sie am Ende aber das mit Recht so beliebte Elex
 
 ![](/images/oob_connect_04.png)
 
+Machen Sie dann weiter mit der Konfiguration von [Elexis](elexis.md).
