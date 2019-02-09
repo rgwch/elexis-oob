@@ -28,11 +28,7 @@ Klicken Sie dann auf "OK".
 
 ![](/images/oob_dbinit_03.png)
 
-Die Datenbank ist eingerichtet. Ein Klick auf "Zurück" bringt Sie wieder zum Start-Bildschirm. Wenn Sie jetzt das Terminal anschauen, in dem Sie vorhin `docker_compose up` eingegeben haben, werden Sie feststellen, dass nun auch der Webelexis Container starten konnte:
-
-![](/images/webelexis_ok.png)
-
-(Die Warnungen und Fehlermeldungen, die hier noch durchlaufen haben nichts zu bedeuten und hängen mit der Art des Setup zusammen).
+Die Datenbank ist eingerichtet. Ein Klick auf "Zurück" bringt Sie wieder zum Start-Bildschirm.
 
 Jetzt können Sie, wenn Sie möchten, bestimmte Basis-Datenbestände in Ihre neue Elexis-Datenbank einlesen. Sie können dasselbe ohne Weiteres auch später von einem Elexis-Client aus machen, aber jetzt geht es schneller und einfacher. Dafür sind allerdings die Datenbestände möglicherweise nicht ganz aktuell. 
 
@@ -42,7 +38,7 @@ Klicken Sie dazu auf "Basis-Datenbestände einlesen" rechts unten unter "Verwalt
 
 Kreuzen Sie einfach die Felder an, die Sie interessieren, und klicken Sie dann "OK".
 
-Der Vorgang kann je nach gewählten Datenbeständen eine ganze Weile dauern und ended mit folgendem Bild:
+Der Vorgang kann je nach gewählten Datenbeständen eine ganze Weile dauern und endet mit folgendem Bild:
 
 ![](/images/oob_basicdata_02.png)
 
