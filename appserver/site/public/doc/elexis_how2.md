@@ -1,8 +1,8 @@
 # Elexis benutzen
 
-Wie jedes Arztpraxisprogramm hat auch Elexis eine gewisse Komplexität. Anders als etwa ein Textprogramm, muss eine Arztpraxis-Software ganz unterschiedliche Aufgaben erfüllen können, was die zu lernenden Vorgänge leider deutlich erhöht. Elexis-OOB bietet Ihnen eine einfache Möglichkeit, "schmerzlos" zu testen: Wenn etwas schief geht, haben Sie das System ja in wenigen Minuten wieder neu aufgesetzt. Und Sie können problemlos mehrere Elexis-OOB Instanzen nutzen, um etwa neue Plugins erst mal unabhängig vom eigentlichen Praxissystem zu testen.
+Wie jedes Arztpraxisprogramm hat auch Elexis eine gewisse Komplexität. Anders als etwa ein Textprogramm, muss eine Arztpraxis-Software ganz unterschiedliche Aufgaben erfüllen können, was die Anzahl der zu lernenden Vorgänge leider deutlich erhöht. Elexis-OOB bietet Ihnen eine einfache Möglichkeit, "schmerzlos" zu testen: Wenn etwas schief geht, haben Sie das System ja in wenigen Minuten wieder neu aufgesetzt. Und Sie können problemlos mehrere Elexis-OOB Instanzen nutzen, um etwa neue Plugins erst mal unabhängig vom eigentlichen Praxissystem zu testen.
 
-Die Firma [Medelexis AG](https://www.medelexis.ch) bietet professionelle Unterstützung von Elexis und führt auch regelmässig Usertreffen und andere Veranstaltungen durch, bei denen Sie Kontakt mir Elexis und Elexis-Anwendern knüpfen können.
+Die Firma [Medelexis AG](https://www.medelexis.ch) bietet professionelle Unterstützung von Elexis und führt auch regelmässig Usertreffen und andere Veranstaltungen durch, bei denen Sie Kontakte mit Elexis und Elexis-Anwendern knüpfen können.
 
 Es existiert auch eine Menge Dokumentation zu Elexis, die allerdings leider teilweise bereit etwas veraltet und nicht überall gut strukturiert ist. Dank der Arbeit von Niklaus Giger finden Sie aber auf [Elexis.info](http://www.elexis.info) eine umfangreiche und immer wieder aktualisierte Sammlung von Dokumenten aller Art.
 
@@ -10,9 +10,9 @@ Doch nun lade ich Sie ein, einfach mal ins kalte Wasser zu springen.
 
 ## Eine Patientin erstellen.
 
-Stellen wir uns mal vor, eine bisher unbekannte Patientin verlangt telefonisch einen Termin. Wir haben noch keinerlei Angaben von ihr.
+Stellen wir uns mal vor, eine bisher unbekannte Patientin wünscht telefonisch einen Termin. Wir haben noch keinerlei Angaben von ihr.
 
-Tippen Sie im Elexis Hauptfenster links mindestens den Namen und vielleicht noch dne Vornamen ein.
+Tippen Sie im Elexis Hauptfenster links mindestens den Namen und vielleicht noch den Vornamen ein.
 
 ![](/images/elx_use_01.png)
 
