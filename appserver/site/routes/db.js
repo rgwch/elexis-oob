@@ -140,6 +140,9 @@ router.post("/loaddata", async (req, res) => {
   if (req.body.kkdata) {
     const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/kkliste.sql.gz")
   }
+  if(req.body.demodb){
+    const result = await mysqlFromUrlGzipped("http://elexis.ch/ungrad/demodb.sql.gz")
+  }
   res.render("success", {
     header: " Ausgeführt",
     body: "Die gewünschten Datenbestände wurden eingelesen."
