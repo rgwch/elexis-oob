@@ -6,10 +6,11 @@
 const crypto = require("crypto")
 
 /**
- * Encrypt a password the same way as Elexis
+ * Hash a password the same way as Elexis
  * (see ch.rgw.tools.PasswordEncryptionService)
- * @param {string} pwd 
+ * @param {string} pwd  Password to hash
  * @param {string} salt (optional) 
+ * @returns {hashed,salt}
  */
 const encrypt = (pwd, salt) => {
     if (!salt) {

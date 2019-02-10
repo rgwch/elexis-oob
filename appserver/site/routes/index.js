@@ -5,45 +5,33 @@
 const express = require("express")
 const router = express.Router()
 const cfg = new (require("conf"))()
-const os=require('os')
 
-const ip = require("ip").address()
-const hostname= process.env.HOST_HOSTNAME || ip
-
-var net = require("net")
-
-function getNetworkIP(callback) {
-  var socket = net.createConnection(80, "www.google.com")
-  socket.on("connect", function() {
-    callback(undefined, socket.address().address)
-    socket.end()
-  })
-  socket.on("error", function(e) {
-    callback(e, "error")
-  })
-}
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-  const port=cfg.get('dbport') || 3312
-  //const host=cfg.get('dbhost') || "localhost"
-  const dbname=cfg.get('dbname') || "elexisoob"
-  const username=cfg.get('dbuser') || "(den Namen für die Datenbankverbindung)"
-  const password=cfg.get('dbpwd') || "(das Passwort für die Datenbakverbindung)"
-  res.render("index", { title: "Elexis Out-Of-The-Box", 
-  hostname,port,dbname,username,password
-   })
+  const port = cfg.get("dbport") || 3312
+  const hostname = req.hostname
+  const dbname = cfg.get("dbname") || "elexisoob"
+  const username = cfg.get("dbuser") || "(den Namen für die Datenbankverbindung)"
+  const password = cfg.get("dbpwd") || "(das Passwort für die Datenbakverbindung)"
+  res.render("index", {
+    title: "Elexis Out-Of-The-Box",
+    hostname,
+    port,
+    dbname,
+    username,
+    password
+  })
 })
 
 let proc
-router.get("/wait/:rum?",(req,res)=>{
-  
-  if(req.params.rum){
-    proc+=10
-    res.json({status: (proc>=100 ? "finished" : "running"), process: proc})
-  }else{
-    proc=0;
-    res.render("wait",{ checkurl: "/wait/123",process: 0})
+router.get("/wait/:rum?", (req, res) => {
+  if (req.params.rum) {
+    proc += 10
+    res.json({ status: proc >= 100 ? "finished" : "running", process: proc })
+  } else {
+    proc = 0
+    res.render("wait", { checkurl: "/wait/123", process: 0 })
   }
 })
 /**
