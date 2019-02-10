@@ -17,7 +17,7 @@ router.get("/", function(req, res, next) {
   res.render("index", {
     title: "Elexis Out-Of-The-Box",
     hostname,
-    port,
+    port: (process.env.PUBLIC_DBPORT || port),
     dbname,
     username,
     password

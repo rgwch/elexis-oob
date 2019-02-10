@@ -7,6 +7,7 @@ services:
     environment:
       - DBHOST=elexisdb
       - DBPORT=3306
+      - PUBLIC_DBPORT=3312
       - HOST_HOSTNAME=<Server Name>
     volumes:
       - backup:/backup
