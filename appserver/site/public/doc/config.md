@@ -36,6 +36,8 @@ Klicken Sie dazu auf "Basis-Datenbestände einlesen" rechts unten unter "Verwalt
 
 ![](/images/oob_basicdata_01.png)
 
+Beachten Sie, dass die Datenbestände auf der linken Seite für "echte" Datenbanken gedacht sind, während der Punkt "DemoDB" eine komplette Fake-Datenbank einliest, die sie zum Testen oder für Demonstrationszwecke verwenden können. In diesem Fall müssen Sie sich in Elexis als user "test" mit dem Passwort "test" einloggen und haben dann auch Administrator-Rechte.
+
 Kreuzen Sie einfach die Felder an, die Sie interessieren, und klicken Sie dann "OK".
 
 Der Vorgang kann je nach gewählten Datenbeständen eine ganze Weile dauern und endet mit folgendem Bild:
