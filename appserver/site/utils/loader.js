@@ -46,6 +46,7 @@ function mysqlFromGZipped(stream) {
     mysql.stderr.on("data", data => {
       console.log(data.toString())
     })
+    mysql.stdin.write("set foreign_key_checks = 0;\n")
     stream.pipe(expander).pipe(mysql.stdin)
     stream.on("end", () => {
       resolve()

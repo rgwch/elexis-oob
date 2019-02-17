@@ -58,6 +58,7 @@ router.post("/do_initialize", async (req, res) => {
     await exec(`CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
     await exec("flush privileges")
     await exec(`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
+    await exec(`grant super on *.* to ${cfg.get("dbuser")}@'%'`)
     connection.end()
     const response = await prequest.get(
       "https://raw.githubusercontent.com/rgwch/elexis-3-core/ungrad2019/bundles/ch.elexis.core.data/rsc/createDB.script"
