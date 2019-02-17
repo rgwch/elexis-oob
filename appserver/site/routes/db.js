@@ -110,7 +110,7 @@ router.post("/createaccount", async (req, res) => {
     initwlx()
     res.render("success", {
       header: "Datenbank erstellt",
-      body: "Sie können jetzt einen Elexis-Client mit der Datenbank verbinden"
+      body: "Sie können jetzt einen Elexis-Client mit der Datenbank verbinden oder Basis-Datenbestände einlesen."
     })
   } catch (err) {
     res.render("error", { message: "Could not insert initialize data", error: err })

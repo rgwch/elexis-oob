@@ -1,8 +1,8 @@
 # Einrichtung der Elexis-Clients
 
-Elexis läuft auf Windows, macOS und Linux-Computern. Einzige Vorbedingung: Eine [Java-Runtime](https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) (Version 8 empfohlen) muss installiert sein. Am selben Server können ohne Weiteres auch gemischt Clients der verschiedenen Systeme angeschlossen werden.
+Elexis läuft auf Windows, macOS und Linux-Computern. Einzige Vorbedingung: Eine [Java-Runtime](https://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) (Version 8 empfohlen) muss installiert sein. Am selben Server können ohne Weiteres auch gemischt Arbeitsplätze der verschiedenen Systeme angeschlossen werden.
 
-Starten Sie auf dem gewünschten Client einen Webbrowser (am besten Chrome oder Firefox) und richten Sie ihn auf <http://elexisapps:3000>, bzw., falls das nicht geht, auf <http://IhrServer:3000>. Klicken Sie dann auf den Button, der dem Betriebssystem des aktuellen Clients entspricht.
+Starten Sie auf dem gewünschten Arbeitsplatz einen Webbrowser (am besten Chrome oder Firefox) und richten Sie ihn auf <http://elexisapps:3000>, bzw., falls das nicht geht, auf <http://IhrServer:3000>. Klicken Sie dann auf den Button, der dem Betriebssystem des aktuellen Clients entspricht.
 
 ![](/images/oob_einstieg.png)
 
@@ -32,11 +32,11 @@ Wählen Sie "Neue Verbindung erstellen" und klicken Sie auf "weiter".
 
 ![](/images/oob_connect_02.png)
 
-Geben Sie die passenden Daten ein und klicken Sie "Fertigstellen". Danach müssen Sie Elexis neu starten.
+Geben Sie die passenden Daten ein (beachten Sie, dass der Datenbank-Port bei elexisoob standardmässig 3312 und nicht 3306 ist) und klicken Sie "Fertigstellen". Danach müssen Sie Elexis neu starten.
 
 ![](/images/oob_connect_03.png)
 
-Für Name und Passwort müssen Sie das eingeben, was Sie anfangs unter "Datenbank vorbereiten" als Username und Passwort des Administrators eingetragen hatten.
+Für Name und Passwort müssen Sie das eingeben, was Sie anfangs unter "Datenbank vorbereiten" als Username und Passwort des Administrators eingetragen hatten. Wenn Sie immer nur "weiter" und "ok" geklickt haben, wird das **admin** sein. Wenn Sie die Demo-Datenbank eingelesen haben, müssen Sie für Benutzername und Passwort jeweils **test** eingeben.
 
 Nun müssen Sie möglicherweise nochmal etwas Geduld haben, da Elexis je nach Version noch einige Einrichtungsarbeiten vornimmt. 
 

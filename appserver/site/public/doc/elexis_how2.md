@@ -28,9 +28,9 @@ Die nun öffnende Dialogbox können Sie einfach so belassen. Wir haben einen Fal
 
 Im Mittleren Fenster "Personalien" könnten Sie jetzt noch einige Angaben ergänzen, etwa Geburtsdatum und Telefonnummer, und unter "Anschrift" die Adresse. Doch nun wollen wir die Konsultation erfassen. Klicken sie auf den Reiter "Konsultation" und dort auf das grüne (+) Symbol.
 
-Damit haben Sie eine Konsultation mit dem aktuellen Datum erstellt. Wenn Sie mit dem Entrag fertig sind, klicken Sie auf das (+) Symbol im Unterfenster "Verrechnung" und doppelklicke Sie auf die gewünschten Posiitonen, resp. ziehen Sie sie mit der Maus ins Verrechnungs-Fenster.
+Damit haben Sie eine Konsultation mit dem aktuellen Datum erstellt. Wenn Sie mit dem Entrag fertig sind, klicken Sie auf das (+) Symbol im Unterfenster "Verrechnung" und doppelklicken Sie auf die gewünschten Positionen, resp. ziehen Sie sie mit der Maus ins Verrechnungs-Fenster.
 
-Schlisslich klicken Sie auf das (+) unter Behandlungsdiagnosen und wählen in gleicher Weise etwas Passendes aus.
+Schliesslich klicken Sie auf das (+) unter Behandlungsdiagnosen und wählen in gleicher Weise etwas Passendes aus.
 
 Gratuliere! Sie haben Ihre erste Konsultation mit Elexis erstellt und verrechnet.
 

@@ -8,5 +8,5 @@ Richten Sie einen Browser (am Besten Chrome oder Firefox) auf https:&lt;Serverna
 
 die unschöne Warnung "nicht sicher" von Chrome können Sie für den Moment ignorieren, da wir hier eine reine inhouse-Anwendung haben. Wir werden später sehen, wie das besser abgesichert werden kann, falls ein Zugriff von aussen ermöglicht werden soll. 
 
-Der Username für den Einstieg ist hier immer "admin" (Auch wenn das Feld mit E-Mail beschriftet ist) und das Passwort ist dasselbe, was Sie bei der [Konfiguration](config.md) für den Administrator angegeben haben.
+Der Username für den Einstieg ist hier immer "admin" (Auch wenn das Feld mit E-Mail beschriftet ist) und das Passwort ist dasselbe, was Sie bei der [Konfiguration](config.md) für den Administrator angegeben haben. (Wenn Sie alles einfach weitergeklickt ahben (was Sie bei einem "echten" System niemals tun sollten), dann lautet das Passwort schlicht: **admin**)
 

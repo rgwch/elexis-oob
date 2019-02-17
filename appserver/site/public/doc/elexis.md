@@ -31,7 +31,7 @@ Klicken Sie dann "Anwenden und Schließen".
 
 ![](/images/elx_config_03.png)
 
-(Wenn Sie alles in der Reihenfolge wie hier gezeigt gemacht haben, sollten die in de Schweiz gebräuchlichen Abrechnubgssysteme jetzt schon wie hier gezeigt vorkonfiguriert sein. Ansonsten können Sie mit Klick auf "Neu..." benötigte Abrechnungssysteme selber erstellen.)
+(Wenn Sie alles in der Reihenfolge wie hier gezeigt gemacht haben, sollten die in de Schweiz gebräuchlichen Abrechnungssysteme jetzt schon wie hier gezeigt vorkonfiguriert sein. Ansonsten können Sie mit Klick auf "Neu..." benötigte Abrechnungssysteme selber erstellen.)
 
 Doppelklicken Sie auf das "KVG-Abrechnungssystem", resp. erstellen Sie ein solches:
 
