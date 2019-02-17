@@ -1,6 +1,6 @@
 # PACS
 
-Dies ist kein Teil von Elexis, sondern ist hier nur dabei, weil ein PACS (Picture Archiving and Communication System) heute mit dem Übergang von analogen zu digitalen Bilden zum immer wichtigeren Teil der Praxis-Software wird. Das PACS, das bei Elexis-OOB integriert wird, ist eine dockerisierte Version von [DCM4CHEE](https://www.dcm4che.org). Das Image, welches DCM4CHEE mit einem JBoss Applikationsserver und einer Mysql-Datenbank kombiniert, stammt von [sparklyballs](https://hub.docker.com/r/sparklyballs/pacs).
+Dies ist kein Teil von Elexis, sondern ist hier nur dabei, weil ein PACS (Picture Archiving and Communication System) heute mit dem Übergang von analogen zu digitalen Bilden zum immer wichtigeren Teil der Praxis-Software wird. Das PACS, das bei Elexis-OOB integriert wird, ist eine dockerisierte Version von [DCM4CHEE](https://www.dcm4che.org). Das Image, welches DCM4CHEE mit einem JBoss Applikationsserver und einer Mysql-Datenbank kombiniert, stammt von [sparklyballs](https://hub.docker.com/r/sparklyballs/pacs). Das alles braucht Sie nicht allzu sehr zu interessieren, denn es wurde von elexis-oob bereits fertig eingerichtet und konfiguriert.
 
 
 ## Erstkonfiguration
@@ -21,7 +21,8 @@ Installieren Sie den Viewer auf dem Client und geben Sie als Daten für den Serv
 
 Für den Hostnamen können Sie entweder den symbolischen Netzwerknamen oder die IP Adresse einsetzen. Mit Klick auf "Echo" können Sie testen, ob die Geräte einander wirklich "sehen". Klicken Sie dann auf "Speichern".
 
-Das war's eigentlich schon. Sie können jetzt sowohl eigene Röntgenbilder, als auch Bilder von externen Instituten auf Ihrem eigenen PACS abspeichern und abrufen.
+Das war's eigentlich schon. Sie können jetzt sowohl eigene Röntgenbilder, als auch Bilder von externen Instituten auf Ihrem eigenen PACS abspeichern und abrufen. Je nach DICOM Software können Sie auch alte analoge Röntgenbilder scannen (oder einfach abfotografieren), "dicomisieren" und ins PACS schieben. 
 
+Allerdings sollten Sie beachten, dass weder die hier vorgestellte Software, noch normale Computermonitore für die Befundung von Röntgenbildern zugelassen sind. Für die Befundung sollten Sie sich immer an den Monitor begeben, der zu Ihrer digitalen Röntgenanlage gehört.
 
 
