@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM alpine:3.9
 # Samba setup inspired from pwntr/samba-alpine
 
 EXPOSE  137/udp 138/udp 139 445
