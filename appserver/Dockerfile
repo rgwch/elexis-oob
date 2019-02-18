@@ -41,7 +41,8 @@ COPY --from=build-stage /opt/elexis-ungrad/ungrad-p2site/target/repository publi
 
 RUN npm install \ 
     && apk --no-cache upgrade \
-    && apk --no-cache add mariadb-client
+    && apk --no-cache add mariadb-client \
+    && echo elexisapps>/etc/hostname
     
 
 ENTRYPOINT [ "npm", "start" ]

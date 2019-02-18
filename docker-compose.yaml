@@ -21,6 +21,8 @@ services:
       - 3000:3000
     depends_on:
       - elexisdb
+    labels: 
+      - "traefik.frontend.rule=Host:elexisapps.docker.localhost"  
  
    
   elexisdb:
@@ -44,7 +46,10 @@ services:
       - "2019:3030"
     depends_on:
       - appserver    
-    restart: always  
+    restart: always
+    labels:
+      - "traefik.frontend.rule=Host:webelexis.docker.localhost"  
+   
 
   lucinda:
     image: rgwch/lucinda-server:2.1.0
