@@ -17,7 +17,7 @@ Dann müssen Sie zugriffsberechtige AE's (Application Entities) definieren. Bei 
 
 Installieren Sie den Viewer auf dem Client und geben Sie als Daten für den Server an: Die Adresse des Servers, auf dem das PACS gestartet wurde, und als Port: 11112. Gehen Sie dann wieder zur DCM4CHEE Konfiguration und wählen Sie im Menu *AE* den Eintrag: "Neuer AET". Dort genügt es, die ersten drei Einträge auszufüllen:
 
-![](/images/pacs_use_01.png)
+![](../images/pacs_use_01.png)
 
 Für den Hostnamen können Sie entweder den symbolischen Netzwerknamen oder die IP Adresse einsetzen. Mit Klick auf "Echo" können Sie testen, ob die Geräte einander wirklich "sehen". Klicken Sie dann auf "Speichern".
 

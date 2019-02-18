@@ -2,13 +2,13 @@
 
 Achtung: Diese Schritte müssen Sie nur durchgehen, wenn Sie Elexis erstmals installieren! Falls Sie eine bestehende Datenbank in elexis-oob einbinden, oder eine Datensicherung zurückspielen wollen, lesen Sie bitte bei 'Wiederherstellen'.
 
-Ich gehe davon aus, dass Sie elexis-oob auf dem Server bereits gestartet haben. Gehen Sie nun an einen Client-Computer und starten Sie dort einen Web-Browser (am besten Chrome oder Firefox). Richten Sie diesen Browser auf <http://elexisapps:3000>, bzw., falls das nicht geht auf <http://IhrServer:3000> (Wobei Sie für IhServer entweder den Netzwerknamen des Servers oder dessen IP-Adresse angeben können). Folgendes Bild sollte Sie begrüssen:
+Ich gehe davon aus, dass Sie elexis-oob auf dem Server bereits gestartet haben. Gehen Sie nun an einen Client-Computer und starten Sie dort einen Web-Browser (am besten Chrome oder Firefox). Richten Sie diesen Browser auf <http://elexisapps:3000>, bzw., falls das nicht geht auf <http://IhrServer:3000> (Wobei Sie für IhrServer entweder den Netzwerknamen des Servers oder dessen IP-Adresse angeben können). Folgendes Bild sollte Sie begrüssen:
 
-![](/images/oob_einstieg.png)
+![](../images/oob_einstieg.png)
 
 Klicken Sie auf den Link "Datenbank initialisieren" im rechten unteren Bereich unter "Verwaltung". Der nächste Screen erscheint:
 
-![](/images/oob_dbinit_01.png)
+![](../images/oob_dbinit_01.png)
 
 * Für den Namen der Datenbank können Sie etwas Beliebiges eingeben. Es muss allerdings ein Wort ohne Leerzeichen und Sonderzeichen sein, und es ist empfehlenswert, nur Kleinschreibung zu verwenden.
 
@@ -20,13 +20,13 @@ Wenn alles in Ordnung ist, klicken Sie "OK".
 
 Als nächstes wird die Elexis-Datenbank eingerichtet. Hier benötigen wir einen Administrator (der andere Anwender erstellen und ihnen Rechte zuteilen kann), und einen Hauptmandanten. Dieser Administrator ist nicht derselbe, wie der Datenbank-Administrator, den wir im vorigen Screen erstellt haben. Der Administrator hier ist für die Verwaltung von Elexis zuständig, der vorhin für die Verwaltung des Datenbankservers.
 
-![](/images/oob_dbinit_02.png)
+![](../images/oob_dbinit_02.png)
 
 Hier können (und sollten!) Sie Angaben verwenden, die anders als die Vorgaben hier sind. Merken Sie sich aber gut den Usernamen und das Passwort des Administrators, sonst sperren Sie sich aus Elexis aus.
 
 Klicken Sie dann auf "OK".
 
-![](/images/oob_dbinit_03.png)
+![](../images/oob_dbinit_03.png)
 
 Die Datenbank ist eingerichtet. Ein Klick auf "Zurück" bringt Sie wieder zum Start-Bildschirm.
 
@@ -34,7 +34,7 @@ Jetzt können Sie, wenn Sie möchten, bestimmte Basis-Datenbestände in Ihre neu
 
 Klicken Sie dazu auf "Basis-Datenbestände einlesen" rechts unten unter "Verwaltung". Elexis-OOB zeigt Ihnen dann die Datenbestände, die direkt eingelesen werden können:
 
-![](/images/oob_basicdata_01.png)
+![](../images/oob_basicdata_01.png)
 
 Beachten Sie, dass die Datenbestände auf der linken Seite für "echte" Datenbanken gedacht sind, während der Punkt "DemoDB" eine Fake-Datenbank einliest, die Sie zum Testen oder für Demonstrationszwecke verwenden können. Diese Datenbank enthält auch keine kompletten Datensätze etwa für Artikel oder Abrechnungspositionen. In diesem Fall müssen Sie sich in Elexis als user "test" mit dem Passwort "test" einloggen und haben dann auch Administrator-Rechte.
 
@@ -42,7 +42,7 @@ Kreuzen Sie einfach die Felder an, die Sie interessieren, und klicken Sie dann "
 
 Der Vorgang kann je nach gewählten Datenbeständen eine ganze Weile dauern und endet mit folgendem Bild:
 
-![](/images/oob_basicdata_02.png)
+![](../images/oob_basicdata_02.png)
 
 Ein Klick auf "Zurück" bringt Sie wieder zum Startbildschirm.
 

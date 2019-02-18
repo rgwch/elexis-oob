@@ -1,8 +1,8 @@
 # Elexis-OOB
 
-[Start](/)
 [Konfiguration]()
 
+* [Installation](install.md)
 * [Erstkonfiguration](config.md)
 * [Elexis Clients](clients.md)
 

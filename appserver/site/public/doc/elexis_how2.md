@@ -14,7 +14,7 @@ Stellen wir uns mal vor, eine bisher unbekannte Patientin wünscht telefonisch e
 
 Tippen Sie im Elexis Hauptfenster links mindestens den Namen und vielleicht noch den Vornamen ein.
 
-![](/images/elx_use_01.png)
+![](../images/elx_use_01.png)
 
 Klicken Sie dann auf das grüne (+) Symbol oben. Passen Sie in der dann öffnenden Dialogbox vielleicht noch das Geschlecht an, den Rest können Sie vorerst noch leer lassen. Nach Klick auf "OK" haben Sie im System eine neue Patientin erstellt.
 
@@ -22,7 +22,7 @@ Klicken Sie dann auf das grüne (+) Symbol oben. Passen Sie in der dann öffnend
 
 Nun erscheint die Notfallpatientin in der Praxis, aber sie hat keine Krankenkassenkarte dabei. Wir erstellen also einen unvollständigen Fall. Markieren Sie die vorhin erstellte Patientin und klicken Sie im Fenster "Fälle" auf das grüne (+) Symbol:
 
-![](/images/elx_use_02.png)
+![](../images/elx_use_02.png)
 
 Die nun öffnende Dialogbox können Sie einfach so belassen. Wir haben einen Fall erstellt, bei dem die Patientin selbst sowohl Rechnungsempfänger als auch Kostenträger ist. Wenn sie später die Krankenkassenkarte bringt, können wir das ändern. Klicken Sie jetzt also einfach auf "OK".
 
@@ -34,6 +34,6 @@ Schliesslich klicken Sie auf das (+) unter Behandlungsdiagnosen und wählen in g
 
 Gratuliere! Sie haben Ihre erste Konsultation mit Elexis erstellt und verrechnet.
 
-![](/images/elx_use_04.png)
+![](../images/elx_use_04.png)
 
 Damit ist der Crashkurs zu den Elexis-Basics beendet. Wenn Sie möchten, können Sie mit dem Dokumentenverwaltungs-System [Lucinda](lucinda.md), dem Web-Client [Webelexis](webelexis.md) oder der [Röntgenbild-Verwaltung](pacs.md) weiter machen.

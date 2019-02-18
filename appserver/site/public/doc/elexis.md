@@ -8,7 +8,7 @@ Eine ausführlichere Anleitung dessen, was Sie nach der Installation von Server 
 
 Wählen Sie im Elexis-Hauptmenü den Punkt *Hilfe->Neue Software installieren*. Sie können eine der vordefinierten Sites auswählen, oder mit *Hinzufügen* beispielsweise eine oder mehrere der mit Elexis-OOB installierten Software-Sites hinzufügen.
 
-![](/images/elx_config_02.png)
+![](../images/elx_config_02.png)
 
 Wählen Sie für jetzt die Site "elexis-3-base" und markieren Sie dort unter "Basispakete" das Paket "Elexis Swiss OpenSource Feature", und unter "Dokumentenverwaltung" das "Omnivore" Feature. Achten Sie darauf, dass Sie das Richtige erwischen, vgl. obiges Bild. (Keine Angst, Sie können später jederzeit weitere Features nachinstallieren, jetzt machen wir nur das Minumum, was zum Einrichten notwendig ist). 
 
@@ -19,7 +19,7 @@ Klicken Sie dann auf Weiter" und dann auf "Fertigstellen". Sie werden eine Siche
 
 Starten Sie Elexis und wählen Sie im Hauptmenü *Datei->Einstellungen*. Dort finden Sie folgende Seite:
 
-![](/images/elx_config_01.png)
+![](../images/elx_config_01.png)
 
 Ernennen Sie Ihren vorhin erstellten Hauptmandanten zum "verantwortlichen" Arzt und weisen Sie ihm passende Rollen zu. (Durch "Rollen" wird festgelegt, wer in Elexis was tun darf - belassen Sie am Besten zunächst alles auf den Standardwerten).
 
@@ -29,13 +29,13 @@ Klicken Sie dann "Anwenden und Schließen".
 
 Öffnen Sie jetzt wieder den *Datei-Einstellungen* Dialog und suchen Sie diesmal *Abrechnungssysteme* auf. 
 
-![](/images/elx_config_03.png)
+![](../images/elx_config_03.png)
 
 (Wenn Sie alles in der Reihenfolge wie hier gezeigt gemacht haben, sollten die in de Schweiz gebräuchlichen Abrechnungssysteme jetzt schon wie hier gezeigt vorkonfiguriert sein. Ansonsten können Sie mit Klick auf "Neu..." benötigte Abrechnungssysteme selber erstellen.)
 
 Doppelklicken Sie auf das "KVG-Abrechnungssystem", resp. erstellen Sie ein solches:
 
-![](/images/elx_config_04.png)
+![](../images/elx_config_04.png)
 
 Ergänzen Sie die Details wie hier gezeigt.
 
