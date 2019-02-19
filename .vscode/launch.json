@@ -20,7 +20,8 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}/appserver/site/bin/www"
+      "program": "${workspaceFolder}/appserver/site/bin/www",
+      "outputCapture": "std"
     }
   ]
 }

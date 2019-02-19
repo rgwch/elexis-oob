@@ -46,6 +46,7 @@ services:
       - "2019:3030"
     depends_on:
       - appserver    
+      - elexisdb
     restart: always
     labels:
       - "traefik.frontend.rule=Host:webelexis.docker.localhost"  
@@ -74,8 +75,8 @@ services:
     image: sparklyballs/pacs
     container_name: elx_pacs
     ports:
-      - "8100:8080"
-      - "11112:11112"
+      - "8101:8080"
+      - "11113:11112"
     volumes:
       - pacsdata:/config
     restart: always
