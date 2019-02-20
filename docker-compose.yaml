@@ -38,7 +38,7 @@ services:
     restart: always  
    
   webelexis:
-    image: rgwch/webelexis:3.1.0
+    image: rgwch/webelexis:3.1.1
     container_name: elx_webelexis
     volumes:
       - webelexisdata:/home/node/webelexis/data
@@ -76,7 +76,7 @@ services:
     container_name: elx_pacs
     ports:
       - "8101:8080"
-      - "11113:11112"
+      - "11114:11112"
     volumes:
       - pacsdata:/config
     restart: always

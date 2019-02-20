@@ -5,7 +5,7 @@ Dies ist kein Teil von Elexis, sondern ist hier nur dabei, weil ein PACS (Pictur
 
 ## Erstkonfiguration
 
-Richten Sie einen Browser auf http://&lt;Server&gt;:8100/dcm4chee-web3. Loggen Sie sich ein (username: admin, password: admin) und ändern Sie als erstes im Menü "Benutzer" das Admin-Passwort. Ausserdem ist es empfehlenswert, für die normale Nutzung einen weiteren User-Account hinzuzufügen, der keien Admin-Berechtigungen hat.
+Richten Sie einen Browser auf http://&lt;Server&gt;:8101/dcm4chee-web3. Loggen Sie sich ein (username: admin, password: admin) und ändern Sie als erstes im Menü "Benutzer" das Admin-Passwort. Ausserdem ist es empfehlenswert, für die normale Nutzung einen weiteren User-Account hinzuzufügen, der keien Admin-Berechtigungen hat.
 
 Dann müssen Sie zugriffsberechtige AE's (Application Entities) definieren. Bei einem PACS können nur Geräte miteinander kommunizieren, die einander gegenseitig bekannt gemacht wurden. Zunächst benötigen Sie einen Dicom Viewer für Ihre Client-Computer. Hier einige Vorschläge (Ohne Anspruch auf Vollständigkeit):
 
@@ -15,7 +15,7 @@ Dann müssen Sie zugriffsberechtige AE's (Application Entities) definieren. Bei 
 
 * Windows: [K-PACS](http://www.k-pacs.de/), [Synedra](http://download.synedra.com/download.php), [RadiANT](https://www.radiantviewer.com), [Gingko](http://ginkgo-cadx.com/en/)
 
-Installieren Sie den Viewer auf dem Client und geben Sie als Daten für den Server an: Die Adresse des Servers, auf dem das PACS gestartet wurde, und als Port: 11112. Gehen Sie dann wieder zur DCM4CHEE Konfiguration und wählen Sie im Menu *AE* den Eintrag: "Neuer AET". Dort genügt es, die ersten drei Einträge auszufüllen:
+Installieren Sie den Viewer auf dem Client und geben Sie als Daten für den Server an: Die Adresse des Servers, auf dem das PACS gestartet wurde, und als Port: 11114. Gehen Sie dann wieder zur DCM4CHEE Konfiguration und wählen Sie im Menu *AE* den Eintrag: "Neuer AET". Dort genügt es, die ersten drei Einträge auszufüllen:
 
 ![](../images/pacs_use_01.png)
 
