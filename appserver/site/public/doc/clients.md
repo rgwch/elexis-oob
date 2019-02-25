@@ -8,7 +8,7 @@ Starten Sie auf dem gewünschten Arbeitsplatz einen Webbrowser (am besten Chrome
 
 Sie erhalten, je nach Betriebssytem 32- und 64-Bit-Varianten zur Auswahl vorgeschlagen. Laden Sie den passenden Client herunter. (Den Punkt "Webelexis" werden wir etwas später ansehen)
 
-Den heruntergeladenen Client sollten Sie nun auf Ihrem System entpacken und starten. Auf dem Mac kommt dabei manchmal eine etwas skurrile Warnung, wie hier:
+Den heruntergeladenen Client sollten Sie nun auf Ihrem System entpacken und starten. Auf dem Mac muss die entpackte App noch in den "Programme"-Ordner verschoben werden, damit sie später korrekt läuft. Trotzdem kommt dabei manchmal eine etwas skurrile Warnung, wie hier:
 
 ![](../images/oobdoc_08.png)
 

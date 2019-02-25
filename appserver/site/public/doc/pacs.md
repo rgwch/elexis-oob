@@ -5,7 +5,7 @@ Dies ist kein Teil von Elexis, sondern ist hier nur dabei, weil ein PACS (Pictur
 
 ## Erstkonfiguration
 
-Richten Sie einen Browser auf http://&lt;Server&gt;:8101/dcm4chee-web3. Loggen Sie sich ein (username: admin, password: admin) und ändern Sie als erstes im Menü "Benutzer" das Admin-Passwort. Ausserdem ist es empfehlenswert, für die normale Nutzung einen weiteren User-Account hinzuzufügen, der keien Admin-Berechtigungen hat.
+Richten Sie einen Browser auf http://&lt;Server&gt;:8101/dcm4chee-web3. Loggen Sie sich ein (username: admin, password: admin) und ändern Sie als erstes im Menü "Benutzer" das Admin-Passwort. Ausserdem ist es empfehlenswert, für die normale Nutzung einen weiteren User-Account hinzuzufügen, der keine Admin-Berechtigungen hat.
 
 Dann müssen Sie zugriffsberechtige AE's (Application Entities) definieren. Bei einem PACS können nur Geräte miteinander kommunizieren, die einander gegenseitig bekannt gemacht wurden. Zunächst benötigen Sie einen Dicom Viewer für Ihre Client-Computer. Hier einige Vorschläge (Ohne Anspruch auf Vollständigkeit):
 
@@ -23,6 +23,6 @@ Für den Hostnamen können Sie entweder den symbolischen Netzwerknamen oder die 
 
 Das war's eigentlich schon. Sie können jetzt sowohl eigene Röntgenbilder, als auch Bilder von externen Instituten auf Ihrem eigenen PACS abspeichern und abrufen. Je nach DICOM Software können Sie auch alte analoge Röntgenbilder scannen (oder einfach abfotografieren), "dicomisieren" und ins PACS schieben. 
 
-Allerdings sollten Sie beachten, dass weder die hier vorgestellte Software, noch normale Computermonitore für die Befundung von Röntgenbildern zugelassen sind. Für die Befundung sollten Sie sich immer an den Monitor begeben, der zu Ihrer digitalen Röntgenanlage gehört.
+Allerdings sollten Sie beachten, dass weder die hier vorgestellte Software noch normale Computermonitore für die Befundung von Röntgenbildern zugelassen sind. Für die Befundung sollten Sie sich immer an den Monitor begeben, der zu Ihrer digitalen Röntgenanlage gehört.
 
 

@@ -18,7 +18,7 @@ Klicken Sie auf den Link "Datenbank initialisieren" im rechten unteren Bereich u
 
 Wenn alles in Ordnung ist, klicken Sie "OK".
 
-Als nächstes wird die Elexis-Datenbank eingerichtet. Hier benötigen wir einen Administrator (der andere Anwender erstellen und ihnen Rechte zuteilen kann), und einen Hauptmandanten. Dieser Administrator ist nicht derselbe, wie der Datenbank-Administrator, den wir im vorigen Screen erstellt haben. Der Administrator hier ist für die Verwaltung von Elexis zuständig, der vorhin für die Verwaltung des Datenbankservers.
+Als nächstes wird die Elexis-Datenbank eingerichtet. Hier benötigen wir einen Administrator (der andere Anwender erstellen und ihnen Rechte zuteilen kann), und einen Hauptmandanten. Dieser Administrator ist nicht derselbe, wie der Datenbank-Administrator, den wir im vorigen Screen erstellt haben. Der Administrator hier ist für die Verwaltung von Elexis zuständig, der vorhin für die Verwaltung des Datenbankservers. (Selbstverständlich darf beides durchaus dieselbe Person sein, die entweder in die eine oder in die andere Rolle schlüpfen kann).
 
 ![](../images/oob_dbinit_02.png)
 

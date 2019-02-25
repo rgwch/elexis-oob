@@ -38,7 +38,7 @@ services:
     restart: always  
    
   webelexis:
-    image: rgwch/webelexis:3.1.1
+    image: rgwch/webelexis:latest
     container_name: elx_webelexis
     volumes:
       - webelexisdata:/home/node/webelexis/data
