@@ -33,4 +33,5 @@ Auf dem Server:
       cd elexis-oob
       sudo docker-compose up -d
 
-Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie von einem im selben Netzwerk befindlichen Client-Computer aus einen Browser auf <http://elexisapps:3000>. Dort finden Sie dann auch eine detaillierte Anleitung (<http://elexisapps:3000/doc>. Falls die Adresse nicht aufgelöst werden kann (Falls Ihr Computer keine SMB/nmbd Namensauflösung "versteht"), dann versuchen Sie <http://IhrServer:3000>, wobei Sie für IhrServer entweder die IP Adresse oder den sympolischen Netzwerknamen einsetzen.
+Der Vorgang wird beim ersten Mal sehr lang dauern (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn er fertig ist, richten Sie von einem im selben Netzwerk befindlichen Client-Computer aus einen Browser auf <http://IhrServer:3000>. Dort finden Sie dann auch eine detaillierte Anleitung (<http://IhrServer:3000/doc>, wobei Sie für IhrServer entweder die IP Adresse oder den sympolischen Netzwerknamen einsetzen.
+

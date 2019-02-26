@@ -2,7 +2,7 @@
 
 Achtung: Diese Schritte müssen Sie nur durchgehen, wenn Sie Elexis erstmals installieren! Falls Sie eine bestehende Datenbank in elexis-oob einbinden, oder eine Datensicherung zurückspielen wollen, lesen Sie bitte bei 'Wiederherstellen'.
 
-Ich gehe davon aus, dass Sie elexis-oob auf dem Server bereits gestartet haben. Gehen Sie nun an einen Client-Computer und starten Sie dort einen Web-Browser (am besten Chrome oder Firefox). Richten Sie diesen Browser auf <http://elexisapps:3000>, bzw., falls das nicht geht auf <http://IhrServer:3000> (Wobei Sie für IhrServer entweder den Netzwerknamen des Servers oder dessen IP-Adresse angeben können). Folgendes Bild sollte Sie begrüssen:
+Ich gehe davon aus, dass Sie elexis-oob auf dem Server bereits gestartet haben. Gehen Sie nun an einen Client-Computer und starten Sie dort einen Web-Browser (am besten Chrome oder Firefox). Richten Sie diesen Browser auf <http://IhrServer:3000> (Wobei Sie für IhrServer entweder den Netzwerknamen des Servers oder dessen IP-Adresse angeben können). Folgendes Bild sollte Sie begrüssen:
 
 ![](../images/oob_einstieg.png)
 
@@ -45,5 +45,7 @@ Der Vorgang kann je nach gewählten Datenbeständen eine ganze Weile dauern und 
 ![](../images/oob_basicdata_02.png)
 
 Ein Klick auf "Zurück" bringt Sie wieder zum Startbildschirm.
+
+Gehen Sie dann nochmal an die Konsole Ihres Servers und geben Sie dort ein: `docker-compose restart`, damit Elexis-OOB mit der eben erstellten Datenbank arbeitet.
 
 Fahren Sie dann mit der Einrichtung der [Clients](clients.md) fort.
