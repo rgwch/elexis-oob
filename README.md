@@ -33,6 +33,6 @@ Auf dem Server:
       cd elexis-oob
       sudo docker-compose up -d
 
-Der Vorgang wird beim ersten Mal 20 Minuten oder länger dauern und viel Netz-Bandbreite braucxhen (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn Docker-Compose fertig ist, richten Sie von einem im selben Netzwerk befindlichen Client-Computer aus einen Browser auf <http://IhrServer:3000>. Dort finden Sie dann auch eine detaillierte Anleitung (<http://IhrServer:3000/doc>, wobei Sie für IhrServer entweder die IP Adresse oder den sympolischen Netzwerknamen einsetzen.
+Der Vorgang wird beim ersten Mal 20 Minuten oder länger dauern und viel Netz-Bandbreite brauchen (Da ein Maven-Build involviert ist, muss das halbe Internet heruntergeladen werden). Wenn Docker-Compose fertig ist, richten Sie von einem im selben Netzwerk befindlichen Client-Computer aus einen Browser auf <http://IhrServer:3000>. Dort finden Sie dann auch eine detaillierte Anleitung (<http://IhrServer:3000/doc>, wobei Sie für IhrServer entweder die IP Adresse oder den sympolischen Netzwerknamen einsetzen.
 
 (Eine Online-Kopie der Dokumentation ist [hier](https://elexis.ch/oob/doc/#!index.md))
