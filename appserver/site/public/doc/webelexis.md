@@ -10,4 +10,4 @@ Die unschöne Warnung "nicht sicher" von Chrome können Sie für den Moment igno
 
 Der Username für den Einstieg ist hier immer "admin" (Auch wenn das Feld mit E-Mail beschriftet ist) und das Passwort ist dasselbe, was Sie bei der [Konfiguration](config.md) für den Administrator angegeben haben. (Wenn Sie alles einfach weitergeklickt haben (was Sie bei einem "echten" System niemals tun sollten), dann lautet das Passwort schlicht: **admin**)
 
-Wenn alles geklappt hat, befinden Sie sich dann im Hauptbildschirm von Webelexis.
+Wenn alles geklappt hat, befinden Sie sich dann im Hauptbildschirm von Webelexis. Wie Sie von dort aus weitermachen können, lesen Sie am besten auf [Webelexis.ch](http://www.webelexis.ch/dox)
