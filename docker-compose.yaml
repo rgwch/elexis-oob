@@ -56,7 +56,7 @@ services:
     image: rgwch/lucinda-server:2.1.0
     container_name: elx_lucinda
     volumes:
-      - lucindadata:/var/lucinda/data
+      - lucindadata:/var/lucinda/docs
       - lucindabase:/var/lucinda/base    
     ports: 
       - "2017:2016"
