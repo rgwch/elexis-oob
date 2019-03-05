@@ -11,7 +11,7 @@ VOLUME /mnt/lucinda
 RUN apk --no-cache upgrade \
     && apk --no-cache add samba samba-common-tools supervisor \
     # avahi avahi-tools\
-    # && echo elexisdata>/etc/hostname \
+    && echo elexisdata>/etc/hostname \
     && chmod 777 /mnt/lucinda \
     && addgroup -g 1001 elexisadmin \
     && adduser -D -H -G elexisadmin -s /bin/false -u 1001 elexisadmin \
