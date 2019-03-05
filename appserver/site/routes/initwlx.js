@@ -33,7 +33,6 @@ const initWebelexis = () => {
       user: cfg.get("dbuser"),
       password: cfg.get("dbpwd"),
       port: cfg.get("dbport"),
-      automodify: true
     },
     lucinda: {
       url: "http://localhost:2016/lucinda/2.0"
