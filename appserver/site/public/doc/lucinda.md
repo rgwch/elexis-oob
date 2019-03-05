@@ -11,4 +11,39 @@ Fügen Sie dazu das Ungrad-Repository hinzu, falls noch nicht geschehen.
 Wählen Sie dann dort "Document Manager based on Lucinda" und klicken Sie "Weiter" und dann "fertigstellen". Starten Sie dann Elexis neu.
 
 
-Nach dem Neustart müssen wir unter Datei-Einstellungen-Lucinda Ihren Arbeitsplatz mit dem Server bekannt machen.
+Nach dem Neustart müssen wir unter Datei-Einstellungen-Lucinda Ihren Arbeitsplatz mit dem Server bekannt machen. Gehen Sie dazu nach Datei->Einstellungen->Lucinda und geben Sie dort die passenden Zugriffsdaten ein:
+
+![](../images/lucinda_01.png)
+
+Öffnen Sie dann die Lucinda-View und klicken Sie auf den roten Punkt, der sich grün färben wird, wenn die Verbindung erfolgreich war. 
+
+Weiteres zur Konfiguration und Bedienung von Lucinda finden Sie [dort](https://elexis.ch/ungrad/features/lucinda/).
+
+
+## Tips und Tricks
+
+
+### Windows Computer
+
+Bei Windows 7 taucht das Lucinda-Dokumentenverzeichnis üblicherweise direkt in der Netzwerkumbegung auf. Bei Windows 10 leider des Öfteren nicht. Sie können die Verbindung aber manuell herstellen. Öffnen Sie in Windows eine Kommandozeile (cmd.exe) und geben Sie dort ein:
+
+```
+net use L: \\<IhrServer>\lucinda
+```
+Sie finden das Lucinda-Dokumentenverzeichnis dann unter L: (Wobei Sie für L: natürlich auch einen anderen freien Laufwerksbuchstaben eingeben können)
+
+Manchmal müssen Sie stattdessen Folgendes eingeben: 
+
+```
+net use L: \\elexisdata\lucinda
+```
+
+### Schreibrechte
+Das Speichern von Dokumenten im Lucinda-Dokumentenverzeichnis funktioniert in der derzeitigen Version von Elexis-OOB noch nicht direkt. Man muss zuerst Schreibrechte gewähren:
+
+
+```
+docker exec -it elx_samba
+chmod -R 777 /mnt/lucinda
+exit
+```
