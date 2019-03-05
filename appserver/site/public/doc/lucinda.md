@@ -43,7 +43,7 @@ Das Speichern von Dokumenten im Lucinda-Dokumentenverzeichnis funktioniert in de
 
 
 ```
-docker exec -it elx_samba
+docker exec -it elx_samba /bin/sh
 chmod -R 777 /mnt/lucinda
 exit
 ```
