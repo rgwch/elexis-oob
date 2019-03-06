@@ -14,3 +14,5 @@ Das Ganze ist als Docker - Komposition entworfen. Dadurch ist es (ziemlich) syst
 
 Diese Anleitung führt sie durch den [Installations](install.md)- und [Konfigurations](config.md)vorgang.
 
+Beachten Sie bitte die [Lizenzbedingungen](https://github.com/rgwch/elexis-oob/blob/master/LICENSE). Keine Angst, wir reden hier nicht von 15 Seiten legalesisch, sondern es muss Ihnen nur klar sein, dass Sie alle Bestandteile dieses Programms gratis und für beliebige Zwecke benutzen dürfen, dass Sie aber keinen Anspruch auf kostenlosen Support haben, und dass niemand ausser Ihnen selbst schuld ist, wenn etwas kaputt geht oder Sie Daten verlieren. 
+

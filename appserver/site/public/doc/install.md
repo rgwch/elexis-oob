@@ -23,10 +23,11 @@ Dieser Vorgang wird beim ersten Mal sehr lange dauern (ca. 15-25 Minuten auf ein
 
 Um das ganze System zu stoppen, geben Sie ein: `docker-compose stop`. Um es dann wieder zu starten, genügt `docker-compose start`. Ein solcher Start dauert nur wenige Sekunden. Eine Regeneration der Container erreicht man mit `docker-compose up -d`. Auch das geht noch recht schnell. Normalerweise brauchen Sie sich aber gar nicht um solche Dinge zu kümmern: Wenn Sie den Server herunterfahren, wird Docker zuvor automatisch "sanft" gestoppt, und nach einem Neustart wird das Elexis-OOB-System ebenfalls automatisch neu gestartet. Wenn Sie die Log-Ausgabe sehen wollen, können Sie entweder das -d beim Startbefehl weglassen, oder wenn der Container läuft `docker logs elx_appserver` eingeben. 
 
-Wenn Sie wirklich alles wieder löschen wollen (inklusive der verwendeten Elexis-Datenbank!), dann geben Sie ein: `docker-compose down -v --rmi all`. Achtung: Dies wird ohne weitere Rückfrage wirklich sämtliche in Elexis-OOB erstellten und erfassten Daten löschen. Nichts wird sich wiederherstellen lassen. In einer echten Elexis-Umgebung sollte der Zugang zur Server Konsole daher auch nur wenigen Mitarbeitern offen stehen. 
+Wenn Sie wirklich alles wieder löschen wollen (inklusive der verwendeten Elexis-Datenbank!), etwa um alles komplett neu zu installieren, dann geben Sie ein: `docker-compose down -v --rmi all`. Achtung: Dies wird ohne weitere Rückfrage wirklich sämtliche in Elexis-OOB erstellten und erfassten Daten löschen. Nichts wird sich wiederherstellen lassen. In einer echten Elexis-Umgebung sollte der Zugang zur Server Konsole daher auch nur wenigen Mitarbeitern offen stehen. 
 
 Wenn Sie eine Testumgebung häufig löschen und neu aufsetzen wollen, geben Sie ein: `docker-compose down -v --rmi local`. Dies wird ebenfalls sämtliche zur Laufzeit erstellten Daten, Volumes und Container löschen, bewahrt aber heruntergeladene Images auf. So wird der nächste Aufbau nur wenige Minuten gehen.
 
+Wenn Sie den Parameter -v weglassen, dann bleiben die "Volumes", also die Container mit den Daten, erhalten und nur die Programme werden entfernt bzw. neu erstellt. Selbstverständlich sollten Sie dennoch vor einem solchen Befehl ein Backup anfertigen!
 
 Für die Erstkonfiguration lesen Sie bitte [hier](config.md) weiter.
 
