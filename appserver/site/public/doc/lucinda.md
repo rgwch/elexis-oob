@@ -91,7 +91,7 @@ So oder so wird dann nach kurzer Zeit der entsprechende Text in Lucinda verfügb
 
 ![](../images/lucinda_08.png)
 
-Diese Attribute werden teils von Lucinda, teils vom darunter liegenden [Lucene](http://lucene.apache.org/) automatisch erstellt und sind je nach Dateityp teilweise unterschiedlich. Wenn Sie an manchen Attributen generell überhaupt nicht interessiert sind, können sie sie bei den Lucinda Einstellungen ausschliessen.
+Diese Attribute werden teils von Lucinda, teils vom darunter liegenden [Apache Tika](http://tika.apache.org/) automatisch erstellt und sind je nach Dateityp teilweise unterschiedlich. Wenn Sie an manchen Attributen generell überhaupt nicht interessiert sind, können sie sie bei den Lucinda Einstellungen ausschliessen.
 
 Wenn Sie einen gefundenen Text doppelklicken, wird er in einem separaten Fenster geöffnet (Sofern ein Programm installiert ist, das den betreffenden Dateityp darstellen kann)
 
