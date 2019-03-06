@@ -20,10 +20,25 @@ Nach dem Neustart müssen wir unter Datei-Einstellungen-Lucinda Ihren Arbeitspla
 Weiteres zur Konfiguration und Bedienung von Lucinda finden Sie [dort](https://elexis.ch/ungrad/features/lucinda/).
 
 
-## Tips und Tricks
+## Netzwerkerkennung
 
+Wenn Sie, zum Beispiel mit einer Dokumentenscanner-Applikation, direkt ins Lucinda-Verzeichnis scannen wollen, dann benötigen Sie Netzwerkzugriff auf dieses Verzeichnis. 
 
-### Windows Computer
+### Mac-Clients
+
+Sie finden das Lucinda Verzeichnis in der Netzwerkumgebung, sowohl unter dem Namen des Servers (hier "brumm"), als auch unter dem Namen "elexisdata":
+
+![](../images/lucinda_04.png)
+
+### Linux-Clients
+
+Je nach Distribution müssen Sie Samba installieren, um auf smb-shares zuzugreifen. Probieren Sie es einfach aus. Falls die Ressource 'elexisdata' nicht in der Netzwerkumgebung auftaucht, suchen Sie nach dem Namen des Servers. Oder stellen Sie die Verbindung manuell über die "Verbinde.." Option des Dateimanagares her  mit einer Anweisung wie:
+
+```
+smb://elexisdata/lucinda
+```
+
+### Windows Clients
 
 Bei Windows 7 taucht das Lucinda-Dokumentenverzeichnis üblicherweise direkt in der Netzwerkumbegung auf. Bei Windows 10 leider des Öfteren nicht. Sie können die Verbindung aber manuell herstellen. Öffnen Sie in Windows eine Kommandozeile (cmd.exe) und geben Sie dort ein:
 
