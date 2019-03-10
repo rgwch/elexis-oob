@@ -11,4 +11,9 @@ ul.list-group
     a(href="/backup/settings") Datensicherung konfigurieren
   li.list-group-item 
     a(href="/db/restore") Datenbank aus Backup wiederherstellen
-     
+  li.list-group-item Datenbank aus SQL Script erstellen
+    form(method="post" action="/db/readsql"  enctype="multipart/form-data")
+      input(type="file" name="file") 
+      input(type="submit" value="OK")  
+      
+

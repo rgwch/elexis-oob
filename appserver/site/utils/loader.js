@@ -57,6 +57,34 @@ function mysqlFromGZipped(stream) {
   }) 
 }
 
+function mysqlFromPlain(stream){
+  return new Promise((resolve, reject) => {
+    const mysql = spawn("mysql", [
+      "-h",
+      cfg.get("dbhost"),
+      "--protocol",
+      "tcp",
+      "-P",
+      cfg.get("dbport"),
+      "-u",
+      cfg.get("dbuser"),
+      "-p" + cfg.get("dbpwd"),
+      cfg.get("dbname")
+    ])
+    mysql.stderr.on("data", data => {
+      console.log(data.toString())
+    })
+    mysql.stdin.write("set foreign_key_checks = 0;\n")
+    stream.pipe(mysql.stdin)
+    stream.on("end", () => {
+      resolve()
+    })
+    stream.on("error", err => {
+      reject(err)
+    })
+  })
+}
+
 function loadFromUrlGzipped(connection, url) {
   return fetch(url)
     .then(response => {
@@ -132,7 +160,7 @@ class SqlLoader extends Writable {
   }
 }
 
-module.exports = { loadGzipped, loadFromUrlGzipped, mysqlFromUrlGzipped }
+module.exports = { loadGzipped, loadFromUrlGzipped, mysqlFromUrlGzipped, mysqlFromPlain }
 
 /* test code
 mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz").then(resp => {

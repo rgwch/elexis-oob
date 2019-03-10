@@ -12,6 +12,7 @@ const serveIndex = require('serve-index')
 const indexRouter = require('./routes/index');
 const backupRouter = require('./routes/backup')
 const dbRouter = require('./routes/db')
+const busboy = require('connect-busboy')
 const app = express();
 const winston=require('winston')
 winston.level="debug"
@@ -26,6 +27,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(busboy({
+  highWaterMark: 10 * 1024 * 1024, // Set 10 MiB buffer
+})); 
+
 
 // configure valid routes
 app.use('/', indexRouter);

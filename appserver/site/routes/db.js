@@ -10,7 +10,7 @@ const prequest = require("request-promise-native")
 const encrypt = require("../utils/elxcrypt")
 const uuidv4 = require("uuid/v4")
 const initwlx = require("./initwlx")
-const { mysqlFromUrlGzipped } = require("../utils/loader")
+const { mysqlFromUrlGzipped, mysqlFromPlain } = require("../utils/loader")
 
 const DBHOST = process.env.DBHOST || "localhost"
 const DBPORT = process.env.DBPORT || 3312
@@ -154,6 +154,24 @@ router.post("/loaddata", async (req, res) => {
       error: err
     })
   }
+})
+
+router.post("/readsql", async (req, res) => {
+  req.pipe(req.busboy)
+  req.busboy.on('file', (fieldname, file, filename) => {
+    console.log(`Upload of '${filename}' started`);
+    mysqlFromPlain(file).then(res => {
+      res.render("success", {
+        header: "Fertig",
+        body: "Das Script wurde eingelesen"
+      })
+    }).catch(err => {
+      res.render("error", {
+        message: "Could not read sql script",
+        error: err
+      })
+    })
+  })
 })
 
 function body2cfg(parms) {
