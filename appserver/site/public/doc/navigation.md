@@ -8,6 +8,7 @@
 
 [Anwendung]()
 
+* [Verwaltung](manage.md)
 * [Webelexis](webelexis.md)
 * [Lucinda](lucinda.md)
 * [PACS](pacs.md)
