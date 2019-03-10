@@ -59,6 +59,7 @@ function mysqlFromGZipped(stream) {
 
 function mysqlFromPlain(stream){
   return new Promise((resolve, reject) => {
+    const dbname=cfg.get("dbname")
     const mysql = spawn("mysql", [
       "-h",
       cfg.get("dbhost"),
@@ -69,12 +70,13 @@ function mysqlFromPlain(stream){
       "-u",
       cfg.get("dbuser"),
       "-p" + cfg.get("dbpwd"),
-      cfg.get("dbname")
+      dbname
     ])
     mysql.stderr.on("data", data => {
       console.log(data.toString())
     })
     mysql.stdin.write("set foreign_key_checks = 0;\n")
+    mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
     stream.pipe(mysql.stdin)
     stream.on("end", () => {
       resolve()

@@ -3,19 +3,23 @@ extends layout
 block content
   .container
 
-  h1.h1 Datenbank wiederherstellen
+    h1.h1 Datenbank wiederherstellen
 
-  p Achtung: Diese Funktion löscht die Datenbank vollständig und ersetzt sie gegen die Version in der Backup-Datei. Bei diesem Vorgang könnten Fehler auftreten, die die Datenbank und/oder die Backup-Datei beschädigen. Wenden Sie diese Funktion niemals ohne Datensicherung an!
+    p Achtung: Diese Funktion löscht die Datenbank vollständig und ersetzt sie gegen die Version in der Backup-Datei. Bei diesem Vorgang könnten Fehler auftreten, die die Datenbank und/oder die Backup-Datei beschädigen. Wenden Sie diese Funktion niemals ohne Datensicherung an!
 
-  p Wählen Sie die Backup-Datei zum Wiederherstellen aus
+    h2.h2 Wählen Sie die Backup-Datei zum Wiederherstellen aus
 
-  .row
-    .col
-      p Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
+    .row
+      .col
+        p Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
+        form(action="/db/readsql" method="post")
+          input(type="file" name="file")
+          button.btn.btn-primary.btn-small(type="submit") Hochladen
 
-    .col  
-      p Um die Datenbank von der Elexis-OOB-Backupfunktion wiederherzustellen, wählen Sie bitte hier:
+      .col  
+        p Um die Datenbank von der Elexis-OOB-Backupfunktion wiederherzustellen, wählen Sie bitte <a href="xyz">hier</a>.
 
-  form(action="/" method="GET")
-    button.btn.btn-primary(type="submit") Zurück
+    .row
+      p(style="margin-top:20px;")
+        button.btn.btn-primary(onclick="window.location.replace('/')") Zurück
     
