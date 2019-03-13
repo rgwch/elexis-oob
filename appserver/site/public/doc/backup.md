@@ -178,3 +178,10 @@ restic backup -r /mnt/seagate4t/pacs-restic -p /root/resticpwd /srv/pacs
 docker-compose start
 ````
 
+### Stufe 2 Backup
+
+````
+export AWS_ACCESS_KEY_ID=$AMAZONKEYID
+export AWS_SECRET_ACCESS_KEY=$AMAZONKEY
+restic backup -r s3:s3.amazonaws.com/praxis /media/extended/databackup
+````
