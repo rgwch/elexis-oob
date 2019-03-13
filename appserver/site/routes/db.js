@@ -11,6 +11,7 @@ const encrypt = require("../utils/elxcrypt")
 const uuidv4 = require("uuid/v4")
 const initwlx = require("./initwlx")
 const { mysqlFromUrlGzipped, mysqlFromPlain } = require("../utils/loader")
+const log = require('winston')
 
 const DBHOST = process.env.DBHOST || "localhost"
 const DBPORT = process.env.DBPORT || 3312

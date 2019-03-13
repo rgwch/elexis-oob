@@ -10,6 +10,7 @@ const HOST = "localhost"
 const PORT = 3312
 const archie = new (require('../utils/archiver'))("/backup")
 const { spawn } = require('child_process');
+const log = require('winston')
 
 /**
  * backup management routes (/backup/..)
@@ -25,17 +26,22 @@ router.post("/exec", async (req, res) => {
     port: PORT,
     password: cfg.get("dbrootpwd")
   })
+  const dirs = ["/mnt/elexisdb" /*, "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata" */]
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
-    const ni = archie.schedule(rule, ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"])
+    const ni = archie.schedule(rule, dirs)
     res.render('success', { header: "Backup konfiguriert", body: "Nächste Ausführung: " + ni.toString() })
   } else {
-    for (const dir of ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]) {
-      archie.pack(dir).then(result => {
-        res.render("success",{header:"Erfolg", body: "Backup ausgeführt"})
-      }).catch(err => {
-        res.render("error", { message: "Fehler beim Backuo", error: err })
-      })
+    try {
+      for (const dir of dirs) {
+        log.info("backing up " + dir)
+        await archie.pack(dir)
+      }
+      res.render('success', { header: "Backup ausgeführt", body: "Keine Fehler"})
+ 
+    } catch (err) {
+      res.render("error", { message: "Fehler beim Backuo", error: err })
+
     }
   }
 })

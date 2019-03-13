@@ -2,6 +2,7 @@ const tar = require("tar-fs")
 const fs = require("fs")
 const path = require("path")
 const scheduler = require("node-schedule")
+const log=require('winston')
 const zlib=require('zlib')
 
 class Archiver {
@@ -28,9 +29,11 @@ class Archiver {
         .pipe(this.compressor)
         .pipe(destfile)
       destfile.on("finish", () => {
+        log.info("pack finished normnally")
         resolve(true)
       })
       destfile.on("error", err => {
+        log.warn("pack exited with error ",err)
         reject(err)
       })
     })
