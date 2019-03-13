@@ -9,6 +9,8 @@ Elexis-OOB erlaubt Ihnen ausserdem, Sicherungen Ihrer Datenbank zu planen und wi
 
 ## Grundlagen
 
+Zu grundsätzlichen Überlegungen zum Backup lesen Sie bitte [hier](backup.md)
+
 Man kann eine Datenbank grundsätzlich auf zwei Arten sichern:
 
 1: Man kann das Verzeichnis, in dem die Daten auf der Festplatte physisch gespeichert sind, komplett sichern.
