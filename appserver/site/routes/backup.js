@@ -8,7 +8,7 @@ const cfg = new (require('conf'))()
 const mysql = require('mysql')
 const HOST = "localhost"
 const PORT = 3312
-const archie=new (require('../utils/archiver'))("/backup")
+const archie = new (require('../utils/archiver'))("/backup")
 const { spawn } = require('child_process');
 
 /**
@@ -25,9 +25,19 @@ router.post("/exec", async (req, res) => {
     port: PORT,
     password: cfg.get("dbrootpwd")
   })
-  const rule=req.body.minute+" "+req.body.hour+" "+req.body.day+" "+req.body.month+" "+req.body.weekday
-  const ni=archie.schedule(rule,["/mnt/elexisdb","/mnt/lucindadata","/mnt/lucindabase","/mnt/webelexisdata","/mnt/pacsdata"])
-  res.render('success',{header: "Backup konfiguriert", body: "Nächste Ausführung: "+ni.toString()})
+  if (req.body.button == "setup") {
+    const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
+    const ni = archie.schedule(rule, ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"])
+    res.render('success', { header: "Backup konfiguriert", body: "Nächste Ausführung: " + ni.toString() })
+  } else {
+    for (const dir of ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]) {
+      archie.pack(dir).then(result => {
+        res.render("success",{header:"Erfolg", body: "Backup ausgeführt"})
+      }).catch(err => {
+        res.render("error", { message: "Fehler beim Backuo", error: err })
+      })
+    }
+  }
 })
 
 function doBackup() {
