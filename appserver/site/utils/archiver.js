@@ -10,7 +10,6 @@ class Archiver {
   constructor(outdir, numToKeep) {
     this.outdir = outdir
     this.num2keep = numToKeep
-    this.compressor = zlib.createGzip()
   }
 
   schedule(rule, jobs) {
@@ -22,6 +21,8 @@ class Archiver {
     return this.timer.nextInvocation()
   }
   pack(dirname) {
+     const compressor = zlib.createGzip()
+ 
     return new Promise((resolve, reject) => {
       const base = path.basename(dirname)
       const now = DateTime.local()
@@ -29,10 +30,10 @@ class Archiver {
       const destfile = fs.createWriteStream(path.join(this.outdir, base + "_" + suffix + ".tar.gz"))
       tar
         .pack(dirname)
-        .pipe(this.compressor)
+        .pipe(compressor)
         .pipe(destfile)
       destfile.on("finish", () => {
-        log.info("pack finished normnally")
+        log.info("pack finished normally")
         resolve(true)
       })
       destfile.on("error", err => {

@@ -40,7 +40,7 @@ router.post("/exec", async (req, res) => {
       res.render('success', { header: "Backup ausgeführt", body: "Keine Fehler"})
  
     } catch (err) {
-      res.render("error", { message: "Fehler beim Backuo", error: err })
+      res.render("error", { message: "Fehler beim Backup", error: err })
 
     }
   }

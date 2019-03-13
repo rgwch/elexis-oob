@@ -4,7 +4,7 @@ Die Funktionen zum Einrichten der Datenbank und Einlesen von Datenbeständen hab
 
 Elexis-OOB erlaubt Ihnen ausserdem, Sicherungen Ihrer Datenbank zu planen und wiederherzustellen.
 
-*Achtung*: Sie sollten Ihre Datensicherung unbedingt in regelmässigen Abständne testen, etwa mit einer zweiten Elexis-OBB-Instanz, damit Sie erkennen, falls etwas nicht funktioniert!
+*Achtung*: Sie sollten Ihre Datensicherung unbedingt in regelmässigen Abständen testen, etwa mit einer zweiten Elexis-OBB-Instanz, damit Sie erkennen, falls etwas nicht funktioniert!
 
 
 ## Grundlagen
@@ -47,4 +47,46 @@ Wählen Sie im Elexia-OOB Hauptbildschirm im Feld "Verwaltung" den Punkt "Dateni
 
 ![](../images/manage_01.png)
 
-Die Angaben, die Sie hier eintragem können, sind im "crontab" Stil. Die Einstellungen in diesem Beispielbild bedwuten: Es wird Montag bis Freitag jede Nacht ab 03:15 Uhr ein Backup erstellt. Zum  Verständnis, wo dieses Backup landet, und was man dann damit tun kann, ist leider ein Verständnis der Docker-Interna notwendig. Standardmässig gehen die Backups in das Volume 'backup', das sich auf Linux Conputern in `/var/lib/docker/volumes/elexis-oob_backup` befindet.
+Die Angaben, die Sie hier eintragem können, sind im "crontab" Stil. Die Einstellungen in diesem Beispielbild bedwuten: Es wird Montag bis Freitag jede Nacht ab 03:15 Uhr ein Backup erstellt. Zum  Verständnis, wo dieses Backup landet, und was man dann damit tun kann, ist leider ein Verständnis der Docker-Interna notwendig. Standardmässig gehen die Backups in das Volume 'backup', das sich auf Linux Conputern in `/var/lib/docker/volumes/elexis-oob_backup` befindet. Sie können durch enstprechende Änderung der docker-compose.yaml ein anderes Backup-Verzeichnis anlegen. Wenn Sie zum Beispiel Backups auf das Laufwerk /mnt/grosseplatte schreiben wollen, dann müssten Sie den Abschnitt:
+
+````yaml
+appserver:
+    build: ./appserver
+    container_name: elx_appserver
+    environment:
+      - DBHOST=elexisdb
+      - DBPORT=3306
+      - PUBLIC_DBPORT=3312
+      - HOST_HOSTNAME=<Server Name>
+    volumes:
+      - backup:/backup
+      - webelexisdata:/mnt/webelexisdata
+      - elexisdb:/mnt/elexisdb:ro
+      - lucindadata:/mnt/lucindadata:ro
+      - lucindabase:/mnt/lucindabase:ro
+      - pacsdata:/mnt/pacsdata:ro
+    restart: always  
+    ports:
+      - 3000:3000
+    depends_on:
+      - elexisdb
+    labels: 
+      - "traefik.frontend.rule=Host:elexisapps.docker.localhost"  
+````
+
+so ändern, dass in voilumes steht:
+
+````yaml
+volumes:
+      - /mnt/grosseplatte:/backup
+      - webelexisdata:/mnt/webelexisdata
+      - elexisdb:/mnt/elexisdb:ro
+      - lucindadata:/mnt/lucindadata:ro
+      - lucindabase:/mnt/lucindabase:ro
+      - pacsdata:/mnt/pacsdata:ro
+    
+````
+und dann das System mit `docker-compose restart` neu starten.
+
+Die Backups sind komprimierte Dateien mit Namen wie: `elexisdb_YYYY-MM-DD-HHmm.tar.gz`.
+ 
