@@ -23,7 +23,7 @@ Vorteile:
 Nachteile:
 
 * Funktioniert nur mit derselben Datenbank, oft sogar nur mit derselben Version des Datenbankservers unter demselben Betriebssystem wie beim Backup. Das kann beim Versuch, ein länger zurückliegendes Backup wieder einzulesen, unlösbare Probleme machen.
-* Funktioniert nur zuverlässig, wenn das Datenbank-Serverprogramm zum zeitpunkt der Sicherung gestoppt ist, da sonst Inkonistenzen auftreten können (Wenn die Datenbank ein Objekt verändert, das gerade geichert wird.) Inkonistenzen bei der Sicherung können dazu führen, dass ein Wiedereinspielen unmöglich ist.
+* Funktioniert nur zuverlässig, wenn das Datenbank-Serverprogramm zum Zeitpunkt der Sicherung gestoppt ist, da sonst Inkonistenzen auftreten können (Wenn die Datenbank ein Objekt verändert, das gerade geichert wird.) Inkonistenzen bei der Sicherung können dazu führen, dass ein Wiedereinspielen unmöglich ist.
 
 
 2: Man speichert das Backup als Folge von SQL-Befehlen (SQL-Script)
@@ -39,7 +39,7 @@ Nachteile:
 
 * Diese Dateien sind grösser, als reine Kopien. Sowohl ihre Erstellung als auch das Wiedereinspielen dauert wesentlich länger.
 
-Elexis OOB lässt Ihnen beide Möglichkeiten.
+Elexis OOB verwendet die erste Möglichkeit. Allerdings kann es systembedingt den Datenbankserver nicht stoppen. Sie sollten also den Zeitpunkt des Backups so legen, dass dann sicher keine Aktivität stattfindet. Und ich würde empfehlen, zusätzlich noch ein Backup nach der Methode 2 ausserhalb von Elexis-OOB anzulegen. Auf der [Backup-Seite](backup.md) finden Sie Beispiel-Skripte.
 
 ## Ausführung
 
@@ -47,4 +47,4 @@ Wählen Sie im Elexia-OOB Hauptbildschirm im Feld "Verwaltung" den Punkt "Dateni
 
 ![](../images/manage_01.png)
 
-Die Angaben, die Sie hier eintragem können, sind im "crontab" Stil. Die Einstellungen in diesem Beispielbild bedwuten: Es wird Montag bis Freitag jede Nacht ab 03:15 Uhr ein Backup erstellt. Zum  Verständnis, wo dieses Backup landet, und was man dann damit tun kann, ist leider ein Verständnis der Docker-Interna notwendig.
+Die Angaben, die Sie hier eintragem können, sind im "crontab" Stil. Die Einstellungen in diesem Beispielbild bedwuten: Es wird Montag bis Freitag jede Nacht ab 03:15 Uhr ein Backup erstellt. Zum  Verständnis, wo dieses Backup landet, und was man dann damit tun kann, ist leider ein Verständnis der Docker-Interna notwendig. Standardmässig gehen die Backups in das Volume 'backup', das sich auf Linux Conputern in `/var/lib/docker/volumes/elexis-oob_backup` befindet.

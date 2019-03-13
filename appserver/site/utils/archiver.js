@@ -2,8 +2,9 @@ const tar = require("tar-fs")
 const fs = require("fs")
 const path = require("path")
 const scheduler = require("node-schedule")
-const log=require('winston')
-const zlib=require('zlib')
+const log = require('winston')
+const zlib = require('zlib')
+const { Datetime } = require('luxon')
 
 class Archiver {
   constructor(outdir, numToKeep) {
@@ -13,8 +14,8 @@ class Archiver {
   }
 
   schedule(rule, jobs) {
-    this.timer=scheduler.scheduleJob(rule,async ()=>{
-      for(const job of jobs){
+    this.timer = scheduler.scheduleJob(rule, async () => {
+      for (const job of jobs) {
         await this.pack(job)
       }
     })
@@ -23,7 +24,9 @@ class Archiver {
   pack(dirname) {
     return new Promise((resolve, reject) => {
       const base = path.basename(dirname)
-      const destfile = fs.createWriteStream(path.join(this.outdir, base + ".tar.xz"))
+      const now = Datetime.local()
+      const suffix = now.toFormat("yyyy-LL-dd-HHmm")
+      const destfile = fs.createWriteStream(path.join(this.outdir, base + suffix + ".tar.gz"))
       tar
         .pack(dirname)
         .pipe(this.compressor)
@@ -33,7 +36,7 @@ class Archiver {
         resolve(true)
       })
       destfile.on("error", err => {
-        log.warn("pack exited with error ",err)
+        log.warn("pack exited with error ", err)
         reject(err)
       })
     })
