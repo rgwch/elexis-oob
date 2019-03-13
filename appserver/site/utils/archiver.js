@@ -4,7 +4,7 @@ const path = require("path")
 const scheduler = require("node-schedule")
 const log = require('winston')
 const zlib = require('zlib')
-const { Datetime } = require('luxon')
+const { DateTime } = require('luxon')
 
 class Archiver {
   constructor(outdir, numToKeep) {
@@ -24,9 +24,9 @@ class Archiver {
   pack(dirname) {
     return new Promise((resolve, reject) => {
       const base = path.basename(dirname)
-      const now = Datetime.local()
+      const now = DateTime.local()
       const suffix = now.toFormat("yyyy-LL-dd-HHmm")
-      const destfile = fs.createWriteStream(path.join(this.outdir, base + suffix + ".tar.gz"))
+      const destfile = fs.createWriteStream(path.join(this.outdir, base + "_" + suffix + ".tar.gz"))
       tar
         .pack(dirname)
         .pipe(this.compressor)
