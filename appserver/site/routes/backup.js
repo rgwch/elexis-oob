@@ -26,7 +26,7 @@ router.post("/exec", async (req, res) => {
     port: PORT,
     password: cfg.get("dbrootpwd")
   })
-  const dirs = ["/mnt/elexisdb" /*, "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata" */]
+  const dirs = ["/mnt/elexisdb", "/mnt/lucindadata" /*, "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata" */]
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
     const ni = archie.schedule(rule, dirs)
@@ -46,8 +46,5 @@ router.post("/exec", async (req, res) => {
   }
 })
 
-function doBackup() {
-
-}
 
 module.exports = router
