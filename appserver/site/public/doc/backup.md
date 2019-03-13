@@ -22,9 +22,9 @@ Das Backup-System muss folgende Eingenschaften haben:
 
 * Wiederherstellbar - Das ist natürlich eine Binsenweisheit. Was nützt ein Backup, das nicht wiederhersgestellt werden kann? Leider ist es durchaus nicht selbstverständlich. Backups laufen ja, wie oben betont, idealerweise automatisch ab, zum Beispiel mit einem nächtlichen Hintergrund-Job. Je nachdem passiert dabei ein Fehler und niemand sieht die Fehlermeldung... Und wenn Sie an den Punkt Verschlüsselung denken: Sie müssen sicher sein, dass die Verschlüsselung auch wieder entschlüsselt werden kann. Dazu gehört, dass Sie ein Programm benötigen, das den angewendeten Algorithmus beherrscht, und Sie müüssen sich auch nach 10 Jahren noch an das verwendete Pasxswort erinnern. Und last but not least müssen auch die verwendeten Speichermedien  mit dem Computer, den Sie in 10 Jahren benutzen werden, noch lesbar sein. Auch das ist nicht so selbstverständlich, wie man meinen könnte: Wenn Sie vor 20 Jahren Ihre Daten auf den damals weit verbreiteten Floppy Disks gespeichert haben, dann werden Sie heute echte Probleme haben, an diese Daten wieder heranzukommen. Und zwar sogar dann, wenn Sie auch ein Laufwerk für solche Floppy Disks aufbewahrt haben: Sie werden es an Ihren heutigen PC nicht anschliessen können. Und wenn Sie Ihre Datensicherung auf CDs oder DVDs speichern, dann ist die Gefahr nicht vernachlässigbar, dass diese nach 10 Jahren nicht mehr vollständig lesbar sind. Dasselbe gilt für magnetische Platten.
 
-### Backup-Konzepte
+## Backup-Konzepte
 
-#### Plattenrotation
+### Plattenrotation
 
 Eine tragbare Festplatte nimmt jeweils ein Backup auf und wird dann gegen eine andere identische Pkatte ausgetauscht. Wenn man beispielsweise fünf solcher Platten verwendet, kann man an jedem Arbeitstag eine andere einsetzen, und auf jeder vielleicht 10 Datensicherungs-Generationen speichern, die dann jeweils eine Woche auseinander liegen. Damit wird der Verlust jeder einzelnen Platte oder sogar mehrere Platten verschmerzbar. Idealerweise lagern Sie die Platten auch an verschiedenen Orten, so dass auch bei einem Euinbruch oder Brand nicht alles verloren ist.
 
@@ -32,11 +32,149 @@ Eine tragbare Festplatte nimmt jeweils ein Backup auf und wird dann gegen eine a
 
 * Nachteil: Man muss doch wieder an etwas denken... Wenn man vergisst, die Platten auszutauschen, baut man ein "Klumpenrisiko" mit der gerade angeschlossenen Platte auf, und gemäss Murphy werden Sie erst merken, dass diese Platte schon länger ausgefallen ist, wenn Ihre Server-Festplatte aussteigt, und Sie ein möglichst aktuelles Backup benötigen.
 
-#### Fernbackup
+### Fernbackup
 
 Sie können Ihre Daten mit einem geeigneten Programm auf einen oder mehrere andere Computer sichern. Dies kann man genausn leicht automatisieren, wie dier Sicherung auf eine externe Festplatte.
 
 * Vorteil: Keine zusätzliche Hardware am Praxis-System, man muss nicht an Plattentausch etc. denken.
 
-* Nachteil: Das Backup wird viel länger dauern, da das Netzwerk langsamer ist, als eine angeschlossene Fewstplatte. Weiterer Nachteil: Murphy wird dafür sorgen, dass der Internetzugang just dann schanrchlangsam oder ganz ausgefallen ist, wenn Sie Ihr Backup dringend zurückspielen wollen
+* Nachteil: Das Backup wird viel länger dauern, da das Netzwerk langsamer ist, als eine angeschlossene Fewstplatte. Weiterer Nachteil: Murphy wird dafür sorgen, dass der Internetzugang just dann schanrchlangsam oder ganz ausgefallen ist, wenn Sie Ihr Backup dringend zurückspielen wollen.
+
+### Cloud-Backup
+
+Statt auf einen eigenen Server können Sie die Daten auch in einer Cloud speichern. Das ist seitens des Backup-Systems kein Unterschied.
+
+* Vorteil: Sie müssen sich um Aufbau und Unterhalt des Backup-Servers nicht kümmern. Die Cloud Anbieter garantieren eine sehr hohe Verfügbarkeit ind Datensicherheit.
+
+* Nachteile: Die Daten sind für den Cloud-Anbieter sichtbar. Sie müssen sie also unbediungt vor der Übertragung verschlüsseln. Ok, das müssen Sie eigentlich sowieso tun. Weiterer Nachteil: Sie sind darauf angewiesen, dass es den Cloud-Anbieter in 10 Jahren noch gibt, und dass Sie noich Zugang darauf haben. Und last but not least: Die Datensicherung wird hier etwas kosten. Allerdings meist wesentlich wenige, als Sie ein eigener Server oder auch nur eine Backup-Festplatte koisten würde.
+
+Selbstverständlich können Sie anstelle der Cloud eines professionellen Anbieters auch eine eigene Cloud aufbauen, damit wird die Cloud-Speicherung zu einer Variante des weiter oben erwähnten Fernbackup.
+
+## Backup-Anwendungen
+
+Für welches der oben genannten Backup-Konzepte Sie sich entscheiden, hängt zu sehr von Ihrem individuellen System ab, als dass man allgemeingültige Empfehlungen abgeben könnte.
+
+Ich selbst bevorzuge ein dreistufiges Konzept:
+
+* Stufe 1: Plattenrotation und Fernbackup. Ich wechsle zwischen Wechselplatten und der Speicherung auf externe Computer ab. Als Backup-Programm verwende ich [rsync](https://rsync.samba.org) und [restic](https://restic.net). Die Steuerung wird von einem Cron-Job erledigt, der nachts aktiv wird.
+
+* Stufe 2: Cloud Backup. Aus praktischen Gründen verwende ich hier [Amazon S3](https://aws.amazon.com/de/s3/). Das ist ziemlich günstig (etwa 30 US-cent pro GB und Jahr) und kann von meinem ohnehin benutzen Backup-Tool restic direkt genutzt werden. Aber natürlih kann man ebenso gut andere Anbieter bevorzugen, etwa Google Cloud Storage, Microsoft Azure Storage oder andere.
+
+* Stufe 3: "Cold Backup". Daten, die ich voraussichtlich länger nicht oder nie mehr brauche, kommen in den [Amazon Glacier](https://aws.amazon.com/de/glacier/?nc=sn&loc=0). Das ist noch billiger als S3 (weniger als 5 US-cent pro GB und Jahr), hat aber den Nachteil, dass das Zurückholen der Daten erstens einige Zeit dauern kann (Stunden bis Tage), und dass es etwas kostet, die Daten wieder zu holen (Derzeit je nach gewünschter Geschwindigkeit etwa 0.5-3 cent pro GB). Wenn man die Daten ausnahmsweise doch mal sehr schnell benötigt, muss man zusätzlich 100 Dollar für die Bereitstellung bezahlen.
+
+## Zusammenfassung
+
+Der Aufbau eines Backup-Konzeptes liegt ausserhalb der Ziele von Elexis-OOB. Die Verwaltungsfunktion bietet Ihnen nur den Ausgangspunkt fürs Backup: sie stellt die Daten in einer Form bereit, in der Sie sie mit einer der hier erwähnten Techniken sichern können. Oder auch auf eine ganz andere Weise, dies sei Ihnen überlassen. Als Ausgangs- oder Anhaltspunkt zeige ich Ihnen hier einige Backup-Skripte für einen Linux-Server:
+
+### Stufe 1 Backup
+
+#### Datenbank sichern
+````
+#!/bin/bash
+
+fdate=`date '+%Y-%m-%d-%H%M'`
+filename='elexis_'$fdate'.sql'
+log=/root/backup.log
+dest=/media/extended/databackup
+
+echo $filename > $log
+
+mysqldump -h 192.168.0.1 --protocol=tcp -P 3312 -u backupuser -p$BACKUPPWD elexis --ignore-table=elexis.ch_elexis_omnivore_data>$filename
+
+rc=$?; if [[ $rc != 0 ]]; then
+	echo dump failed with error code $rc >>$log
+	exit $rc
+fi
+echo mysqldump ended normally >>$log
+
+mv $filename ${dest}/elexisDB/$filename
+rc=$?; if [[ $rc != 0 ]]; then 
+	echo copy $filename failed with code $rc >>$log
+	exit $rc
+fi
+echo copy ended normally >>$log
+
+chmod o-r,g-r ${dest}/elexisDB/$filename
+
+echo mysql finished >>$log
+echo `date` >>$log
+/root/srvbackup >>$log
+echo srvbackup finished >>$log
+echo `date`>> $log
+
+echo end $filename >>$log
+
+echo backup berichte >>$log
+restic backup -r /mnt/seagate4t/berichte/ -p ./resticpwd /srv/public/Berichte
+rc=$?; if [[ $rc != 0 ]]; then
+	echo restic failed with error code $rc >>$log
+	exit $rc
+fi
+echo restic ended normally >>$log
+
+echo backup pacs >>$log
+/root/savepacs.sh >>$log
+echo pacs resticed >>$log
+
+
+```` 
+#### Zahl der aufzubewahrenden Dantenbank-Backups limitieren
+
+````
+#! /bin/bash
+
+# Zahl der Backups zum aufbewahren
+keepnum=10
+
+# Backup-Verzeichnis
+backupdir=dest=/media/extended/databackup/elexisDB
+
+origdir=`pwd`
+cd $backupdir
+
+numsnaps=$(ls -r1 -d elexis_*|wc -l)
+echo backups: $numsnaps >>$logfile
+if [ $numsnaps -gt $keepnum ] ; then
+        echo deleting >>$logfile
+        ls -r1 -d elexis_*|tail -n1|xargs -d '\n' rm
+else
+        echo nothing to delete >>$logfile
+fi
+
+
+cd $origdir
+
+````
+
+#### Nicht-Datenbank Dateien sichern
+````
+#! /bin/bash
+
+dest=/media/extended/databackup
+
+rsync -a /root ${dest}/system
+rsync -aH --exclude={".Private",".ecryptfs"} /home ${dest}/system
+rsync -aH /boot ${dest}/system
+rsync -aH /etc  ${dest}/system
+rsync -a /srv/data ${dest}/pxserv/srv
+rsync -a /srv/dockerfiles ${dest}/pxserv/srv
+rsync -a /srv/repositories ${dest}/pxserv/srv
+rsync -a /srv/public ${dest}/pxserv/srv
+rsync -a /srv/lucinda ${dest}/pxserv/srv
+
+mount -t cifs //192.168.0.99/pxbackup -o credentials=/root/backupcred,vers=1.0 /mnt/backup
+rsync -a --exclude={"system/*","snapshots/*"} ${dest}/ /mnt/backup/usb4tback/
+umount /mnt/backup
+````
+
+#### PACS sichern
+
+````
+#! /bin/bash
+
+cd /srv/dockerfiles
+docker-compose stop -t 60 pacs
+restic backup -r /mnt/seagate4t/pacs-restic -p /root/resticpwd /srv/pacs
+docker-compose start
+````
 
