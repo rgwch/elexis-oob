@@ -29,13 +29,13 @@ router.post("/exec", async (req, res) => {
   const dirs = ["/mnt/elexisdb", "/mnt/lucindadata","/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
-    const ni = archie.schedule(rule, dirs)
+    const ni = archie.schedule(rule, dirs, parseInt(req.body.numbackups))
     res.render('success', { header: "Backup konfiguriert", body: "Nächste Ausführung: " + ni.toString() })
   } else {
     try {
       for (const dir of dirs) {
         log.info("backing up " + dir)
-        await archie.pack(dir)
+        await archie.pack(dir, parseInt(req.body.numbackups))
       }
       res.render('success', { header: "Backup ausgeführt", body: "Keine Fehler"})
  
