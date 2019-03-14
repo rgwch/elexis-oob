@@ -34,7 +34,7 @@ describe("single pack", () => {
         const tosave = path.join(__dirname, "../public/doc")
         const arc = new archiver(testdir, 3)
         const result = await arc.pack(tosave)
-        console.log(result)
+        result.should.be.true
     })
 
     it("cleans up backups", async () => {
@@ -48,6 +48,7 @@ describe("single pack", () => {
         const result = await arc.pack(tosave)
         await delay(10)
         fs.existsSync(testdir+"/doc_2010-01-01-1955.tar.gz").should.be.false
+        fs.readdirSync(testdir).length.should.equal(3)
     })
 })
 
