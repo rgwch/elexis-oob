@@ -7,9 +7,17 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "crypt",
-      "program": "${workspaceFolder}/appserver/site/routes/elxcrypt.js"
-   },
+      "name": "Mocha Tests",
+      "program": "${workspaceFolder}/appserver/site/node_modules/.bin/mocha",
+      "args": [
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/appserver/site/tests"
+      ],
+      "outputCapture": "std",
+      "internalConsoleOptions": "openOnSessionStart"
+    },
   {
     "type": "node",
     "request": "launch",

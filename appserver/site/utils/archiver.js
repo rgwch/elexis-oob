@@ -23,10 +23,10 @@ class Archiver {
    * @param {*} jobs an Array of directories to archive
    * @param {*} numbackups number of archives to keep (delete olders after successful archive)
    */
-  schedule(rule, jobs, numbackups) {
+  schedule(rule, jobs) {
     this.timer = scheduler.scheduleJob(rule, async () => {
       for (const job of jobs) {
-        await this.pack(job, numbackups)
+        await this.pack(job)
       }
     })
     return this.timer.nextInvocation()
@@ -36,7 +36,7 @@ class Archiver {
    * @param {*} dirname directory to archive
    * @param {*} numbackups number of archives to keep
    */
-  pack(dirname, numbackups) {
+  pack(dirname) {
     const compressor = zlib.createGzip()
 
     return new Promise((resolve, reject) => {
@@ -52,22 +52,23 @@ class Archiver {
         log.info("pack finished normally")
         fs.readdir(this.outdir, (err, files) => {
           if (err) {
-            log.error("Error while cleaning up ", err)
+            log.error(`Error while cleaning up: ${JSON.stringify(err)} `)
           } else {
-            const myfiles = files.map(f => f.startsWith(base)).sort((a, b) => { a.localeCompare(b) })
-            while (myfiles.length > numbackups) {
+            const myfiles = files.filter(f => f.startsWith(base)).sort((a, b) => a.localeCompare(b) )
+            while (myfiles.length > this.num2keep) {
               const file = path.join(this.outdir, myfiles.shift())
               fs.unlink(file, err => {
-                log.error("error removing %s: %s", file, err)
+                if(err)
+                log.error(`error removing ${file}: ${JSON.stringify(err)}`)
               })
-              log.info("removed ", file)
+              log.info(`removed ${file}`)
             }
           }
         })
         resolve(true)
       })
       destfile.on("error", err => {
-        log.warn("pack exited with error ", err)
+        log.warn(`pack exited with error: ${JSON.stringify(err)}`)
         reject(err)
       })
     })

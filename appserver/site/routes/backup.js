@@ -8,7 +8,7 @@ const cfg = new (require('conf'))()
 const mysql = require('mysql')
 const HOST = "localhost"
 const PORT = 3312
-const archie = new (require('../utils/archiver'))("/backup")
+const archiver = require('../utils/archiver')
 const { spawn } = require('child_process');
 const log = require('winston')
 
@@ -27,15 +27,16 @@ router.post("/exec", async (req, res) => {
     password: cfg.get("dbrootpwd")
   })
   const dirs = ["/mnt/elexisdb", "/mnt/lucindadata","/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]
+  const archie=new archiver("/backup",parseInt(req.body.numbackups))
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
-    const ni = archie.schedule(rule, dirs, parseInt(req.body.numbackups))
+    const ni = archie.schedule(rule, dirs)
     res.render('success', { header: "Backup konfiguriert", body: "Nächste Ausführung: " + ni.toString() })
   } else {
     try {
       for (const dir of dirs) {
         log.info("backing up " + dir)
-        await archie.pack(dir, parseInt(req.body.numbackups))
+        await archie.pack(dir)
       }
       res.render('success', { header: "Backup ausgeführt", body: "Keine Fehler"})
  
