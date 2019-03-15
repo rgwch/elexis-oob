@@ -64,7 +64,6 @@ describe("single pack", () => {
       const arc=new archiver(testdir,3)
       const dates=await arc.list_dates()
       dates.length.should.equal(4)
-      console.log(dates)
     })
 })
 

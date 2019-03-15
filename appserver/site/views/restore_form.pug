@@ -3,9 +3,9 @@ extends layout
 block content
   .container
 
-    h1.h1 Datenbank wiederherstellen
+    h1.h1 Daten wiederherstellen
 
-    p Achtung: Diese Funktion löscht die Datenbank vollständig und ersetzt sie gegen die Version in der Backup-Datei. Bei diesem Vorgang könnten Fehler auftreten, die die Datenbank und/oder die Backup-Datei beschädigen. Wenden Sie diese Funktion niemals ohne Datensicherung an!
+    p Achtung: Diese Funktion löscht die Daten vollständig und ersetzt sie gegen die Version in der Backup-Datei. Bei diesem Vorgang könnten Fehler auftreten, die die Datenbank und/oder die Backup-Datei beschädigen. Wenden Sie diese Funktion niemals ohne Datensicherung an!
 
     h2.h2 Wählen Sie die Backup-Datei zum Wiederherstellen aus
 
@@ -14,15 +14,17 @@ block content
         .card-body
           h2.card-title Restore aus OOB Backup  
           .card-text Wählen Sie bitte hier das zurückzuspielende Backup.
-            ul
+            ul.list-group.my-3
               each date,index in dates
-                li
-                  a(href="/backup/restore/"+index)= date
+                li.list-group-item
+                  - const text = date+" Uhr"
+                  a(href="/backup/restore/"+index)= text
 
       .col.card
         .card-body
           h2.card-title Restore aus SQL-Datei
-          .card-text  Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
+          h5.card-subtitle (Nur Elexis-Datenbank)
+          .card-text.my-3  Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
             form(action="/db/readsql" method="post")
               input(type="file" name="file")
               button.btn.btn-primary.btn-small(type="submit") Hochladen

@@ -5,7 +5,8 @@ block content
     h1.h1 Daten Wiederherstellen
 
     p Sie sind dabei, die Datensicherung vom 
-    p(style="color:red;font-weight=600;font-size=larger;")= date
+    - const text= date+" Uhr"
+    p(style="color:red;font-weight=600;font-size=larger;")= text
     p wiederherzustellen.
 
     h2.h2 Warnung
