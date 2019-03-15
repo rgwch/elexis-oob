@@ -13,7 +13,7 @@ router.get("/", function(req, res, next) {
   const hostname = req.hostname
   const dbname = cfg.get("dbname") || "elexisoob"
   const username = cfg.get("dbuser") || "(den Namen für die Datenbankverbindung)"
-  const password = cfg.get("dbpwd") || "(das Passwort für die Datenbakverbindung)"
+  const password = cfg.get("dbpwd") || "(das Passwort für die Datenbankverbindung)"
   res.render("index", {
     title: "Elexis Out-Of-The-Box",
     hostname,
