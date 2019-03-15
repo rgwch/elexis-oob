@@ -5,15 +5,14 @@ block content
     h1.h1 Daten Wiederherstellen
 
     p Sie sind dabei, die Datensicherung vom 
-    p= date
+    p(style="color:red;font-weight=600;font-size=larger;")= date
     p wiederherzustellen.
 
     h2.h2 Warnung
 
-    p Dies wird sämtliche Daten löschen und gegen die Daten aus dem Backup vom #{date} ersetzen. Falls bei diesem Prozess
+    p Dies wird sämtliche Daten löschen und gegen die Daten aus dem Backup vom #{date} Uhr ersetzen. Falls bei diesem Vorgang
       | etwas schief geht, kann es sein, dass die Daten verloren sind.
     p Einmal gestartet, kann der Prozess nicht mehr unterbrochen werden.  
 
-    button.btn.btn-primary(onclick="window.location.replace('/')")  Abbrechen
-    button.btn.btn.secondary(onclick="window.location.replace('/backup/restore/confirm/'"+index) Ausführen.
-    
+    button.btn.btn-primary(onclick="window.location.replace('/backup/restore')")  Abbrechen
+    button.btn.btn.secondary(onclick="window.location.replace('/backup/restore/confirm/"+index+"')") Ausführen.

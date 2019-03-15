@@ -12,7 +12,7 @@ block content
     .row
       .col.card  
         .card-body
-          .card-title Restore aus OOB Backup  
+          h2.card-title Restore aus OOB Backup  
           .card-text Wählen Sie bitte hier das zurückzuspielende Backup.
             ul
               each date,index in dates
@@ -21,7 +21,7 @@ block content
 
       .col.card
         .card-body
-          .card-title Restore aus SQL-Datei
+          h2.card-title Restore aus SQL-Datei
           .card-text  Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
             form(action="/db/readsql" method="post")
               input(type="file" name="file")

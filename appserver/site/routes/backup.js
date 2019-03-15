@@ -65,4 +65,8 @@ router.get("/restore/:idx",async (req,res) =>{
   res.render("restore_verify",{date: dates[index], index})
 })
 
+router.get("/restore/confirm/:idx",async (req,res)=>{
+
+})
+
 module.exports = router
