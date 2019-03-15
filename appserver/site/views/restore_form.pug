@@ -15,9 +15,9 @@ block content
           .card-title Restore aus OOB Backup  
           .card-text Wählen Sie bitte hier das zurückzuspielende Backup.
             ul
-              each date in dates
+              each date,index in dates
                 li
-                  a(href="/backup/restore/"+date)= date
+                  a(href="/backup/restore/"+index)= date
 
       .col.card
         .card-body

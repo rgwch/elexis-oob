@@ -14,7 +14,7 @@ const { DateTime } = require('luxon')
 class Archiver {
   constructor(outdir, numToKeep) {
     this.outdir = outdir
-    this.num2keep = numToKeep
+    this.num2keep = numToKeep || 99
   }
 
   /**

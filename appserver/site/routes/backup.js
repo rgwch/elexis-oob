@@ -12,6 +12,7 @@ const archiver = require('../utils/archiver')
 const { spawn } = require('child_process');
 const log = require('winston')
 
+const backupdir="/backup"
 /**
  * backup management routes (/backup/..)
  */
@@ -27,7 +28,7 @@ router.post("/exec", async (req, res) => {
     password: cfg.get("dbrootpwd")
   })
   const dirs = ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]
-  const archie = new archiver("/backup", parseInt(req.body.numbackups))
+  const archie = new archiver(backupdir, parseInt(req.body.numbackups))
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
     try {
@@ -52,9 +53,16 @@ router.post("/exec", async (req, res) => {
 })
 
 router.get("/restore", async (req, res) => {
-  const archie = new archiver("/backup", parseInt(req.body.numbackups))
+  const archie = new archiver(backupdir)
   const dates=await archie.list_dates()
   res.render("restore_form",{dates})
+})
+
+router.get("/restore/:idx",async (req,res) =>{
+  const archie = new archiver(backupdir)
+  const dates=await archie.list_dates()
+  const index=req.params.idx
+  res.render("restore_verify",{date: dates[index], index})
 })
 
 module.exports = router
