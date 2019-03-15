@@ -50,5 +50,21 @@ describe("single pack", () => {
         fs.existsSync(testdir+"/doc_2010-01-01-1955.tar.gz").should.be.false
         fs.readdirSync(testdir).length.should.equal(3)
     })
+
+    it("lists remaining files",async ()=>{
+      fs.writeFileSync(testdir+"/bla_2010-01-01-2000.tar.gz","Blabla")
+      fs.writeFileSync(testdir+"/bli_2011-01-01-2000.tar.gz","blabla")
+      fs.writeFileSync(testdir+"/bli_2010-01-01-1955.tar.gz","blurb")
+      const arc = new archiver(testdir, 3)
+      const files=await arc.list_files()
+      files.length.should.equal(6)
+    })
+
+    it("returns all backup dates",async ()=>{
+      const arc=new archiver(testdir,3)
+      const dates=await arc.list_dates()
+      dates.length.should.equal(4)
+      console.log(dates)
+    })
 })
 

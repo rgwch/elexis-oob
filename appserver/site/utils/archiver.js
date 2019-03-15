@@ -54,12 +54,12 @@ class Archiver {
           if (err) {
             log.error(`Error while cleaning up: ${JSON.stringify(err)} `)
           } else {
-            const myfiles = files.filter(f => f.startsWith(base)).sort((a, b) => a.localeCompare(b) )
+            const myfiles = files.filter(f => f.startsWith(base)).sort((a, b) => a.localeCompare(b))
             while (myfiles.length > this.num2keep) {
               const file = path.join(this.outdir, myfiles.shift())
               fs.unlink(file, err => {
-                if(err)
-                log.error(`error removing ${file}: ${JSON.stringify(err)}`)
+                if (err)
+                  log.error(`error removing ${file}: ${JSON.stringify(err)}`)
               })
               log.info(`removed ${file}`)
             }
@@ -71,6 +71,26 @@ class Archiver {
         log.warn(`pack exited with error: ${JSON.stringify(err)}`)
         reject(err)
       })
+    })
+  }
+
+  list_files() {
+    return new Promise((resolve, reject) => {
+      fs.readdir(this.outdir, (err, files) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(files)
+      })
+    })
+  }
+
+  list_dates() {
+    return this.list_files().then(files => {
+      const dates = files.map(file => /.+?_(.+?)\.tar.gz/.exec(file)[1])
+      const unique= dates.filter((date, index, self) => self.indexOf(date) === index)
+      const normalized=unique.map(date=>DateTime.fromFormat(date,"yyyy-LL-dd-HHmm").toFormat("dd.LL.yyyy, HH:mm"))
+      return normalized
     })
   }
 }

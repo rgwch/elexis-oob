@@ -51,5 +51,10 @@ router.post("/exec", async (req, res) => {
   }
 })
 
+router.get("/restore", async (req, res) => {
+  const archie = new archiver("/backup", parseInt(req.body.numbackups))
+  const dates=await archie.list_dates()
+  res.render("restore_form",{dates})
+})
 
 module.exports = router

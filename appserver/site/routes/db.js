@@ -27,10 +27,6 @@ router.get("/init", (req, res) => {
   res.render("init_form")
 })
 
-router.get("/restore", (req, res) => {
-  res.render("restore_form")
-})
-
 router.get("/loaddata", (req, res) => {
   res.render("loaddata")
 })
