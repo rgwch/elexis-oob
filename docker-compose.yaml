@@ -5,20 +5,23 @@ services:
     build: ./appserver
     container_name: elx_appserver
     environment:
-      - DBHOST=elexisdb
-      - DBPORT=3306
-      - PUBLIC_DBPORT=3312
+      - DBHOST=${DBHOST}
+      - DBPORT=${DBPORT}
+      - DBNAME=${DBNAME}
+      - DBUSER=${DBUSER}
+      - DBPWD=${DBPWD}
+      - PUBLIC_DBPORT=${PUBLIC_DBPORT}
       - HOST_HOSTNAME=<Server Name>
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
-      - elexisdb:/mnt/elexisdb:ro
-      - lucindadata:/mnt/lucindadata:ro
-      - lucindabase:/mnt/lucindabase:ro
-      - pacsdata:/mnt/pacsdata:ro
+      - elexisdb:/mnt/elexisdb
+      - lucindadata:/mnt/lucindadata
+      - lucindabase:/mnt/lucindabase
+      - pacsdata:/mnt/pacsdata
     restart: always  
     ports:
-      - 3000:3000
+      - ${APPSERVER_PORT}:3000
     depends_on:
       - elexisdb
     labels: 
@@ -30,11 +33,11 @@ services:
     command: --lower-case-table-names=1
     container_name: elx_elexisdb
     environment:
-      - MYSQL_ROOT_PASSWORD=elexisadmin
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PWD}
     volumes: 
       - elexisdb:/var/lib/mysql
     ports:
-      - "3312:3306"
+      - "${PUBLIC_DBPORT}:3306"
     restart: always  
    
   webelexis:
@@ -43,7 +46,7 @@ services:
     volumes:
       - webelexisdata:/home/node/webelexis/data
     ports:
-      - "2019:3030"
+      - "${WEBELEXIS_PORT}:3030"
     depends_on:
       - appserver    
       - elexisdb
@@ -59,7 +62,7 @@ services:
       - lucindadata:/var/lucinda/docs
       - lucindabase:/var/lucinda/base    
     ports: 
-      - "2017:2016"
+      - "${LUCINDA_PORT}:2016"
     restart: always  
 
   samba: 
@@ -75,8 +78,8 @@ services:
     image: sparklyballs/pacs
     container_name: elx_pacs
     ports:
-      - "8101:8080"
-      - "11114:11112"
+      - "${PACS_WEBPORT}:8080"
+      - "${PACS_AETPORT}:11112"
     volumes:
       - pacsdata:/config
     restart: always

@@ -162,10 +162,6 @@ class SqlLoader extends Writable {
   }
 }
 
+
 module.exports = { loadGzipped, loadFromUrlGzipped, mysqlFromUrlGzipped, mysqlFromPlain }
 
-/* test code
-mysqlFromUrlGzipped("http://elexis.ch/ungrad/artikel.sql.gz").then(resp => {
-  console.log(resp)
-})
-*/

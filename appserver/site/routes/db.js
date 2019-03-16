@@ -51,7 +51,7 @@ router.post("/do_initialize", async (req, res) => {
     }
   })
   try {
-    await exec(`CREATE  DATABASE ${cfg.get("dbname")}`)
+    await exec(`CREATE DATABASE ${cfg.get("dbname")}`)
     await exec(`CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
     await exec("flush privileges")
     await exec(`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
