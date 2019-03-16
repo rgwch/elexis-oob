@@ -4,6 +4,7 @@
  ****************************************/
 
 const createError = require('http-errors');
+const https = require('https')
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -14,8 +15,8 @@ const backupRouter = require('./routes/backup')
 const dbRouter = require('./routes/db')
 const busboy = require('connect-busboy')
 const app = express();
-const winston=require('winston')
-winston.level="debug"
+const winston = require('winston')
+winston.level = "debug"
 winston.add(new winston.transports.Console())
 
 // view engine setup
@@ -29,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy({
   highWaterMark: 10 * 1024 * 1024, // Set 10 MiB buffer
-})); 
+}));
 
 
 // configure valid routes

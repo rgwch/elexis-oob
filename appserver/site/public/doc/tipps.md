@@ -13,3 +13,6 @@
     mysql --protocol tcp -u username -ppassword 
     use elexisoob
 
+## Vorgaben ändern
+
+Ports und Namen sind in .env definiert und werden von dort im docker-compose.yaml eingelesen.
