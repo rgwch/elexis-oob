@@ -93,6 +93,14 @@ class Archiver {
       return normalized
     })
   }
+
+  restore(dirname){
+    const expander=zlib.createGunzip()
+
+    return new Promise((resolve,reject)=>{
+      
+    })
+  }
 }
 
 module.exports = Archiver
