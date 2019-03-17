@@ -15,6 +15,7 @@ const backupRouter = require('./routes/backup')
 const dbRouter = require('./routes/db')
 const busboy = require('connect-busboy')
 const session = require('express-session')
+const memstore=require('memorystore')(session)
 const app = express();
 const winston = require('winston')
 const crypto=require('crypto')
@@ -32,7 +33,10 @@ app.use(cookieParser());
 app.use(session({
   secret: crypto.randomBytes(16).toString(),
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new memstore({
+    checkPeriod: 1800000
+  })
 }))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy({

@@ -16,6 +16,7 @@
     "http-errors": "~1.6.2",
     "ip": "^1.1.5",
     "luxon": "^1.11.4",
+    "memorystore": "^1.6.1",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
     "node-fetch": "^2.3.0",
