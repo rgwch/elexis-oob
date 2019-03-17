@@ -5,11 +5,24 @@
 const express = require("express")
 const router = express.Router()
 const cfg = new (require("conf"))()
-require('../utils/dbutils')
+const elxcrypt = require('../utils/elxcrypt')
+const { getConnection, exec } = require('../utils/dbutils')
 
 
 /* GET home page. */
-router.get("/", function(req, res, next) {
+router.get("/", async (req, res, next) => {
+  try {
+    const conn = getConnection(true, true)
+    const admin = await exec(conn, "select * from user_ where is_administrator='1'")
+    if (!req.session.user) {
+      req.session.adm = admin
+      res.render('login')
+      return
+    }
+  } catch (noadmin) {
+    // we're initializing from scratch
+    console.log("no admin")
+  }
   const port = cfg.get("dbport") || 3312
   const hostname = req.hostname
   const dbname = cfg.get("dbname") || "elexisoob"
@@ -23,6 +36,23 @@ router.get("/", function(req, res, next) {
     username,
     password
   })
+})
+
+router.post("/dologin", (req, res, next) => {
+  const uname = req.body.username
+  const pwd = req.body.password
+  const admins = req.session.adm
+  for (const adm of admins) {
+    if (uname.toLowerCase() === adm.id.toLowerCase()) {
+      const crypted = elxcrypt(pwd, adm.salt)
+      if (crypted.hashed == adm.hashed_password) {
+        req.session.user = adm
+        res.redirect("/")
+        return
+      }
+    }
+  }
+  res.render("login", { error: true})
 })
 
 let proc

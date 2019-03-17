@@ -14,8 +14,10 @@ const indexRouter = require('./routes/index');
 const backupRouter = require('./routes/backup')
 const dbRouter = require('./routes/db')
 const busboy = require('connect-busboy')
+const session = require('express-session')
 const app = express();
 const winston = require('winston')
+const crypto=require('crypto')
 winston.level = "debug"
 winston.add(new winston.transports.Console())
 
@@ -27,6 +29,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret: crypto.randomBytes(16).toString(),
+  resave: false,
+  saveUninitialized: false
+}))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy({
   highWaterMark: 10 * 1024 * 1024, // Set 10 MiB buffer
