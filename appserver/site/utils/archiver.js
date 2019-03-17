@@ -98,31 +98,42 @@ class Archiver {
 
   restore(dirname, suffix) {
     const expander = zlib.createGunzip()
-    return new Promise((resolve, reject) => {
-      const base = path.basename(dirname)
+    const base = path.basename(dirname)
+    const inputfile = path.join(this.outdir, base + "_" + suffix + ".tar.gz")
 
-      fs.readdir(dirname, (err, files) => {
-        if (err) {
-          reject(err)
-        }
-        for (const file of files) {
-          rimraf(file, err => {
-            if (err) {
-              reject(err)
-            }
-          })
-        }
-      })
+    return new Promise((resolve, reject) => {
       try {
-        const sourcefile = fs.createReadStream(path.join(this.outdir, base + "_" + suffix + ".tar.gz"))
-        sourcefile.pipe(expander).pipe(tar.extract(dirname))
-        sourcefile.on('end', () => {
-          resolve()
+        fs.accessSync(inputfile, fs.constants.F_OK)
+        fs.readdir(dirname, (err, files) => {
+          if (err) {
+            reject(err)
+          }
+          for (const file of files) {
+            rimraf(file, err => {
+              if (err) {
+                reject(err)
+              }
+            })
+          }
         })
-      } catch (error) {
-        reject(error)
+        try {
+          log.info(`reading ${inputfile}`)
+          const sourcefile = fs.createReadStream(inputfile)
+          sourcefile.pipe(expander).pipe(tar.extract(dirname))
+          sourcefile.on('end', () => {
+            resolve()
+          })
+        } catch (error) {
+          log.error("read error:" + JSON.stringify(error))
+          reject(error)
+        }
+      } catch (err) {
+        log.warn(`File ${inputfile} does not exist. skipping`)
+        resolve(true)
       }
+
     })
+
   }
 }
 

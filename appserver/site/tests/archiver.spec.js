@@ -75,6 +75,7 @@ describe("single pack", () => {
         fs.mkdirSync(path.join(__dirname, "doc"))
         const arc = new archiver(testdir)
         await arc.restore(path.join(__dirname, "doc"), "2019-01-01-1200")
+        await arc.restore(path.join(__dirname,"doc"), "does-not-exist")
     })
 })
 
