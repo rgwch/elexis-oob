@@ -5,6 +5,7 @@
 const express = require("express")
 const router = express.Router()
 const cfg = new (require("conf"))()
+require('../utils/dbutils')
 
 
 /* GET home page. */

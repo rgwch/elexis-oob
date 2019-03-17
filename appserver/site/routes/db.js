@@ -12,15 +12,10 @@ const uuidv4 = require("uuid/v4")
 const initwlx = require("./initwlx")
 const { mysqlFromUrlGzipped, mysqlFromPlain } = require("../utils/loader")
 const log = require('winston')
+const { getConnection, exec } = require('../utils/dbutils')
 
-const DBHOST = process.env.DBHOST || "localhost"
-const DBPORT = process.env.DBPORT || 3312
-cfg.set("dbport", DBPORT)
-cfg.set("dbhost", DBHOST)
-
-let connection
-
-/**
+let conn
+/** 
  * Database management routes (/db/...)
  */
 router.get("/init", (req, res) => {
@@ -34,48 +29,34 @@ router.get("/loaddata", (req, res) => {
  * Initialize DB: First step. Set Database name, mariadb root password, database user and password
  */
 router.post("/do_initialize", async (req, res) => {
-  cfg.clear() // start over
-  cfg.set("dbport", DBPORT)
-  cfg.set("dbhost", DBHOST)
   body2cfg(req.body)
-  connection = mysql.createConnection({
-    host: DBHOST,
-    user: "root",
-    port: DBPORT,
-    password: cfg.get("dbrootpwd")
-  })
-  connection.connect(err => {
+  conn = getConnection(true)
+  conn.connect(err => {
     if (err) {
       res.render("error", { message: "could not connect", error: err })
       return
     }
   })
   try {
-    await exec(`CREATE DATABASE ${cfg.get("dbname")}`)
-    await exec(`CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
-    await exec("flush privileges")
-    await exec(`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
-    await exec(`grant super on *.* to ${cfg.get("dbuser")}@'%'`)
-    connection.end()
+    await exec(conn, `CREATE DATABASE ${cfg.get("dbname")}`)
+    await exec(conn,`CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
+    await exec(conn,"flush privileges")
+    await exec(conn,`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
+    await exec(conn,`grant super on *.* to ${cfg.get("dbuser")}@'%'`)
+    conn.end()
     const response = await prequest.get(
       "https://raw.githubusercontent.com/rgwch/elexis-3-core/ungrad2019/bundles/ch.elexis.core.data/rsc/createDB.script"
     )
     let cr1 = response.replace(/#.*\r?\n/g, "")
     const createdb = cr1.split(";")
-    connection = mysql.createConnection({
-      host: DBHOST,
-      user: cfg.get("dbuser"),
-      port: DBPORT,
-      password: cfg.get("dbpwd"),
-      database: cfg.get("dbname")
-    })
+    conn = getConnection(false)
     for (const stm of createdb) {
       const trimmed = stm.trim()
       if (trimmed.length > 0) {
-        await exec(trimmed)
+        await exec(conn,trimmed)
       }
     }
-    connection.end()
+    conn.end()
     res.render("init_step2")
   } catch (err) {
     res.render("error", { message: "Database error", error: err })
@@ -87,22 +68,16 @@ router.post("/do_initialize", async (req, res) => {
  */
 router.post("/createaccount", async (req, res) => {
   body2cfg(req.body)
-  connection = mysql.createConnection({
-    host: DBHOST,
-    user: cfg.get("dbuser"),
-    port: DBPORT,
-    password: cfg.get("dbpwd"),
-    database: cfg.get("dbname")
-  })
+  conn=getConnection(false)
   try {
     const uid = uuidv4()
-    await exec(`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
+    await exec(conn,`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
   VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','1','0')`)
     const hashes = encrypt(req.body.adminpwd)
-    await exec(`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
+    await exec(conn,`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
   VALUES ('Administrator', '${uid}', '1', '${hashes.salt}', '${hashes.hashed}','0')`)
     const uhashes = encrypt(req.body.userpwd)
-    await exec(`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
+    await exec(conn,`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
     initwlx()
     res.render("success", {
@@ -176,15 +151,6 @@ function body2cfg(parms) {
     cfg.set(key, parms[key])
   }
 }
-function exec(sql) {
-  return new Promise((resolve, reject) => {
-    connection.query(sql, (err, resp, fields) => {
-      if (err) {
-        reject(err)
-      }
-      resolve(resp)
-    })
-  })
-}
+
 
 module.exports = router

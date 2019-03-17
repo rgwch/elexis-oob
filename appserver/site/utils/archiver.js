@@ -91,7 +91,7 @@ class Archiver {
     return this.list_files().then(files => {
       const dates = files.map(file => /.+?_(.+?)\.tar.gz/.exec(file)[1])
       const unique = dates.filter((date, index, self) => self.indexOf(date) === index)
-      const normalized = unique.map(date => DateTime.fromFormat(date, "yyyy-LL-dd-HHmm").toFormat("dd.LL.yyyy, HH:mm"))
+      const normalized = unique.sort().map(date => DateTime.fromFormat(date, "yyyy-LL-dd-HHmm").toFormat("dd.LL.yyyy, HH:mm"))
       return normalized
     })
   }

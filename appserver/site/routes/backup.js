@@ -4,10 +4,6 @@
  ****************************************/
 const express = require("express")
 const router = express.Router()
-const cfg = new (require('conf'))()
-const mysql = require('mysql')
-const HOST = "localhost"
-const PORT = 3312
 const archiver = require('../utils/archiver')
 const log = require('winston')
 const { DateTime } = require('luxon')
@@ -23,13 +19,11 @@ router.get("/settings", (req, res) => {
   res.render("backup")
 })
 
+/**
+ * Depending which button the user pressed, a backup schedule is created or an immediate
+ * Backup is performed
+ */
 router.post("/exec", async (req, res) => {
-  connection = mysql.createConnection({
-    host: HOST,
-    user: "root",
-    port: PORT,
-    password: cfg.get("dbrootpwd")
-  })
   const archie = new archiver(backupdir, parseInt(req.body.numbackups))
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
@@ -41,10 +35,10 @@ router.post("/exec", async (req, res) => {
     }
   } else {
     try {
+      const now = DateTime.local()
+      const suffix = now.toFormat("yyyy-LL-dd-HHmm")
       for (const dir of dirs) {
         log.info("backing up " + dir)
-        const now = DateTime.local()
-        const suffix = now.toFormat("yyyy-LL-dd-HHmm")
         await archie.pack(dir, suffix)
       }
       res.render('success', { header: "Backup ausgeführt", body: "Keine Fehler" })
@@ -74,7 +68,7 @@ router.get("/restore/confirm/:idx", async (req, res) => {
   const dates = await archie.list_dates()
   const index = req.params.idx
   const date = dates[index]
-  const suffix=DateTime.fromFormat(date,"dd.LL.yyyy, HH:mm").toFormat("yyyy-LL-dd-HHmm")
+  const suffix = DateTime.fromFormat(date, "dd.LL.yyyy, HH:mm").toFormat("yyyy-LL-dd-HHmm")
   try {
     for (const dir of dirs) {
       await archie.restore(dir, suffix)
