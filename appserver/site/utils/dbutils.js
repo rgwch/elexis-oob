@@ -31,13 +31,17 @@ if (!cfg.get("dbrootpwd")) {
   cfg.set("dbrootpwd", (process.env.DB_ROOT_PWD || "elexisadmin"))
 }
 
-const getConnection = asRoot => {
-  return mysql.createConnection({
+const getConnection = (asRoot, withDB) => {
+  const options = {
     host: cfg.get("dbhost"),
-    user: asRoot ? "root" : cfg.get("dbuser"),
+    user: (asRoot ? "root" : cfg.get("dbuser")),
     port: cfg.get("dbport"),
-    password: asRoot ? cfg.get("dbrootpwd") : cfg.get("dbpwd")
-  })
+    password: (asRoot ? cfg.get("dbrootpwd") : cfg.get("dbpwd"))
+  }
+  if (withDB) {
+    options.database = cfg.get("dbname")
+  }
+  return mysql.createConnection(options)
 }
 
 const exec = (connection, sql) => {

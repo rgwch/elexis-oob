@@ -30,7 +30,7 @@ router.get("/loaddata", (req, res) => {
  */
 router.post("/do_initialize", async (req, res) => {
   body2cfg(req.body)
-  conn = getConnection(true)
+  conn = getConnection(true,false)
   conn.connect(err => {
     if (err) {
       res.render("error", { message: "could not connect", error: err })
@@ -49,7 +49,7 @@ router.post("/do_initialize", async (req, res) => {
     )
     let cr1 = response.replace(/#.*\r?\n/g, "")
     const createdb = cr1.split(";")
-    conn = getConnection(false)
+    conn = getConnection(false,true)
     for (const stm of createdb) {
       const trimmed = stm.trim()
       if (trimmed.length > 0) {
@@ -68,7 +68,7 @@ router.post("/do_initialize", async (req, res) => {
  */
 router.post("/createaccount", async (req, res) => {
   body2cfg(req.body)
-  conn=getConnection(false)
+  conn=getConnection(false,true)
   try {
     const uid = uuidv4()
     await exec(conn,`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
