@@ -9,10 +9,11 @@ const mysql = require('mysql')
 const HOST = "localhost"
 const PORT = 3312
 const archiver = require('../utils/archiver')
-const { spawn } = require('child_process');
 const log = require('winston')
+const { DateTime } = require('luxon')
 
-const backupdir="/backup"
+
+const backupdir = "/backup"
 /**
  * backup management routes (/backup/..)
  */
@@ -41,7 +42,9 @@ router.post("/exec", async (req, res) => {
     try {
       for (const dir of dirs) {
         log.info("backing up " + dir)
-        await archie.pack(dir)
+        const now = DateTime.local()
+        const suffix = now.toFormat("yyyy-LL-dd-HHmm")
+        await archie.pack(dir, suffix)
       }
       res.render('success', { header: "Backup ausgeführt", body: "Keine Fehler" })
 
@@ -54,19 +57,28 @@ router.post("/exec", async (req, res) => {
 
 router.get("/restore", async (req, res) => {
   const archie = new archiver(backupdir)
-  const dates=await archie.list_dates()
-  res.render("restore_form",{dates})
+  const dates = await archie.list_dates()
+  res.render("restore_form", { dates })
 })
 
-router.get("/restore/:idx",async (req,res) =>{
+router.get("/restore/:idx", async (req, res) => {
   const archie = new archiver(backupdir)
-  const dates=await archie.list_dates()
-  const index=req.params.idx
-  res.render("restore_verify",{date: dates[index], index})
+  const dates = await archie.list_dates()
+  const index = req.params.idx
+  res.render("restore_verify", { date: dates[index], index })
 })
 
-router.get("/restore/confirm/:idx",async (req,res)=>{
-
+router.get("/restore/confirm/:idx", async (req, res) => {
+  const archie = new archiver(backupdir)
+  const dates = await archie.list_dates()
+  const index = req.params.idx
+  const date = dates[index]
+  try {
+    await archie.restore(date)
+    res.render('success', { header: "restore ausgeführt", body: "Sie sollten elexis.oob jetzt neu starten" })
+  } catch (err) {
+    res.render('error', { message: "Fehler beim Restore", error: err })
+  }
 })
 
 module.exports = router

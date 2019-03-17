@@ -10,6 +10,7 @@ const scheduler = require("node-schedule")
 const log = require('winston')
 const zlib = require('zlib')
 const { DateTime } = require('luxon')
+const rimraf = require('rimraf')
 
 class Archiver {
   constructor(outdir, numToKeep) {
@@ -25,8 +26,11 @@ class Archiver {
    */
   schedule(rule, jobs) {
     this.timer = scheduler.scheduleJob(rule, async () => {
+      const now = DateTime.local()
+      // All jobs of the same set must have the same suffix
+      const suffix = now.toFormat("yyyy-LL-dd-HHmm")
       for (const job of jobs) {
-        await this.pack(job)
+        await this.pack(job, suffix)
       }
     })
     return this.timer.nextInvocation()
@@ -36,13 +40,11 @@ class Archiver {
    * @param {*} dirname directory to archive
    * @param {*} numbackups number of archives to keep
    */
-  pack(dirname) {
+  pack(dirname, suffix) {
     const compressor = zlib.createGzip()
 
     return new Promise((resolve, reject) => {
       const base = path.basename(dirname)
-      const now = DateTime.local()
-      const suffix = now.toFormat("yyyy-LL-dd-HHmm")
       const destfile = fs.createWriteStream(path.join(this.outdir, base + "_" + suffix + ".tar.gz"))
       tar
         .pack(dirname)
@@ -88,17 +90,38 @@ class Archiver {
   list_dates() {
     return this.list_files().then(files => {
       const dates = files.map(file => /.+?_(.+?)\.tar.gz/.exec(file)[1])
-      const unique= dates.filter((date, index, self) => self.indexOf(date) === index)
-      const normalized=unique.map(date=>DateTime.fromFormat(date,"yyyy-LL-dd-HHmm").toFormat("dd.LL.yyyy, HH:mm"))
+      const unique = dates.filter((date, index, self) => self.indexOf(date) === index)
+      const normalized = unique.map(date => DateTime.fromFormat(date, "yyyy-LL-dd-HHmm").toFormat("dd.LL.yyyy, HH:mm"))
       return normalized
     })
   }
 
-  restore(dirname){
-    const expander=zlib.createGunzip()
+  restore(dirname, suffix) {
+    const expander = zlib.createGunzip()
+    return new Promise((resolve, reject) => {
+      const base = path.basename(dirname)
 
-    return new Promise((resolve,reject)=>{
-      
+      fs.readdir(dirname, (err, files) => {
+        if (err) {
+          reject(err)
+        }
+        for (const file of files) {
+          rimraf(file, err => {
+            if (err) {
+              reject(err)
+            }
+          })
+        }
+      })
+      try {
+        const sourcefile = fs.createReadStream(path.join(this.outdir, base + "_" + suffix + ".tar.gz"))
+        sourcefile.pipe(expander).pipe(tar.extract(dirname))
+        sourcefile.on('end', () => {
+          resolve()
+        })
+      } catch (error) {
+        reject(error)
+      }
     })
   }
 }

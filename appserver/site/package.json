@@ -22,6 +22,7 @@
     "pug": "2.0.0-beta11",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
+    "rimraf": "^2.6.3",
     "serve-index": "^1.9.1",
     "tar-fs": "^2.0.0",
     "tmp": "0.0.33",
@@ -30,7 +31,6 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
-    "mocha": "^6.0.2",
-    "rimraf": "^2.6.3"
+    "mocha": "^6.0.2"
   }
 }

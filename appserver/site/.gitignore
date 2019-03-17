@@ -63,3 +63,4 @@ typings/
 .DS_Store
 
 tests/output
+tests/doc
