@@ -14,6 +14,8 @@ const { DateTime } = require('luxon')
 
 
 const backupdir = "/backup"
+const dirs = ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]
+
 /**
  * backup management routes (/backup/..)
  */
@@ -28,7 +30,6 @@ router.post("/exec", async (req, res) => {
     port: PORT,
     password: cfg.get("dbrootpwd")
   })
-  const dirs = ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]
   const archie = new archiver(backupdir, parseInt(req.body.numbackups))
   if (req.body.button == "setup") {
     const rule = req.body.minute + " " + req.body.hour + " " + req.body.day + " " + req.body.month + " " + req.body.weekday
@@ -73,8 +74,11 @@ router.get("/restore/confirm/:idx", async (req, res) => {
   const dates = await archie.list_dates()
   const index = req.params.idx
   const date = dates[index]
+  const suffix=DateTime.fromFormat(date,"dd.LL.yyyy, HH:mm").toFormat("yyyy-LL-dd-HHmm")
   try {
-    await archie.restore(date)
+    for (const dir of dirs) {
+      await archie.restore(dir, suffix)
+    }
     res.render('success', { header: "restore ausgeführt", body: "Sie sollten elexis.oob jetzt neu starten" })
   } catch (err) {
     res.render('error', { message: "Fehler beim Restore", error: err })
