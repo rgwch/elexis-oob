@@ -8,21 +8,26 @@ const cfg = new (require("conf"))()
 const elxcrypt = require('../utils/elxcrypt')
 const { getConnection, exec } = require('../utils/dbutils')
 
+router.get("/*", async (req, res, next) => {
+  if (req.session.user) {
+    next()
+  } else {
+    try {
+      const conn = getConnection(true, true)
+      const admin = await exec(conn, "select * from user_ where is_administrator='1'")
+      if (!req.session.user) {
+        req.session.adm = admin
+        res.render('login')
+      }
+    } catch (noadmin) {
+      next()
+    }
+  }
+})
 
 /* GET home page. */
 router.get("/", async (req, res, next) => {
-  try {
-    const conn = getConnection(true, true)
-    const admin = await exec(conn, "select * from user_ where is_administrator='1'")
-    if (!req.session.user) {
-      req.session.adm = admin
-      res.render('login')
-      return
-    }
-  } catch (noadmin) {
-    // we're initializing from scratch
-    console.log("no admin")
-  }
+
   const port = cfg.get("dbport") || 3312
   const hostname = req.hostname
   const dbname = cfg.get("dbname") || "elexisoob"
@@ -52,7 +57,7 @@ router.post("/dologin", (req, res, next) => {
       }
     }
   }
-  res.render("login", { error: true})
+  res.render("login", { error: true })
 })
 
 let proc
