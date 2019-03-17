@@ -26,27 +26,27 @@ Wenn man sich für ein Storage-Konzept wie Amazon S3 interessiert, aber nicht Am
 
 * Noch auf dem Arbeitskomputer ins Verzeichnis /boot der SD-Karte gehen und dort 'touch ssh' eingeben
 
-* Die MikroSD-Karte in den Raspberry Pi einlegen, starten, und sich dann mit `ssh raspberrypi.local` und dem Passwort 'raspberry' einloggen.
+* Die MikroSD-Karte in den Raspberry Pi einlegen, starten, und sich dann mit `ssh raspberry` oder `ssh raspberrypi.local` und dem Passwort 'raspberry' einloggen.
 
-* mit `sudo raspi-config` ins Konfiguationsprobgramm gehen. Dort ein anderes Passwort, einen anderen Hostnamen (ich wähle 'miniopi') wählen, den SSH Server aktivieren, die Locale-Einstellungen auf de_CH UTF8 und die Zeitzone korrekt einstellen. Falls das WLAN-Modul gebraucht wird, auch die WLAN-Landeinstellungen und Zugangsdaten korrekt eingeben.
+* mit `sudo raspi-config` ins Konfiguationsprogramm gehen. Dort ein anderes Passwort, einen anderen Hostnamen (ich wähle 'miniopi') wählen, den SSH Server aktivieren, die Locale-Einstellungen auf de_CH UTF8 und die Zeitzone korrekt einstellen. Falls das WLAN-Modul gebraucht wird, auch die WLAN-Landeinstellungen und Zugangsdaten korrekt eingeben.
 
-* Neu starten und sich dann mit `ssh pi@miniopi.local`und dem vorhin vergebenen Passwort anmelden.
+* Neu starten und sich dann mit `ssh pi@miniopi` oder `ssh pi@miniopi.local`und dem vorhin vergebenen Passwort anmelden.
 
 * `sudo apt-get install git`
 
-* Go herunterladen von: <https://dl.google.com/go/go1.12.1.linux-armv6l.tar.gz> und mit `tar -xzf go1.12.1.linux-armv6l.tar.gz` entpacken. Das so entstandene Verzeichnis go nach /usr/local verschieben und den PATH mit /usr/local/go/bin ergänzen
+* Go herunterladen von: <https://dl.google.com/go/go1.12.1.linux-armv6l.tar.gz> und mit `tar -xzf go1.12.1.linux-armv6l.tar.gz` entpacken. Das so entstandene Verzeichnis go nach /usr/local verschieben und den PATH mit /usr/local/go/bin ergänzen. Bitte nicht versuchen, go mit `apt-get golang`zu installieren, dann bekommt man eine hoffnungslos veraltete Version. Für Minio ist mindestens 1.11 nötig.
 
 * `go get -u github.com/minio/minio`. Dies wird eine ganze Weile dauern. Danach befindet sich das Minio Binary in go/bin/minio
 
-* Externe Festplatte an einen USB-Port des Pi anschliessen (Achtung: Nur begrenzte Leiustungsaufnahme möglich; ggf. an Stromversorgung angeschlossenen USB-Hub dazwischen hängen, oder eine Platte mit eigener Stromversorgung verwenden). Die Platte mit fdisk partitionieren und mit `sudo mkfs -t ext4 /dev/sda1`  formatieren, dann mit `sudo mount /dev/sda1 /mnt`einhängen und mit `sudo chown -R pi.pi /mnt` für Minio beschreibbar machebn.
+* Externe Festplatte an einen USB-Port des Pi anschliessen (Nur begrenzte Leistungsaufnahme möglich; ggf. an Stromversorgung angeschlossenen USB-Hub dazwischen hängen, oder eine Platte mit eigener Stromversorgung verwenden). Die Platte mit fdisk partitionieren und mit `sudo mkfs -t ext4 /dev/sda1`  formatieren, dann mit `sudo mount /dev/sda1 /mnt`einhängen und mit `sudo chown -R pi.pi /mnt` für Minio beschreibbar machebn.
 
-* `export MINIO_ACCESS_KEY=irgendwas && export MINIO_SECRET_KEY=geheimerschluessel && go/bin/minio server /mnt` startet den Server. Man kann die Verw3altungsoberfläche mit dem Browser auf <http://miniopi:9000> erreichen und auf derselben Adresse auch Amazon S3 Datenspeicherungs-APIs verwenden.
+* `export MINIO_ACCESS_KEY=irgendwas && export MINIO_SECRET_KEY=geheimerschluessel && go/bin/minio server /mnt` startet den Server. Man kann die Verwaltungsoberfläche mit dem Browser auf <http://miniopi:9000> erreichen und auf derselben Adresse auch Amazon S3 Datenspeicherungs-APIs verwenden.
 
 Die Leistung eines Raspberry 3B reicht gut für einen Minio-Server, sofern nicht mehr als zwei oder drei Clients gleichzeitig darauf zugreifen. Er ist im LAN immer noch schneller, als ein "echter" Amazon S3, weil der Datentransport natürlich wesentlich schneller ist.
 
 ## Datensicherung mit Restic
 
-[Restic](https://restic.net) ist ein Datensicherungs-Tool, das verschlüsselte versionierbare und verifizierbare Backups erstellen kann, und ztwar auf eine Vielzahl von Zielen, unter Anderem auch Amazon S3 und somit auch Minio.
+[Restic](https://restic.net) ist ein Datensicherungs-Tool, das verschlüsselte versionierte und verifizierbare Backups erstellen kann, und zwar auf eine Vielzahl von Zielen, unter Anderem auch Amazon S3 und somit auch Minio.
 
 Man muss Restic auf dem Computer installieren, von dem aus man das Backup starten bzw. zurückspielen will. Bevor man sichern kann, muss man ein Repository initialiseren:
 
@@ -60,7 +60,7 @@ Danach startet man ein Backup mit `restic backup -r s3:http://miniopi:9000/repos
 
 Das erste Backup wird lang dauern, bei späteren Backups werden dann nur noch die Differenzen gesichert.
 
-Integritätscheck erfolgt mit `restic check -r s3:http://miniopi:9000/repositoryname`, eine Liste aller snapshots bekommt man mit `restic snapshots s3:http://miniopi:9000/repositoryname` und zurückspielen kann man mit `restic restore latest -r s3:http://miniopi:9000/repositoryname --target /hierhin/kopieren`
+Integritätscheck erfolgt mit `restic check -r s3:http://miniopi:9000/repositoryname`, eine Liste aller snapshots bekommt man mit `restic snapshots -r s3:http://miniopi:9000/repositoryname` und zurückspielen kann man mit `restic restore latest -r s3:http://miniopi:9000/repositoryname --target /hierhin/kopieren`
 
 Mit `restic mount /irgend/ein/mountpoint -r s3:http://miniopi:9000/repositoryname` kann man ein Backup Repository als Verzeichnis irgendwo einbinden und darin suchen, Dateien herauskopieren usw (aber nichts verändern).
 
