@@ -10,7 +10,7 @@ Falls Sie schon eine Datenbank erstellt haben, werden Sie stattdessen dieses Bil
 
 ![](../images/oob_einstieg_a.png)
 
-Dies ist ein Schutz, damit Unbefugte keine Manipulationen oder gar Beschädigungen der Daten verüben können. Sie müssen hier Benutzername und Passwort eines Anwenders eingeben, der in Elexis Administratorrechte hat. Falls Sie beim Einrichten einfach immer "weiter" geklickt haben, ist das Administrator/admin. Nachdem Sie die Demo-Datenbank eingelesen haben, ist es test/test. 
+Dies ist ein Schutz, damit Unbefugte keine Manipulationen oder gar Beschädigungen der Daten verüben können. Sie müssen hier Benutzername und Passwort eines Anwenders eingeben, der in Elexis Administratorrechte hat. Falls Sie beim Einrichten einfach immer "ok" oder "weiter" geklickt haben, ist das Administrator/admin. Nachdem Sie die Demo-Datenbank eingelesen haben, ist es test/test. 
 
 Wenn Sie erfolgreich eingeloggt sind, können Sie den folgenden Abschnitt übergehen und gleich bei "Basis Datenbestände einlesen" weitermachen.
 
