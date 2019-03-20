@@ -115,7 +115,7 @@ Wählen Sie im Elexis-OOB Hauptfenster rechts unten die Option 'Daten aus Backup
 
 ![](../images/manage_02.png)
 
-Im linken Feld sehen Sie alle mit OOB erstellten Backups, im rechten Feld haben Sie ausserdem die Möglichkeit, die Elexis-Datanbank (und nur die) aus einer SQL-Datei wiedwerherzustellen, wie sie zum Beispiel mit dem Programm mysqldump erstellt wurde.
+Im linken Feld sehen Sie alle mit OOB erstellten Backups, im rechten Feld haben Sie ausserdem die Möglichkeit, die Elexis-Datanbank (und nur die) aus einer SQL-Datei wiederherzustellen, wie sie zum Beispiel mit dem Programm mysqldump erstellt wurde.
 
 Wir beschränken uns hier auf die OOB Backups. Wenn Sie eines der gezeigten Backups anklicken, erscheint das folgende Bild:
 
