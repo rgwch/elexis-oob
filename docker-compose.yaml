@@ -41,20 +41,21 @@ services:
     restart: always  
    
   webelexis:
-    image: rgwch/webelexis:3.2.0
+    image: rgwch/webelexis:3.2.1
     container_name: elx_webelexis
     volumes:
       - webelexisdata:/home/node/webelexis/data
     ports:
       - "${WEBELEXIS_PORT}:3030"
+      - "${SELFSERVICE_PORT}:4040"
     depends_on:
       - appserver    
       - elexisdb
     restart: always
-    labels:
-      - "traefik.frontend.rule=Host:webelexis.docker.localhost"  
-   
-
+    environment:
+      - VIRTUAL_HOST=${SELFSERVICE_NAME}
+      - VIRTUAL_PORT=${SELFSERVICE_PORT}
+    
   lucinda:
     image: rgwch/lucinda-server:2.1.0
     container_name: elx_lucinda
@@ -83,6 +84,13 @@ services:
     volumes:
       - pacsdata:/config
     restart: always
+  
+  proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"    
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     
    
 volumes:
