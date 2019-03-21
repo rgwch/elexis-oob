@@ -53,6 +53,7 @@ services:
       - elexisdb
     restart: always
     environment:
+      - EXTERNAL_PORT=${WEBELEXIS_PORT}
       - VIRTUAL_HOST=${SELFSERVICE_NAME}
       - VIRTUAL_PORT=${SELFSERVICE_PORT}
     
