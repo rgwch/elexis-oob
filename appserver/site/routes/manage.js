@@ -13,15 +13,16 @@ router.get("/certdef", (req, res) => {
 
 router.post("/certgen", (req, res) => {
     const keys = certgen(req.body)
-    fs.writeFile(`/mnt/webelexisdata/${body.cn}.key`, keys.privateKey, err => {
+    fs.writeFile(`/mnt/webelexisdata/${req.body.cn}.key`, keys.privateKey, err => {
         if (err) {
             res.render("error", { message: "Fehler beim Speichern", error: err })
         } else {
-            fs.writeFile(`/mnt/webelexisdata/${body.cn}.crt`, keys.certificate, err => {
+            fs.writeFile(`/mnt/webelexisdata/${req.body.cn}.crt`, keys.certificate, err => {
                 if (err) {
                     res.render("error", { message: "Fehler beim Speichern", error: err })
                 } else {
-                    res.render("success", { header: "Zertifikat gespeichert", body: "Sie können jetzt mit https:// auf die Seite zugreifen." })
+                    res.render("success", { header: "Zertifikat gespeichert", 
+                    body: `Sie können jetzt mit https://${req.body.cn} auf die Seite zugreifen.` })
                 }
             })
         }
