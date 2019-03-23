@@ -1,7 +1,7 @@
 const forge = require('node-forge')
 
 
-const createSelfSignedKeys = (sitename) => {
+const createSelfSignedKeyCert = attrs => {
     var pki = forge.pki;
 
     // generate a keypair and create an X.509v3 certificate
@@ -14,22 +14,22 @@ const createSelfSignedKeys = (sitename) => {
     cert.validity.notAfter.setFullYear(cert.validity.notBefore.getFullYear() + 1);
     var attrs = [{
         name: 'commonName',
-        value: sitename
+        value: (attrs.cn || "example.com")
     }, {
         name: 'countryName',
-        value: 'CH'
+        value: (attrs.c || "CH")
     }, {
         shortName: 'ST',
-        value: 'Elexikon'
+        value: (attrs.st || "Zürich")
     }, {
         name: 'localityName',
-        value: 'Webelexikon'
+        value: (attrs.l || "Elexikon")
     }, {
         name: 'organizationName',
-        value: 'Webelexis'
+        value: (attrs.o || "Elexis")
     }, {
         shortName: 'OU',
-        value: 'SelfSigned'
+        value: (attrs.ou || "OOB")
     }];
     cert.setSubject(attrs);
     cert.setIssuer(attrs);
@@ -63,10 +63,10 @@ const createSelfSignedKeys = (sitename) => {
         name: 'subjectAltName',
         altNames: [{
             type: 6, // URI
-            value: 'http://example.org/webid#me'
+            value: (attrs.cn || "example.org") 
         }, {
             type: 7, // IP
-            ip: '127.0.0.1'
+            ip: (attrs.ip || '127.0.0.1')
         }]
     }, {
         name: 'subjectKeyIdentifier'
@@ -80,3 +80,5 @@ const createSelfSignedKeys = (sitename) => {
 
     return {privateKey: pk, certificate: pem}
 }
+
+module.exports=createSelfSignedKeyCert

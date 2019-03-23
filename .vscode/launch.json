@@ -7,6 +7,21 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "Mocha 2",
+      "program": "${workspaceFolder}/appserver/site/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-u",
+        "bdd",
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/appserver/site/tests"
+      ],
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "Mocha Tests",
       "program": "${workspaceFolder}/appserver/site/node_modules/.bin/mocha",
       "args": [

@@ -12,13 +12,14 @@ const logger = require('morgan');
 const serveIndex = require('serve-index')
 const indexRouter = require('./routes/index');
 const backupRouter = require('./routes/backup')
+const manageRouter = require('./routes/manage')
 const dbRouter = require('./routes/db')
 const busboy = require('connect-busboy')
 const session = require('express-session')
-const memstore=require('memorystore')(session)
+const memstore = require('memorystore')(session)
 const app = express();
 const winston = require('winston')
-const crypto=require('crypto')
+const crypto = require('crypto')
 winston.level = "debug"
 winston.add(new winston.transports.Console())
 
@@ -48,6 +49,7 @@ app.use(busboy({
 app.use('/', indexRouter);
 app.use("/backup", backupRouter)
 app.use("/db", dbRouter)
+app.use("/manage", manageRouter)
 app.use('/elexis-core', serveIndex('public/core-repository'))
 app.use('/elexis-base', serveIndex('public/base-repository'))
 app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
