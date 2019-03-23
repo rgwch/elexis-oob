@@ -12,6 +12,7 @@ services:
       - DBPWD=${DBPWD}
       - PUBLIC_DBPORT=${PUBLIC_DBPORT}
       - HOST_HOSTNAME=<Server Name>
+      - VIRTUAL_HOST=appserver.localhost
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata

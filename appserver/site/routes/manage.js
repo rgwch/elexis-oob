@@ -13,11 +13,11 @@ router.get("/certdef", (req, res) => {
 
 router.post("/certgen", (req, res) => {
     const keys = certgen(req.body)
-    fs.writeFile('/mnt/webelexisdata/key.pem', keys.privateKey, err => {
+    fs.writeFile(`/mnt/webelexisdata/${body.cn}.key`, keys.privateKey, err => {
         if (err) {
             res.render("error", { message: "Fehler beim Speichern", error: err })
         } else {
-            fs.writeFile("/mnt/webelexisdata/cert.pem", keys.certificate, err => {
+            fs.writeFile(`/mnt/webelexisdata/${body.cn}.crt`, keys.certificate, err => {
                 if (err) {
                     res.render("error", { message: "Fehler beim Speichern", error: err })
                 } else {
