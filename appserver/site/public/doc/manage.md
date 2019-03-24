@@ -139,11 +139,11 @@ Sobald allerdings Zugriff von aussen möglich ist, oder wenn das LAN nicht unter
 
 ### Prinzip
 
-Das Konzept basiert grundsätzlich auf dem Prinzip der asymmetrischen Verschlüsselung, das ursprünglich 1977 von Rivest, Shamir und Adleman entwickelt und nach ihren Anfangsbuchstaben RSA-Verfahren genannt wurde. Dabei hat man einen privaten Schlüssel, den man geheim hält und einen öffentlichen Schlüssel, der allgemein bekannt sein darf. Wenn nun Alphons eine Nachricht an Berta senden will, dann verschlüsselt er diesen mit Bertas öffentlichem Schlüssel. Berta wiederum kann die Nachricht mit ihrem privaten Schlüssel entziffern. Eine zweite Möglichkeit ist folgende: Alphons kann seine Nachricht vor dem Verschlüsseln "signieren". Das bedeutet, er erstellt eine Prüfsumme über die Nachricht und verschlüsselt diese Prüfsumme mit seinem eigenen privaten Schküssel. Dann verschlüsselt er die Nachricht zusammen mit der Signatur mit Bertas öffentlichem Schlüssel. 
+Das Konzept basiert grundsätzlich auf dem Prinzip der asymmetrischen Verschlüsselung, das ursprünglich 1977 von Rivest, Shamir und Adleman entwickelt und nach ihren Anfangsbuchstaben RSA-Verfahren genannt wurde. Dabei hat man einen privaten Schlüssel, den man geheim hält und einen öffentlichen Schlüssel, der allgemein bekannt sein darf bzw. soll. Wenn nun Alphons eine Nachricht an Berta senden will, dann verschlüsselt er diese mit Bertas öffentlichem Schlüssel. Berta wiederum kann die Nachricht mit ihrem privaten Schlüssel entziffern. Eine zweite Möglichkeit ist folgende: Alphons kann seine Nachricht vor dem Verschlüsseln "signieren". Das bedeutet, er erstellt eine Prüfsumme über die Nachricht und verschlüsselt diese Prüfsumme mit seinem eigenen privaten Schküssel. Dann verschlüsselt er die Nachricht zusammen mit der Signatur mit Bertas öffentlichem Schlüssel. 
 
 Diese entschlüsselt sie zunächst mit ihrem eigenen privaten Schlüssel und entschlüsselt anschliessend die Signatur mit Alphons' öffentlichem Schlüssel. Dann bildet sie selber eine Prüfsumme über die Nachricht und kontrolliert, ob diese Prüfsumme dieselbe ist wie das, was in der Signatur steht. Wenn ja, ist die Nachricht garantiert von Alphons - zumindest wenn sicher ist, dass der zur Prüfung verwendete öffentliche Schlüssel wirklich von Alphons stammt. 
 
-Genau hier liegt eine Angreifbarkeit dieses Verfahrens: Wenn Cäsar die Nachrichten zwischen Alphons und Berta abhören will, dann kann er eine "Man in the middle attack" versuchen: Er generiert ein eigenes Schlüsselpaar, und jubelt beiden Partnern jeweils seinen öffentlichen Schlüssel unter. Dann kann er Alphons' Nachricht entschlüsseln, neu signieren und mit Bertas echtem öffentlichen Schlüssel an diese weiterleiten. Sie "meint" Alphons' öffentlichen Schlüssel zu habe, hat aber den von Cäsar und merkt so nicht, dass die Nachrichten abgehört werden.
+Genau hier liegt eine Angreifbarkeit dieses Verfahrens: Wenn Cäsar die Nachrichten zwischen Alphons und Berta abhören will, dann kann er eine "Man in the middle attack" versuchen: Er generiert ein eigenes Schlüsselpaar, und jubelt beiden Partnern jeweils seinen öffentlichen Schlüssel unter. Dann kann er Alphons' Nachricht entschlüsseln, neu signieren und mit Bertas echtem öffentlichen Schlüssel an diese weiterleiten. Sie "meint" Alphons' öffentlichen Schlüssel zu habe, hat aber den von Cäsar und merkt so nicht, dass die Nachrichten abgehört oder sogar gefälscht werden.
 
 
 ### Implementation
@@ -163,7 +163,7 @@ Wichtig ist auch zu wissen, dass die Zertifizierungsstelle nicht etwa die Schlü
  
 In manchen Fällen genügt dieses Ein-Weg-Vertrauen nicht. Manchmal muss auch der Server genauer wissen, wer der Client ist. Dann kann er auch vom Client ein Zertifikat anfordern und überprüfen. Das ist aber nur selten der Fall. Meistens wird der Client einfach über eine Passwortabfrage authentisiert. 
 
-## Zur Sache
+## Verschlüsselung in Elexis OOB
 
 Wie aus Obigem hervorgeht, ist das "Herstellen" eines Schlüsselpaars kein Problem. Damit sind alle Grundlagen gegeben, um Verschlüsselt zu kommunizieren. In Elexis-OOB können Sie für jeden Dienst ein eigenes Schlüsselpaar herstellen. Sie benötigen dazu nur einen eindeutigen Namen für den Dienst. Die Namen sind in der Datei .env im Wurzelverzeichnis von Elexis-OOB festelegt und lauten standardmässig:
 
@@ -183,13 +183,15 @@ Gehen Sie dann auf http://&lt;IhrServer&gt;:3000 und wählen Sie rechts unten im
 
 Wichtig ist an sich nur die erste Zeile. Hier muss der Name des Dienstes so stehen, wie er später im Browser aufgerufen werden soll. Im Beispiel hgier gehen wir davon aus, dass der Elexis-OOB-Server unter dem Namen 'oob.local' im Netzwerk bekannt ist. Häufig ist das nicht der Fall, dann müssen Sie das anpassen, z.B. in 'appserver.brumm' oder 'appserver.&lt;IhrServerName&gt;'. Denselben Namen müssen Sie in der Datei .env in der Zeile APPSERVER_NAME eintragen.
 
-Klicken Sie dann auf 'Erstellen' und gehen Sie für die anderen Dienste gleich vor. Danach müssen Sie OOB mit `docker-compose down --rmi local` und `docker-compose up -d`  neu starten (ACHTUNG: Es genügt <em>nicht</em>, einfach 'docker-compose restart' einzugeben, da die Container nicht nur neu gestartet, sondern mit den neuen Parametern neu erstellt werden müssen).
+Klicken Sie dann auf 'Erstellen' und gehen Sie für die anderen Dienste gleich vor. Danach müssen Sie OOB mit `docker-compose down --rmi local` und `docker-compose up -d`  neu starten. 
 
-Nun können Sie mit `https://appserver.name` verschlüsselt auf den Dienst zugreifen. Allerdings ist der Browser noch immer nicht zufrieden. Je nachdem, welchen Browser Sie verwenden, wird die Warung etwas anders aussehen. Bei Chrome ist es so:
+ACHTUNG: Es genügt <em>nicht</em>, einfach 'docker-compose restart' einzugeben, da die Container nicht nur neu gestartet, sondern mit den neuen Parametern neu erstellt werden müssen.
+
+Nun können Sie mit `https://appserver.name` verschlüsselt auf den Dienst zugreifen. Allerdings ist der Browser noch immer nicht zufrieden. Je nachdem, welchen Browser Sie verwenden, wird die Warnung etwas anders aussehen. Bei Chrome ist es so:
 
 ![](../images/zertifikat_03.png)
 
-Wenn Sie auf das Warnsymbol in der Titelzeole klicken, können Sie sich nähere Informationen zum Zertifikat anzeigen lassen:
+Wenn Sie auf das Warnsymbol in der Titelzeile klicken, können Sie sich nähere Informationen zum Zertifikat anzeigen lassen:
 
 ![](../images/zertifikat_04.png)
 
@@ -204,7 +206,7 @@ Allerdings bleibt unser Server für Chrome höchst suspekt, wie man am roten "Ni
 
 ![](../images/zertifikat_06.png)
 
-Wieso das so ist, sollte nach der Lektüre der Theorie weiter oben klar sein: Chrome kann nicht prüfen, ob das Zertifkat vertrauenswürdig ist, da es nicht von einer vertrauenswürdigen Zertifizierungsstelle signiert wurde (sondern nur von uns selbst). An der QWualität der Verschlüsselung ändert sich dadurch aber natürlich nichts. Die ist durch den Schlüssel gewährleistet, und der Schlüssel ist ja derselbe, egal ob wir ihn offiziell signieren lassen oder selbst signieren. Und da wir wissen, dass das Zertifikat echt ist - wir haben es ja vorhin selbst erstellt - können wir somit die Warnung getrost ignorieren.
+Wieso das so ist, sollte nach der Lektüre der Theorie weiter oben klar sein: Chrome kann nicht prüfen, ob das Zertifkat vertrauenswürdig ist, da es nicht von einer vertrauenswürdigen Zertifizierungsstelle signiert wurde (sondern nur von uns selbst). An der Qualität der Verschlüsselung ändert sich dadurch aber natürlich nichts. Die ist durch den Schlüssel gewährleistet, und der Schlüssel ist ja derselbe, egal ob wir ihn offiziell signieren lassen oder selbst signieren. Und da wir wissen, dass das Zertifikat echt ist - wir haben es ja vorhin selbst erstellt - können wir somit die Warnung getrost ignorieren.
 
 ## Vertrauenswürdige Zertifikate
 
@@ -212,7 +214,7 @@ Trotzdem ist es natürlich unschön, wenn wir jedesmal, wenn wir auf unseren eig
 
 ### Selbstsigniertem Zertifikat das Vertrauen aussprechen
 
-* Manche Browser erlauben, Sicherheitsausnahmen dauerhaft zu speichern, und dann für dasselbe Zertifikat keine Warung mehr auszugeben. 
+* Manche Browser erlauben, Sicherheitsausnahmen dauerhaft zu speichern, und dann für dasselbe Zertifikat keine Warnung mehr auszugeben. 
 
 * Bei manchen Betriebssystemen können Sie manuell das Vertrauen zu einem Zertifikat erklären (bei macOS zum Beispeil mit der Schlüsselverwaltung des Systems)
 
@@ -222,7 +224,7 @@ Trotzdem ist es natürlich unschön, wenn wir jedesmal, wenn wir auf unseren eig
 
 ### Offizielle Zertifikate erwerben/beziehen
 
-Man kann natürlich auch den "offiziellen" Weg gehen. Und der sieht vor, dass man sich die Echtheit eines selbst erstellten Schlüssels von einer derjenigen Stellen zertifizieren lässt, die bei den Browsern bereits als vertrauenswürdig eingebaut sind, oder die selbst von solchen "root-certificastes" zertifiziert sind. Bis vor wenigen Jahren musste man dazu in die Tasche greifen: Zertifikate waren nur im Jahresabo zu haben und kosteten je nach Sicherheitsstufe von einer handvoll Dollars bis einigen hundert Dollars pro Jahr. Mit "Sicherheitsstufe" ist dabei gemeint, wie genau die Zertifizierungsstelle die Echtheit überprüft. Der Broewser zeigt die Sicherheitsstufe eiunes Zertifikats durch die Art des Symbols in der Titelzeile an. Wobei noch einmal widderholt werden muss: Diese Sicherheitsstufe hat nichts mit der Sicherheit der Verschlüsselung zu tun, sondern nur mit der Sicherheit der Identität. In der niedrigesten Stufe muss man nur beweisen, dass man Administratorzugriff auf die  Website hat, die man sichern will, in der höchsten Stufe muss man der Zertifizierungsstelle z.B. einen Ausweis und einen Handelsregisterauszug vorweisen.
+Man kann natürlich auch den "offiziellen" Weg gehen. Und der sieht vor, dass man sich die Echtheit eines selbst erstellten Schlüssels von einer derjenigen Stellen zertifizieren lässt, die bei den Browsern bereits als vertrauenswürdig eingebaut sind, oder die selbst von solchen "root-certificastes" zertifiziert sind. Bis vor wenigen Jahren musste man dazu in die Tasche greifen: Zertifikate waren nur im Jahresabo zu haben und kosteten je nach Sicherheitsstufe von einer handvoll Dollars bis einigen hundert Dollars pro Jahr. Mit "Sicherheitsstufe" ist dabei gemeint, wie genau die Zertifizierungsstelle die Echtheit überprüft. Der Browser zeigt die Sicherheitsstufe eiunes Zertifikats durch die Art des Symbols in der Titelzeile an. Wobei noch einmal widderholt werden muss: Diese Sicherheitsstufe hat nichts mit der Sicherheit der Verschlüsselung zu tun, sondern nur mit der Sicherheit der Identität. In der niedrigesten Stufe muss man nur beweisen, dass man Administratorzugriff auf die  Website hat, die man sichern will, in der höchsten Stufe muss man der Zertifizierungsstelle z.B. einen Ausweis und einen Handelsregisterauszug vorweisen.
 
 Seit einigen Jahren gibt es mit [Let's Encrypt](https://letsencrypt.org) eine Möglichkeit, kostenlos Zertifikate zu beziehen. Man muss dazu nur beweisen, dass man die Website. die man sichern will, manipulieren kann, Das lässt sich ohne weiteres automatisiert machen. Es gibt fertige Docker-Lösungen, die Let's Encrypt Zertifikate anfordern, verwalten und regelmässig erneuern können (Let's Enctypt Zertifikate sind immer nur 3 Monate lang gültig).
 
