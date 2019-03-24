@@ -12,7 +12,7 @@ services:
       - DBPWD=${DBPWD}
       - PUBLIC_DBPORT=${PUBLIC_DBPORT}
       - HOST_HOSTNAME=<Server Name>
-      - VIRTUAL_HOST=appserver.localhost
+      - VIRTUAL_HOST=${APPSERVER_NAME}
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
@@ -66,6 +66,8 @@ services:
       - lucindabase:/var/lucinda/base    
     ports: 
       - "${LUCINDA_PORT}:2016"
+    environment:
+      - VIRTUAL_HOST=${LUCINDA_NAME}  
     restart: always  
 
   samba: 
@@ -85,6 +87,9 @@ services:
       - "${PACS_AETPORT}:11112"
     volumes:
       - pacsdata:/config
+    environment:
+      - VIRTUAL_HOST=${PACS_NAME} 
+      - VIRTUAL_PORT=${PACS_WEBPORT}
     restart: always
   
   proxy:
