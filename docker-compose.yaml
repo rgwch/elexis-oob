@@ -46,7 +46,7 @@ services:
  
    
   webelexis:
-    image: rgwch/webelexis:3.3.0
+    image: rgwch/webelexis:3.3.1
     container_name: elx_webelexis
     volumes:
       - webelexisdata:/home/node/webelexis/data
