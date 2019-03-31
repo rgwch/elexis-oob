@@ -132,80 +132,19 @@ Ausserdem sollten Sie unbedingt sämtliche Elexis- und Webelexis-Clients im Netz
 
 Der restore-Prozess kann einige Zeit dauern.
 
-## Verschlüsselte Verbindung einrichten
+## Zertifikat erstellen und Schlüsselpaar installieren
 
-Standardmässig ist die Verbindung zwischen den einzelnen Services und die Verbindung zwischen den Elexis Clients und der Datenbank unverschlüsselt. An sich ist das nicht unbedingt ein Problem, wenn die Kommunikation ausschliesslich in einem privaten und abgesicherten Netzwerk stattfindet: LAN Kabel sind bauartbedingt kaum abzuhören und richtig konfiguriertes WLAN ist per se bereits sicher verschlüsselt. 
+Die Grundlagen zur verschlüsselten Kommunikation in Elexis-OOB sind in den  Kapiteln [Feinabstimmung](finetune.md) und [TLS/SSL](tls.md) beschrieben. Wenn Sie so wie dort beschrieben vorgegangen sind, können Sie ohne Weiteres direkt mit: `https://webelexis.nuno` verschlüsselt auf Ihre Dienste zugreifen.
 
-Sobald allerdings Zugriff von aussen möglich ist, oder wenn das LAN nicht unter der alleinigen Kontrolle des Praxisinhabers ist, muss der Datenverkehr verschlüsselt werden. Dafür hat sich bereits 1995 ein Protokoll namens SSL (Secure Socker Layer) etabliert, das ab 1999 allmählich von TLS (Transport Layer Security) abgelöst wurde. Trotzdem sprechen viele noch von SSL, was auch nicht weiter schlimm ist, das Konzept der Protokolle ist dasselbe, nur die technische Implementation ist ein wenig unterschiedlich.
-
-Falls Sie sich für eine Zusammenfassung der Grundlagen interessieren, lesen Sie bitte die Seite [TLS/SSL](tls.md)
-
-### Verschlüsselung in Elexis OOB
-
-In Elexis-OOB können Sie für jeden Dienst ein eigenes Schlüsselpaar herstellen. Sie benötigen dazu nur einen eindeutigen Namen für den Dienst. Die Namen sind in der Datei .env im Wurzelverzeichnis von Elexis-OOB festelegt und lauten standardmässig:
-
-* appserver.oob.local für den Anwendungsserver
-
-* webelexis.oob.local für Webelexis
-
-* lucinda.oob.local für das Dokumentnenverwaltungssystem Lucinda
-
-* pacs.oob.local für das Bildverwaltungssystem PACS
-
-* termine.oob.local für das Selbstbedieungs-Terminvergabemodul
-
-Gehen Sie dann auf http://&lt;IhrServer&gt;:3000 und wählen Sie rechts unten im Abschnitt Verwaltung: "Selbstsigniertes Zertifikat erstellen".
+Die Option "Selbstsigniertes Zertifikat" erstellen kann Ihnen helfen, für jeden Dienst ein eigenes Zertifikat zu erstellen, das dann anstelle des Traefik-Standard-Zertifikats angeboten wird:
 
 ![](../images/zertifikat_02.png)
 
-Wichtig ist an sich nur die erste Zeile. Hier muss der Name des Dienstes so stehen, wie er später im Browser aufgerufen werden soll. Im Beispiel hgier gehen wir davon aus, dass der Elexis-OOB-Server unter dem Namen 'oob.local' im Netzwerk bekannt ist. Häufig ist das nicht der Fall, dann müssen Sie das anpassen, z.B. in 'appserver.brumm' oder 'appserver.&lt;IhrServerName&gt;'. Denselben Namen müssen Sie in der Datei .env in der Zeile APPSERVER_NAME eintragen.
+Wichtig ist an sich nur die erste Zeile. Hier muss der Name des Dienstes so stehen, wie er später im Browser aufgerufen werden soll, und wie Sie ihn in [Feinabstimmung](finetune.md) unter "Service Namen" eingerichtet haben. Bei den anderen Zeilen können Sie eingeben, was Sie wollen; der Anwender sieht diese Angaben beim Überprüfen des Zertifikats.
 
-Klicken Sie dann auf 'Erstellen' und gehen Sie für die anderen Dienste gleich vor. Danach müssen Sie OOB mit `docker-compose down --rmi local` und `docker-compose up -d`  neu starten. 
+Klicken Sie dann auf 'Erstellen' und gehen Sie für die anderen Dienste gleich vor. Danach müssen Sie OOB mit `docker-compose stop` und `docker-compose up -d`  neu starten. 
 
 ACHTUNG: Es genügt <em>nicht</em>, einfach 'docker-compose restart' einzugeben, da die Container nicht nur neu gestartet, sondern mit den neuen Parametern neu erstellt werden müssen.
 
-Nun können Sie mit `https://appserver.name` verschlüsselt auf den Dienst zugreifen. Allerdings ist der Browser noch immer nicht zufrieden. Je nachdem, welchen Browser Sie verwenden, wird die Warnung etwas anders aussehen. Bei Chrome ist es so:
-
-![](../images/zertifikat_03.png)
-
-Wenn Sie auf das Warnsymbol in der Titelzeile klicken, können Sie sich nähere Informationen zum Zertifikat anzeigen lassen:
-
-![](../images/zertifikat_04.png)
-
-Sie finden hier exakt die Angaben, die wir vorhin eingetragen haben (Und das ist der Grund, wieso man doch eher aussagekräftigere Angaben machen sollte, als ich in diesem Beispiel)
-
-Wenn man links unten auf den Bitton "Erweitert" klickt, bekommt man dann doch noch eine Chance, zu der "unsicheren" Seite zu surfen:
-
-![](../images/zertifikat_05.png)
-
-
-Allerdings bleibt unser Server für Chrome höchst suspekt, wie man am roten "Nicht sicher" und dem durchgestrichenen 'https' in der Titelzeile sehen kann.
-
-![](../images/zertifikat_06.png)
-
-Wieso das so ist, sollte nach der Lektüre der Theorie weiter oben klar sein: Chrome kann nicht prüfen, ob das Zertifkat vertrauenswürdig ist, da es nicht von einer vertrauenswürdigen Zertifizierungsstelle signiert wurde (sondern nur von uns selbst). An der Qualität der Verschlüsselung ändert sich dadurch aber natürlich nichts. Die ist durch den Schlüssel gewährleistet, und der Schlüssel ist ja derselbe, egal ob wir ihn offiziell signieren lassen oder selbst signieren. Und da wir wissen, dass das Zertifikat echt ist - wir haben es ja vorhin selbst erstellt - können wir somit die Warnung getrost ignorieren.
-
-### Vertrauenswürdige Zertifikate
-
-Trotzdem ist es natürlich unschön, wenn wir jedesmal, wenn wir auf unseren eigenen Server zugreifen, den Browser beruhigen und überreden müssen, uns durchzulassen. Um dieses Problem zu umgehen, gibt es verschiedene Möglichkeiten, die allerdings leider sehr verschieden je nach Betriebssystem und Browser sind. Einige Hinweise:
-
-#### Selbstsigniertem Zertifikat das Vertrauen aussprechen
-
-* Manche Browser erlauben, Sicherheitsausnahmen dauerhaft zu speichern, und dann für dasselbe Zertifikat keine Warnung mehr auszugeben. 
-
-* Bei manchen Betriebssystemen können Sie manuell das Vertrauen zu einem Zertifikat erklären (bei macOS zum Beispeil mit der Schlüsselverwaltung des Systems)
-
-* Bei manchen Betriebssystemem können Sie auch manuell Root-Zertifikate installieren, mit denen Sie eigene Zertifikate signieren und damit das Vertrauen erklären können. Bei Ubuntu zum Beispiel müssen Sie dazu nur das eigene root-Zertifikat nach /usr/local/share/ca_certificates kopieren und dann eingeben `sudo update-ca-certificates`.
-
-* Etwas ausführlichere Erläuterungen zu diesem Problemkreis finden Sie z.B. hier: <https://tarunlalwani.com/post/self-signed-certificates-trusting-them/>
-
-#### Offizielle Zertifikate erwerben/beziehen
-
-Man kann natürlich auch den "offiziellen" Weg gehen. Und der sieht vor, dass man sich die Echtheit eines selbst erstellten Schlüssels von einer derjenigen Stellen zertifizieren lässt, die bei den Browsern bereits als vertrauenswürdig eingebaut sind, oder die selbst von solchen "root-certificastes" zertifiziert sind. Bis vor wenigen Jahren musste man dazu in die Tasche greifen: Zertifikate waren nur im Jahresabo zu haben und kosteten je nach Sicherheitsstufe von einer handvoll Dollars bis einigen hundert Dollars pro Jahr. Mit "Sicherheitsstufe" ist dabei gemeint, wie genau die Zertifizierungsstelle die Echtheit überprüft. Der Browser zeigt die Sicherheitsstufe eiunes Zertifikats durch die Art des Symbols in der Titelzeile an. Wobei noch einmal widderholt werden muss: Diese Sicherheitsstufe hat nichts mit der Sicherheit der Verschlüsselung zu tun, sondern nur mit der Sicherheit der Identität. In der niedrigesten Stufe muss man nur beweisen, dass man Administratorzugriff auf die  Website hat, die man sichern will, in der höchsten Stufe muss man der Zertifizierungsstelle z.B. einen Ausweis und einen Handelsregisterauszug vorweisen.
-
-Seit einigen Jahren gibt es mit [Let's Encrypt](https://letsencrypt.org) eine Möglichkeit, kostenlos Zertifikate zu beziehen. Man muss dazu nur beweisen, dass man die Website. die man sichern will, manipulieren kann, Das lässt sich ohne weiteres automatisiert machen. Es gibt fertige Docker-Lösungen, die Let's Encrypt Zertifikate anfordern, verwalten und regelmässig erneuern können (Let's Enctypt Zertifikate sind immer nur 3 Monate lang gültig).
-
-Voraussetzung ist natürlich, dass der Let's Encrypt Service die zu sichernde Website unter dem zu sichernden Domainnamen erreichen kann. Daher ist diese Lösung für reine Inhouse-Dienste nicht anwendbar.
-
-Das genaue Vorgehen, um Zertifikate von kommerziellen Anbietern oder Let's Encrypt zu beziehen und zu installieren, wäre ausserhalb des Rahmens dieser Anleitung. Im Prinzip müssen Sie die Zertifikate lediglich ins Volume webelexisdata kopieren und OOB neu starten. 
+Wenn Sie Zertifikat und privaten Schlüssel von anderer Stelle bezogen haben, dann können Sie diese mit "Schlüsselpaar installieren" für Elexis-OOB verwendbar machen. Beachten Sie, dass der Name jeweils dem Namen des Dienstes entsprechen muss, und die Endung muss "crt" für das Zertifikart und "key" für den privaten Schlüssel sein. Also etwa 'appserver.nuno.crt' und 'appserver.nuno.key'.
 

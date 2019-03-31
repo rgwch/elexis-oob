@@ -45,14 +45,16 @@ app.use(busboy({
 }));
 
 
+// static routes to repositories
+app.use('/elexis-core', serveIndex('public/core-repository'))
+app.use('/elexis-base', serveIndex('public/base-repository'))
+app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
+
 // configure valid routes
 app.use('/', indexRouter);
 app.use("/backup", backupRouter)
 app.use("/db", dbRouter)
 app.use("/manage", manageRouter)
-app.use('/elexis-core', serveIndex('public/core-repository'))
-app.use('/elexis-base', serveIndex('public/base-repository'))
-app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
 
 // all other routes: forward 404 to error handler
 app.use(function (req, res, next) {

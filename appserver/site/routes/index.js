@@ -8,8 +8,13 @@ const cfg = new (require("conf"))()
 const elxcrypt = require('../utils/elxcrypt')
 const { getConnection, exec } = require('../utils/dbutils')
 
+/**
+ * Validate user if
+ * - no user is logged in
+ * - the path is other than /elexis-* (which is the path to the p2 repositories)
+ */
 router.get("/*", async (req, res, next) => {
-  if (req.session.user) {
+  if (req.session.user || req.path.startsWith("/elexis-")) {
     next()
   } else {
     try {

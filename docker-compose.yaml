@@ -4,6 +4,7 @@ services:
   appserver:
     build: ./appserver
     container_name: elx_appserver
+    hostname: appserver.${LOCAL_NAME}
     environment:
       - DBHOST=${DBHOST}
       - DBPORT=${DBPORT}
@@ -12,7 +13,6 @@ services:
       - DBPWD=${DBPWD}
       - PUBLIC_DBPORT=${PUBLIC_DBPORT}
       - HOST_HOSTNAME=<Server Name>
-      - VIRTUAL_HOST=${APPSERVER_NAME}
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
@@ -26,20 +26,24 @@ services:
     depends_on:
       - elexisdb
     labels: 
-      - "traefik.frontend.rule=Host:elexisapps.docker.localhost"  
+      - "traefik.frontend.rule=Host:appserver.${LOCAL_NAME}"  
  
    
   elexisdb:
     image: mariadb:10.3
     command: --lower-case-table-names=1
     container_name: elx_elexisdb
+    hostname: elexisdb.{$LOCAL_NAME}
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PWD}
     volumes: 
       - elexisdb:/var/lib/mysql
     ports:
       - "${PUBLIC_DBPORT}:3306"
-    restart: always  
+    restart: always
+    labels: 
+      - "traefik.frontend.rule=Host:elexisdb.${LOCAL_NAME}"  
+ 
    
   webelexis:
     image: rgwch/webelexis:3.3.0
@@ -55,20 +59,25 @@ services:
     restart: always
     environment:
       - EXTERNAL_PORT=${WEBELEXIS_PORT}
-      - VIRTUAL_HOST=${SELFSERVICE_NAME}
-      - VIRTUAL_PORT=${SELFSERVICE_PORT}
+    labels:
+      - "traefik.internal.frontend.rule=Host:webelexis.${LOCAL_NAME}"
+      - "traefik.internal.port=3030"
+      - "traefik.external.frontend.rule=Host:termine.${EXTERNAL_NAME}"
+      - "traefik.external.port=4040"  
     
   lucinda:
-    image: rgwch/lucinda-server:2.1.0
+    image: rgwch/lucinda-server:2.1.1
     container_name: elx_lucinda
+    hostname: lucinda.{$LOCAL_NAME}
     volumes:
       - lucindadata:/var/lucinda/docs
       - lucindabase:/var/lucinda/base    
     ports: 
       - "${LUCINDA_PORT}:2016"
-    environment:
-      - VIRTUAL_HOST=${LUCINDA_NAME}  
     restart: always  
+    labels: 
+      - "traefik.frontend.rule=Host:lucinda.${LOCAL_NAME}"  
+ 
 
   samba: 
     build: ./elx-samba
@@ -77,6 +86,7 @@ services:
       - lucinda
     volumes:
       - lucindadata:/mnt/lucinda
+    restart: always
     network_mode: host
           
   pacs:
@@ -87,21 +97,28 @@ services:
       - "${PACS_AETPORT}:11112"
     volumes:
       - pacsdata:/config
-    environment:
-      - VIRTUAL_HOST=${PACS_NAME} 
-      - VIRTUAL_PORT=${PACS_WEBPORT}
     restart: always
+    labels: 
+      - "traefik.ui.frontend.rule=Host:pacs.${LOCAL_NAME}"  
+      - "traefik.ui.port=8080"
+      - "traefik.aet.frontend.rule=Host:aet.${LOCAL_NAME}"
+      - "traefik.aet.port=11112"
+ 
   
   proxy:
-    image: jwilder/nginx-proxy
+    image: traefik
+    command: --api --docker
     container_name: elx_proxy
+    restart: always
     ports:
       - "80:80"    
       - "443:443"
+      - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - webelexisdata:/etc/nginx/certs:ro
-   
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - webelexisdata:/mnt
+
 volumes:
   webelexisdata:
   elexisdb:

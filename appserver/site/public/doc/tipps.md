@@ -19,12 +19,12 @@ Ports und Namen sind in .env definiert und werden von dort im docker-compose.yam
 
 ## SSH Zugriff
 
-Wenn Sie verschlüsselte Kommunikation möchten (was an sich immer empfehlenswert, bei Verbidungen von Aussen sogar zwingend ist), dann sind einige manuelle Eingriffe nötig, da hier nicht alles automatisierbar ist. Ich zeige hier das Vorgehen, um die Selbstbedieunges-Terimvergabe verschlüsselt ablaufen zu lassen.
+Wenn Sie verschlüsselte Kommunikation möchten (was an sich immer empfehlenswert, bei Verbidungen von Aussen sogar zwingend ist), dann sind einige manuelle Eingriffe nötig, da hier nicht alles automatisierbar ist. Ich zeige hier das Vorgehen, um die Selbstbedienungs-Terimvergabe verschlüsselt ablaufen zu lassen.
 
 - Sie benötigen ein Schlüsselpaar. Am einfachsten stellt man es sich selber her, mit `openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes`. Damit erstellt man sich ein Paar aus einem privaten und einem öffentlichen Schlüssel und bestätigt dem öffentlichen Schlüssel selber, dass er echt ist. Das so erstellte Echtheitszertifikat nennt man darum "self signed certificate". Jeder halbwegs vernünftige Browser wird eine Warnung ausspucken, bevor er einem selbstsignierten Zertifikat vertraut. Wichtig ist: Die Warnung betrifft nur die Echtheit. Die Verschlüsselung selber ist genau dieselbe, wie mit einem offiziellen Zertifikat. Und wenn Sie daas Zertifikat selber hergestellt haben, dann wissen Sie ja, dass es echt ist. Trotzdem wird der Browser Sie überflüssigerweise warnen.
-Wenn Sie ddiese Warnung störend finden, können Sie auch ein offizielles Zertifikat machen lassen. Bis vpr Kurzem war ein solches Zertifikat eine relativ teure Sache, heutzutage geht es aber gratis via [Let's Encrypt](https://letsencrypt.org/). Das Vorgehen, um an ein solches Zertifikat zu kommen, ist aber ausserhalb des Anspruchs dieser Anleitung.
+Wenn Sie ddiese Warnung störend finden, können Sie auch ein offizielles Zertifikat machen lassen. Bis vor Kurzem war ein solches Zertifikat eine relativ teure Sache, heutzutage geht es aber gratis via [Let's Encrypt](https://letsencrypt.org/). Das Vorgehen, um an ein solches Zertifikat zu kommen, ist aber ausserhalb des Anspruchs dieser Anleitung.
 
-- Sie müsen dem Proxy mitteilen, wo die Zertifikate gespeichert sind, und ihn anweisen, auch am SSL/TLS Port (443) zu lauschen. Ändern Sie in docker-compose.yaml den Proxy-Block wie folgt:
+- Sie müssen dem Proxy mitteilen, wo die Zertifikate gespeichert sind, und ihn anweisen, auch am SSL/TLS Port (443) zu lauschen. Ändern Sie in docker-compose.yaml den Proxy-Block wie folgt:
 
 ```yaml
 proxy:

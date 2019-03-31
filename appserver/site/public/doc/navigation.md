@@ -12,4 +12,10 @@
 * [Webelexis](webelexis.md)
 * [Lucinda](lucinda.md)
 * [PACS](pacs.md)
+
+[Erweiterungen]()
+
+* [Verständlichere URLs](finetune.md)
+* [Verschlüsselte Verbindung](tls.md)
+* [Let's Encrypt Zertifikat](letsencrypt.md)
 * [Unsortierte Tipps](tipps.md)
