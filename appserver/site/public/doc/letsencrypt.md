@@ -1,6 +1,6 @@
 # Termindienst via Let's Encrypt-Zertifikat absichern
 
-Wenn Sie Ihren Patienten anbieten wollen, selbständig Termine übers Internet zu reservieren, können Sie zum Beispiel den Termin-Service von Webelexis verwenden, der in Elexids-OOB integriert ist. Dazu müssen Sie allerdings eine verschlüsselte und gesicherte Verbindung vom Internet zu Ihrem Elexis-OOB Server herstellen. Wie das geht, zeige ich in diesem Kapitel.
+Wenn Sie Ihren Patienten anbieten wollen, selbständig Termine übers Internet zu reservieren, können Sie zum Beispiel den [Termin-Service von Webelexis](http://www.webelexis.ch/dox/selfschedule.html) verwenden, der in Elexids-OOB integriert ist. Dazu müssen Sie allerdings eine verschlüsselte und gesicherte Verbindung vom Internet zu Ihrem Elexis-OOB Server herstellen. Wie das geht, zeige ich in diesem Kapitel.
 
 Im Kapitel über [TLS/SSL](tls.md) haben Sie gesehen, wie man selbstsignierte Zertifikate erstellt, um verschlüsselte Verbindungen aufzubauen. Sie haben auch gesehen, dass man dabei mit diversen Warnmeldungen der Browser fertig werden muss. Das kann man externen Besuchern natürlich nicht zumuten. Wenn wir einen Termindienst freigeben wollen, dann muss dieser mit einem einwandfreien vertrauenswürdigen Zertifikat abgesichert sein.
 
