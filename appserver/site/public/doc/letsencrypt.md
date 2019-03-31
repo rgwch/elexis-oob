@@ -9,7 +9,7 @@ Die Preise sind sehr unterschiedlich, und ich möchte hier auch nicht weiter dar
 
 Im Folgenden werde ich zeigen, wie man einen Terminvergabe-Dienst für Elexis erstellt und mit einem Let's Encrypt Zertifikat absichert.
 
-Das ist leider nicht ganz trivial. Im Zweifelsfall sollten Sie extrene Beratung beiziehen. Ich zeige hier das Prinzip:
+Das ist leider nicht ganz trivial. Im Zweifelsfall sollten Sie externe Beratung beiziehen. Ich zeige hier das Prinzip:
 
 
 
@@ -18,24 +18,24 @@ Das ist leider nicht ganz trivial. Im Zweifelsfall sollten Sie extrene Beratung 
 
 ### 1: Domain einrichten
 
-Damit Ihre Patienten den Terminservice finden, muss dieser unter einem im Internet bekannten Namen erreichbar sein. Dazu benötigen Sie (1) den Name selbst (Einen sogenannten Domain-Namen, wie etwa 'meine-praxis.ch'), und (2) eine von aussen erreichbare IP-Adresse, die mit diesem Namen verknüpft wird.
+Damit Ihre Patienten den Terminservice finden, muss dieser unter einem im Internet bekannten Namen erreichbar sein. Dazu benötigen Sie (1) den Namen selbst (Einen sogenannten Domain-Namen, wie etwa 'meine-praxis.ch'), und (2) eine von aussen erreichbare IP-Adresse, die mit diesem Namen verknüpft wird.
 
 Den Domain-Namen können Sie auf Jahresmietbasis bei einem Domain-Registrar erwerben. Für Domains, die auf .ch oder .li enden, gehen Sie am Besten zu einem der von Switch autorisierten [Registrare](https://www.nic.ch/de/registrars). Für andere Endungen versuchen Sie es z.B. mit `http://nic.<endung>`, also zum Beispiel <http://nic.info> für eine .info Endung. Da es jeden Namen weltweit nur einmal geben kann, ist es gut möglich, dass Ihre Wunschdomain nicht mehr zu haben ist (meine-praxis.ch werden Sie z.B. nicht mehr reservieren können). Probieren Sie dann, den Namen ein wenig zu variieren (dr-eisenbarts-praxis.ch) oder eine andere Endung zu wählen (obertupfiger-arztpraxis.info).
 
 Im Folgenden gehe ich davon aus, dass Sie eine Domain namens **'meine-praxis.ch'** erworben haben, und dass der Termindienst über 'termine.meine-praxis.ch' erreichbar sein soll.
 
 
-Der nächste Schritt hängt von Ihrer Internet-Anbindung ab, Wenn Sie eine fixe IP haben, können Sie diese IP meist direkt beim Registrar mit Ihrem Dienstnamen (subdomain termine.meine-praxis.ch) vernüpfen. (Prüfen Sie, ob das geht, bevor Sie die Domain bei diesem Registrar kaufen und wählen Sie sonst einen anderen)
+Der nächste Schritt hängt von Ihrer Internet-Anbindung ab, Wenn Sie eine fixe IP haben, können Sie diese IP meist direkt beim Registrar mit Ihrem Dienstnamen (subdomain bzw. CNAME Entry: termine.meine-praxis.ch) vernüpfen. (Prüfen Sie, ob das geht, bevor Sie die Domain bei diesem Registrar kaufen und wählen Sie sonst einen anderen)
 
 Wenn Sie keine fixe IP haben, dann wird sich Ihre Internet-Adresse in mehr oder weniger regelmässigen Abständen ändern. Sie können dann keine feste Verknüpfung zwischen Domain-Namen und IP-Adresse einrichten, sondern benötigen einen "dynDNS" Dienst. Wenn Sie nach dyndns googlen, werden Sie fündig. Ein solcher Dienst verknüpft die jeweils gültige IP-Adresse dynamisch mit einem Domain-Namen. Damit er das tun kann, braucht er Informationen, wenn die IP-Adresse sich ändert. Manche Router haben eine Konfigurationsmöglichkeit für dyndns. Bei der Fritz!Box beispielsweise unter Internet/Freigaben/DynDNS. Am besten wählen Sie dann einen DynDNS Anbieter, den Ihr Router von sich aus unterstützt.
 
 Falls Ihr Router kein DynDNS unterstützt, benötigen Sie auf Ihrem Server ein kleines Programm (einen dyndns-client), das die aktuelle IP-Adresse jeweils meldet. Ein Beispiel wäre: ddclient. 
 
-Richten Sie den DynDNS Dienst so ein, dass er den Namen termine.meine-praxis.ch mit Ihrer IP verknüft.
+Richten Sie den DynDNS Dienst so ein, dass er den Namen termine.meine-praxis.ch mit Ihrer IP verknüpft.
 
 ### 2. Server erreichbar machen
 
-Wenn das alles korrekt eingerichtet ist (Geben Sie dem Internet etwa zehn Minuten Zeit, um Ihren Dienstnamen auf der ganzen Welt bekannt zu machen), sollte Ihr Router aus dem Internet erreichbar sein.
+Wenn das alles korrekt eingerichtet ist (Geben Sie dem Internet etwa zehn Minuten Zeit, um Ihre eben eingetragene Domain auf der ganzen Welt bekannt zu machen), sollte Ihr Router aus dem Internet erreichbar sein.
 
 Versuchen Sie es mit "ping termine.meine-praxis.ch". Es sollte dieselbe IP-Adresse herauskommen, wie wenn Sie zum Beispiel mit <https://www.whatismyip.com/> Ihre öffentliche Adresse nachsehen.
 
@@ -58,7 +58,7 @@ Oder siehe die Website des Certbot.
 
 #### 3a. Schlüsselpaar erstellen und Zertifikat beziehen
 
-* Schalten Sie die Firewall an Ihrem Arbeitscomputer temporär aus. Stoppen Sie einen allfälligen Webserver, wen vorhanden (Port 80 muss frei sein).
+* Schalten Sie die Firewall an Ihrem Arbeitscomputer temporär aus. Stoppen Sie einen allfälligen Webserver, wenn vorhanden (Port 80 muss frei sein).
 
 * Starten Sie: `sudo certbot certonly` une beantworten Sie die Fragen. Die Frage nach der Methode beantworten Sie mit "Spin up temporary webserver", die nach der Domain beantworten Sie in unserem Beispiel mit: termine.meine-praxis.ch. 
 Wenn alles klappt, endet certbot mit "Congratulations!" und einem Text in dem erklärt wird, wo die Zertifikate sind.
@@ -83,7 +83,7 @@ Gehen Sie zu http://nuno:3000 und wählen Sie rechts unten unter Verwaltung: "Sc
 
 ### 4. Schlüssel beim Proxy bekannt machen und fertigstellen
 
-Nun müssen Sie die Datei traefik.toml manuell editieren: Am Ende finden sie folgende Zeilen:
+Nun müssen Sie die Datei traefik.toml im Wurzelverzeichnis von Elexis-OOB manuell editieren: Am Ende finden sie folgende Zeilen:
 
 ```toml
 # Traefik will automagically create a self-signed certificate here
