@@ -31,7 +31,7 @@ services:
    
   elexisdb:
     image: mariadb:10.3
-    command: --lower-case-table-names=1
+    command: --lower-case-table-names=1 --max-allowed-packet=128M
     container_name: elx_elexisdb
     hostname: elexisdb.{$LOCAL_NAME}
     environment:

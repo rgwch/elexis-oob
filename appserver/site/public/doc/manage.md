@@ -146,5 +146,5 @@ Klicken Sie dann auf 'Erstellen' und gehen Sie für die anderen Dienste gleich v
 
 ACHTUNG: Es genügt <em>nicht</em>, einfach 'docker-compose restart' einzugeben, da die Container nicht nur neu gestartet, sondern mit den neuen Parametern neu erstellt werden müssen.
 
-Wenn Sie Zertifikat und privaten Schlüssel von anderer Stelle bezogen haben, dann können Sie diese mit "Schlüsselpaar installieren" für Elexis-OOB verwendbar machen. Beachten Sie, dass der Name jeweils dem Namen des Dienstes entsprechen muss, und die Endung muss "crt" für das Zertifikart und "key" für den privaten Schlüssel sein. Also etwa 'appserver.nuno.crt' und 'appserver.nuno.key'.
+Wenn Sie Zertifikat und privaten Schlüssel von anderer Stelle bezogen haben, dann können Sie diese mit "Schlüsselpaar installieren" für Elexis-OOB verwendbar machen. Beachten Sie, dass der Name jeweils dem Namen des Dienstes entsprechen muss, und die Endung muss "crt" für das Zertifikat und "key" für den privaten Schlüssel sein. Also etwa 'appserver.nuno.crt' und 'appserver.nuno.key'.
 
