@@ -18,4 +18,5 @@
 * [Verständlichere URLs](finetune.md)
 * [Verschlüsselte Verbindung](tls.md)
 * [Let's Encrypt Zertifikat](letsencrypt.md)
+* [Elexis OOB unter Windows](windows.md)
 * [Unsortierte Tipps](tipps.md)

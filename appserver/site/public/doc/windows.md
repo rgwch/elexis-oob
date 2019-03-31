@@ -1,0 +1,25 @@
+# Elexis-OOB unter Windows
+
+Der Elexis OOB-Server fühlt sich am Wohlsten auf einem Linux-Comoputer. Die Clients dürfen selnbstvewrständlich gerne auch Windows-Maschinen sein (und sind es ja in der Realität meist auch).
+
+Wenn man aber wirklich ein Linuc-Verächter ist, kann man den OOB Server auch auf einem Windows-PC installieren. Ich zeige hier kurz das Vorgehen unter Windows-7:
+
+***Systemvoraussetzung: 64-Bit-Version**
+
+* Python 3.6 installieren von <https://www.python.org/ftp/python/3.6.8/python-3.6.8-amd64.exe> Alle Voreinstellungen verwenden und "include python in PATH" ankreuzen.
+* Docker Toolbox installieren von <https://docs.docker.com/toolbox/overview/> (*Nicht* den neueren "Docker Desktop for Windows" holen, der benötigt mindestens Windows 10 Professional) Alle Voreinstellungen belassen.
+* Computer neu starten.
+* Das Docker Quickstart Terminal öffnen (Das wird einige Zeit dauern)
+* Dort eingeben: 
+
+```
+git clone https://github.com/rgwch/elexis-oob
+cd elexis-oob
+docker-compose up -d
+```
+
+Der Build-Vorgang dauerte bei mir  deutlich länger, als auf den Linux- und Mac-Computern (rund 40 Minuten), was aber auch daran liegen kann, dass der Windows-Comoputer, den ich für dieses Experiment ausgrub, schon etliche jahre auf dem Buckel hat.
+
+Wie auch immer: Am Ende lief Elexis-OOB und konnte auch aus dem Netzwerk erreicht werden.
+
+Auf einem Computer mit Windows 10 Professional oder Enterprise müsste Docker noch besser laufen, ich kann  das aber nicht prüfen, weil ich kein solches System habe. Für Rückmeldungen wäre ich dankbar.
