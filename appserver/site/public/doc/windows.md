@@ -2,7 +2,7 @@
 
 Der Elexis OOB-Server fühlt sich am Wohlsten auf einem Linux-Comoputer. Die Clients dürfen selnbstvewrständlich gerne auch Windows-Maschinen sein (und sind es ja in der Realität meist auch).
 
-Wenn man aber wirklich ein Linuc-Verächter ist, kann man den OOB Server auch auf einem Windows-PC installieren. Ich zeige hier kurz das Vorgehen unter Windows-7:
+Wenn man aber wirklich ein Linux-Verächter ist, kann man den OOB Server auch auf einem Windows-PC installieren. Ich zeige hier kurz das Vorgehen unter Windows-7:
 
 ***Systemvoraussetzung: 64-Bit-Version**
 

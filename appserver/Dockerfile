@@ -13,10 +13,10 @@ RUN apt-get update \
     && git clone -b ${BRANCH} https://github.com/rgwch/elexis-ungrad 
 
 WORKDIR /opt/elexis-3-core
-RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs 
+RUN export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m" && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs 
 
 WORKDIR /opt/elexis-3-base
-RUN mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true 
+RUN export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m" && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true 
 
 WORKDIR /opt/elexis-ungrad
 RUN mvn verify
