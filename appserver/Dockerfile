@@ -10,16 +10,15 @@ RUN apt-get update \
     && apt-get install -y git \
     && git clone -b ${BRANCH} https://github.com/rgwch/elexis-3-core \
     && git clone -b ${BRANCH} https://github.com/rgwch/elexis-3-base \
-    && git clone -b ${BRANCH} https://github.com/rgwch/elexis-ungrad 
-
-WORKDIR /opt/elexis-3-core
-RUN export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m" && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs 
-
-WORKDIR /opt/elexis-3-base
-RUN export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m" && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true 
-
-WORKDIR /opt/elexis-ungrad
-RUN mvn verify
+    && git clone -b ${BRANCH} https://github.com/rgwch/elexis-ungrad \
+    && export MAVEN_OPTS="-Xmx1024m" \ 
+    && cd elexis-3-core \
+    && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs \
+    && cd ../elexis-3-base \
+    && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true \
+    && cd ../elexis-ungrad \
+    && mvn verify
+ 
 
 # ------------------------------- end of build stage --------------------------------
 

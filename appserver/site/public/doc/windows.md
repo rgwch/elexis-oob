@@ -4,7 +4,7 @@ Der Elexis OOB-Server fühlt sich am Wohlsten auf einem Linux-Comoputer. Die Cli
 
 Wenn man aber wirklich ein Linux-Verächter ist, kann man den OOB Server auch auf einem Windows-PC installieren. Ich zeige hier kurz das Vorgehen unter Windows-7:
 
-***Systemvoraussetzung: 64-Bit-Version**
+**Systemvoraussetzung: 64-Bit-Version, mindestens 8GB RAM**
 
 * Python 3.6 installieren von <https://www.python.org/ftp/python/3.6.8/python-3.6.8-amd64.exe> Alle Voreinstellungen verwenden und "include python in PATH" ankreuzen.
 * Docker Toolbox installieren von <https://docs.docker.com/toolbox/overview/> (*Nicht* den neueren "Docker Desktop for Windows" holen, der benötigt mindestens Windows 10 Professional) Alle Voreinstellungen belassen.
