@@ -17,54 +17,12 @@
 
 Ports und Namen sind in .env definiert und werden von dort im docker-compose.yaml eingelesen.
 
-## SSH Zugriff
+## SSH Schlüsselpaar erstellen
 
-Wenn Sie verschlüsselte Kommunikation möchten (was an sich immer empfehlenswert, bei Verbidungen von Aussen sogar zwingend ist), dann sind einige manuelle Eingriffe nötig, da hier nicht alles automatisierbar ist. Ich zeige hier das Vorgehen, um die Selbstbedienungs-Terimvergabe verschlüsselt ablaufen zu lassen.
+Das geht über die Appserver-Oberfläche mit dem Menüpunkt Verwaltung->Selbstsigniertes Zertifikat erstellen. Dies wird ein selbstsigniertes Zertifikat unter dem Namen 'name-der-website.crt' und einen privaten Schlüssel mit dem Namen 'name-der-website.key' im Wurzelverzeichnis des Volume 'webelexisdata' erstellen.
 
-- Sie benötigen ein Schlüsselpaar. Am einfachsten stellt man es sich selber her, mit `openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes`. Damit erstellt man sich ein Paar aus einem privaten und einem öffentlichen Schlüssel und bestätigt dem öffentlichen Schlüssel selber, dass er echt ist. Das so erstellte Echtheitszertifikat nennt man darum "self signed certificate". Jeder halbwegs vernünftige Browser wird eine Warnung ausspucken, bevor er einem selbstsignierten Zertifikat vertraut. Wichtig ist: Die Warnung betrifft nur die Echtheit. Die Verschlüsselung selber ist genau dieselbe, wie mit einem offiziellen Zertifikat. Und wenn Sie daas Zertifikat selber hergestellt haben, dann wissen Sie ja, dass es echt ist. Trotzdem wird der Browser Sie überflüssigerweise warnen.
-Wenn Sie ddiese Warnung störend finden, können Sie auch ein offizielles Zertifikat machen lassen. Bis vor Kurzem war ein solches Zertifikat eine relativ teure Sache, heutzutage geht es aber gratis via [Let's Encrypt](https://letsencrypt.org/). Das Vorgehen, um an ein solches Zertifikat zu kommen, ist aber ausserhalb des Anspruchs dieser Anleitung.
-
-- Sie müssen dem Proxy mitteilen, wo die Zertifikate gespeichert sind, und ihn anweisen, auch am SSL/TLS Port (443) zu lauschen. Ändern Sie in docker-compose.yaml den Proxy-Block wie folgt:
-
-```yaml
-proxy:
-    image: jwilder/nginx-proxy
-    container_name: elx_proxy
-    ports:
-      - "80:80"
-      - "443:443"    
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /pfad/zu/zertifikaten:/etc/nginx/certs
-    
-```
-
-- Sie müssen dem Webelexis-Container mitteilen, unter welchem Namen er von aussen erreichbar sein soll. Im Webelexis-Block steht folgendes:
-
-```yaml
-webelexis:
-    image: rgwch/webelexis:3.3.0
-    container_name: elx_webelexis
-    volumes:
-      - webelexisdata:/home/node/webelexis/data
-    ports:
-      - "${WEBELEXIS_PORT}:3030"
-      - "${SELFSERVICE_PORT}:4040"
-    depends_on:
-      - appserver    
-      - elexisdb
-    restart: always
-    environment:
-      - EXTERNAL_PORT=${WEBELEXIS_PORT}
-      - VIRTUAL_HOST=${SELFSERVICE_NAME}
-      - VIRTUAL_PORT=${SELFSERVICE_PORT}
-```
-Sie Variablen sind in der Datei .env definiert. Ändern Sie dort die Variable SELFSERVICE_NAME auf einen Namen, den Sie im Internet kontrollieren können, als eine Domain, die Sie besitzen.
-der Block 'environment' bewirkt, dass der Proxy jede Anfrage, die auf termine.webelexis.ch (resp. was auch immer Sie für einen Domain-Namen gewählt haben) kommt, auf elx_webelexis:4040 umgeleitet wird.
-
-- Sie müssen dem weltweiten DNS-System mitteilen, dass dieser Name auf Ihren Praxis-Server verweist. Dazu brauchen Sie Zugriff auf den DNS-Eintrag Ihres Nameservers - das können Sie üblicherweise über eine Web-Oberfläche Ihres Domain-Providers machen. Häufig wird Ihr Praxis-Server aber keine feste IP haben, dann müssen Sie den Namen auf eine dynamische IP verweisen lassen. Auch diese Erläuterung liegt nicht im Rahmen dieser Kurzanleitung.
-
-
+Wenn Sie mehr Kontrolle über den Prozess benötigen, können Sie das openssl-Programm verwenden:
+`openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes` erstellt einen Schlüssel und ein selbstsigniertes Zertifikat dazu.
 
 ## Minio auf Raspberry Pi
 
