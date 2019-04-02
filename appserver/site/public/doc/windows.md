@@ -1,8 +1,8 @@
 # Elexis-OOB unter Windows
 
-Der Elexis OOB-Server fühlt sich am Wohlsten auf einem Linux-Comoputer. Die Clients dürfen selnbstvewrständlich gerne auch Windows-Maschinen sein (und sind es ja in der Realität meist auch).
+Der Elexis OOB-Server fühlt sich am Wohlsten auf einem Linux-Computer. Die Clients dürfen selbstverständlich gerne auch Windows-Maschinen sein (und sind es ja in der Realität meist auch).
 
-Wenn man aber wirklich ein Linux-Verächter ist, kann man den OOB Server auch auf einem Windows-PC installieren. Ich zeige hier kurz das Vorgehen unter Windows-7:
+Wenn man aber wirklich ein Linux-Verächter ist, kann man den OOB Server auch auf einem Windows-PC zum Laufen bringen. Ich zeige hier kurz das Vorgehen unter Windows-7:
 
 **Systemvoraussetzung: 64-Bit-Version, mindestens 8GB RAM**
 
@@ -20,6 +20,6 @@ docker-compose up -d
 
 Der Build-Vorgang dauerte bei mir  deutlich länger, als auf den Linux- und Mac-Computern (rund 40 Minuten), was aber auch daran liegen kann, dass der Windows-Comoputer, den ich für dieses Experiment ausgrub, schon etliche jahre auf dem Buckel hat.
 
-Wie auch immer: Am Ende lief Elexis-OOB und konnte auch aus dem Netzwerk erreicht werden (Allerdings muss man die Adresse des OOB Hosts mit `docker-machine ip default` herausfinden). Und es läuft alles sehr viel hakeliger, als unter Linux oder macOS.
+Wie auch immer: Am Ende lief Elexis-OOB und konnte auch aus dem Netzwerk erreicht werden (Allerdings muss man die Adresse des OOB Hosts mit `docker-machine ip default` herausfinden). Und es läuft alles sehr viel langsamer und hakeliger, als unter Linux oder macOS. Wirklich empfehlen kann ich es nicht.
 
 Auf einem Computer mit Windows 10 Professional oder Enterprise müsste Docker besser laufen, ich kann  das aber nicht prüfen, weil ich kein solches System habe. Für Rückmeldungen wäre ich dankbar.
