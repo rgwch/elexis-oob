@@ -20,6 +20,6 @@ docker-compose up -d
 
 Der Build-Vorgang dauerte bei mir  deutlich länger, als auf den Linux- und Mac-Computern (rund 40 Minuten), was aber auch daran liegen kann, dass der Windows-Comoputer, den ich für dieses Experiment ausgrub, schon etliche jahre auf dem Buckel hat.
 
-Wie auch immer: Am Ende lief Elexis-OOB und konnte auch aus dem Netzwerk erreicht werden.
+Wie auch immer: Am Ende lief Elexis-OOB und konnte auch aus dem Netzwerk erreicht werden (Allerdings muss man die Adresse des OOB Hosts mit `docker-machine ip default` herausfinden). Und es läuft alles sehr viel hakeliger, als unter Linux oder macOS.
 
-Auf einem Computer mit Windows 10 Professional oder Enterprise müsste Docker noch besser laufen, ich kann  das aber nicht prüfen, weil ich kein solches System habe. Für Rückmeldungen wäre ich dankbar.
+Auf einem Computer mit Windows 10 Professional oder Enterprise müsste Docker besser laufen, ich kann  das aber nicht prüfen, weil ich kein solches System habe. Für Rückmeldungen wäre ich dankbar.
