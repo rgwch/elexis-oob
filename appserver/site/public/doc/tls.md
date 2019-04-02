@@ -33,8 +33,10 @@ In manchen Fällen genügt dieses Ein-Weg-Vertrauen nicht. Manchmal muss auch de
 
 ## Zertifikat-Sicherheit und Warnungen
 
+Ein Sonderfall ist das sogenannte self signed certificate, also ein selbstsigniertes Zertifikat. Das ist ein Zertifikat, das sich selbst bestätigt, vertrauenswürdig zu sein. Was es natürlich idR nicht ist. Ausser, wenn wir es selbst hergestellt, aber aus praktischen oder finanziellen Gründen nicht von einer offiziellen Zertifizierungsstelle absegnen liessem. Genau das geschieht auch, wenn Sie ohne weitere Vorbereitungen wie in [Feinabstimmung-Verschlüsselte Verbindungen](finetune.md) gezeigt, eine https:// Verbindung zu einem Elexis-OOB Dienst aufbauen. Der reverse Proxy von Elexis-OOB stellt dann für Sie ad hoc ein selbstsigniertes Zertifikat her.
 
-Aus obigem sollte nun klar sein, dass das Zertifikat nichts über die Sicherheit der Verschlüsselung aussagt, sondern nur über die Vertrauenswürdigkeit des öffentlichen Schlüssels. Das ist wichtig, um entsprechende Browser-Warnungen zu verstehen. Diese können je nach Betriebssystem und Browsertyp sehr unterschiedlich sein.
+Aus obigem sollte nun aber klar sein, dass das Zertifikat nichts über die Sicherheit der Verschlüsselung aussagt, sondern nur über die Vertrauenswürdigkeit des öffentlichen Schlüssels. 
+Das ist wichtig, um entsprechende Browser-Warnungen zu verstehen. Diese können je nach Betriebssystem und Browsertyp sehr unterschiedlich sein.
 
 Hier beispielsweise die Warnseite von Safari unter macOS:
 
