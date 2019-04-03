@@ -7,6 +7,7 @@ const router = express.Router()
 const cfg = new (require("conf"))()
 const elxcrypt = require('../utils/elxcrypt')
 const { getConnection, exec } = require('../utils/dbutils')
+const jobs = require('../utils/jobs')
 
 /**
  * Validate user if
@@ -44,7 +45,8 @@ router.get("/", async (req, res, next) => {
     port: (process.env.PUBLIC_DBPORT || port),
     dbname,
     username,
-    password
+    password,
+    jobs
   })
 })
 

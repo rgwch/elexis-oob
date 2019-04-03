@@ -14,6 +14,28 @@ Warnung: Mit
     mysql --protocol tcp -u username -ppassword 
     use elexisoob
 
+## Existierende Elexis-Datenbank in OOB einlesen
+
+```bash
+docker-compose up -d
+mysqldump -h localhost -u elexisuser -pelexispwd elexis>elexis-dump.sql
+docker cp elexis-dump.sql elx_elexisdb:/opt/
+docker exec -it elx_elexisdb /bin/bash
+mysql -u root -pelexisadmin
+create database elexis;
+create user elexisuser@'%' identified by 'topsecret';
+grant all on elexis.* to elexisuser;
+create user elexisbackup@'localhost' identified by 'backuppwd';
+grant SUPER on *.* to elexisbackup@'localhost';
+use elexis;
+source /opt/elexis-dump.sql
+exit
+rm /opt/elexis-dump.sql
+exit
+```   
+(Danach braucht die Datenbank selbstverständlich nicht mehr initialisiert zu werden)
+
+
 ## Vorgaben ändern; erweiterte Konfiguration
 
 Ports und Namen sind in .env definiert und werden von dort im docker-compose.yaml eingelesen.

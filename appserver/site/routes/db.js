@@ -13,6 +13,7 @@ const initwlx = require("./initwlx")
 const { mysqlFromUrlGzipped, mysqlFromPlain } = require("../utils/loader")
 const log = require('winston')
 const { getConnection, exec } = require('../utils/dbutils')
+const {addJob, removeJob} = require('../utils/jobs')
 
 let conn
 /** 
@@ -128,21 +129,23 @@ router.post("/loaddata", async (req, res) => {
   }
 })
 
+/**
+ * Load an SQL file into the database
+ */
 router.post("/readsql", async (req, res) => {
   req.pipe(req.busboy)
   req.busboy.on('file', (fieldname, file, filename) => {
     console.log(`Upload of '${filename}' started`);
+    addJob(`${filename} einlesen`,100)
     mysqlFromPlain(file).then(res => {
-      res.render("success", {
-        header: "Fertig",
-        body: "Das Script wurde eingelesen"
-      })
+      removeJob(`${filename} einlesen`)
     }).catch(err => {
       res.render("error", {
         message: "Could not read sql script",
         error: err
       })
     })
+    res.render("success",{header: "Gestartet", body: "Der Prozess wurde gestartet und läuft jetzt im Hintergrund. Sie sehen auf der Hauptseite, wenn er fertig ist."})
   })
 })
 

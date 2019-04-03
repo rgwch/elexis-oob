@@ -72,6 +72,14 @@ function mysqlFromPlain(stream){
       "-p" + cfg.get("dbpwd"),
       dbname
     ])
+    mysql.on('exit',(code,signal)=>{
+      logger.info(`mysql read exited with ${code}, signal ${signal}`)
+      resolve()
+    })
+    mysql.on('error',(err)=>{
+      logger.error("Could not launch mysql "+err)
+      reject(err)
+    })
     mysql.stderr.on("data", data => {
       console.log(data.toString())
     })
@@ -79,7 +87,7 @@ function mysqlFromPlain(stream){
     mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
     stream.pipe(mysql.stdin)
     stream.on("end", () => {
-      resolve()
+      mysql.stdin.write("exit\n")
     })
     stream.on("error", err => {
       reject(err)
