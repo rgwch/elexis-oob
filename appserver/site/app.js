@@ -9,11 +9,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const serveIndex = require('serve-index')
-const indexRouter = require('./routes/index');
-const backupRouter = require('./routes/backup')
-const manageRouter = require('./routes/manage')
-const dbRouter = require('./routes/db')
 const busboy = require('connect-busboy')
 const session = require('express-session')
 const memstore = require('memorystore')(session)
@@ -22,6 +17,12 @@ const winston = require('winston')
 const crypto = require('crypto')
 winston.level = "debug"
 winston.add(new winston.transports.Console())
+winston.info("Appserver running in mode "+process.env.NODE_ENV)
+const serveIndex = require('serve-index')
+const indexRouter = require('./routes/index');
+const backupRouter = require('./routes/backup')
+const manageRouter = require('./routes/manage')
+const dbRouter = require('./routes/db')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

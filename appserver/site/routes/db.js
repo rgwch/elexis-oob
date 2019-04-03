@@ -133,20 +133,21 @@ router.post("/loaddata", async (req, res) => {
  * Load an SQL file into the database
  */
 router.post("/readsql", async (req, res) => {
-  req.pipe(req.busboy)
+  req.busboy.on("finish",()=>{
+    console.log("end")
+  })
   req.busboy.on('file', (fieldname, file, filename) => {
     console.log(`Upload of '${filename}' started`);
     addJob(`${filename} einlesen`,100)
-    mysqlFromPlain(file).then(res => {
+    mysqlFromPlain(file).then(result => {
       removeJob(`${filename} einlesen`)
+      res.render("success",{header: "Gestartet", body: "Der Prozess wurde gestartet und läuft jetzt im Hintergrund. Sie sehen auf der Hauptseite, wenn er fertig ist."})
     }).catch(err => {
-      res.render("error", {
-        message: "Could not read sql script",
-        error: err
-      })
+      log.error(err)
     })
-    res.render("success",{header: "Gestartet", body: "Der Prozess wurde gestartet und läuft jetzt im Hintergrund. Sie sehen auf der Hauptseite, wenn er fertig ist."})
   })
+  req.pipe(req.busboy)
+
 })
 
 function body2cfg(parms) {

@@ -9,8 +9,9 @@ const log = require('winston')
 const { DateTime } = require('luxon')
 
 
-const backupdir = "/backup"
-const dirs = ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"]
+const backupdir = process.env.NODE_ENV==='production' ? "/backup" : "./tests/output"
+const dirs = process.env.NODE_ENV==='production' ? ["/mnt/elexisdb", "/mnt/lucindadata", "/mnt/lucindabase", "/mnt/webelexisdata", "/mnt/pacsdata"] : ['./tests/doc','./tests/doc','./tests/doc','./tests/doc','./tests/doc']
+log.info("Backup module running in mode "+process.env.NODE_ENV)
 
 /**
  * backup management routes (/backup/..)

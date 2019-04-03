@@ -11,9 +11,11 @@ const log = require('winston')
 const zlib = require('zlib')
 const { DateTime } = require('luxon')
 const rimraf = require('rimraf')
+const { addJob, updateJob, removeJob } = require('./jobs')
 
 class Archiver {
   constructor(outdir, numToKeep) {
+    log.debug("Backupdir: "+path.resolve(outdir))
     this.outdir = outdir
     this.num2keep = numToKeep || 99
   }
@@ -30,13 +32,19 @@ class Archiver {
       // All jobs of the same set must have the same suffix
       const suffix = now.toFormat("yyyy-LL-dd-HHmm")
       for (const job of jobs) {
-        await this.pack(job, suffix)
+        const jobname = `Backup ${job}_${suffix}`
+        if (addJob(jobname)) {
+          await this.pack(job, suffix)
+          removeJob(jobname)
+        } else {
+          log.warn("Job is already running. Refuse to restart " + jobname)
+        }
       }
     })
     return this.timer.nextInvocation()
   }
   /**
-   * Archibe a single directory
+   * Archive a single directory
    * @param {*} dirname directory to archive
    * @param {*} numbackups number of archives to keep
    */

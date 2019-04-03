@@ -1,4 +1,5 @@
 let jobs={}
+
 const addJob=(name,totalWork)=>{
     if(jobs[name]){
         return false
@@ -28,3 +29,5 @@ const removeJob=(name)=>{
 const listJobs=()=>{
     return jobs
 }
+
+module.exports={addJob, updateJob, removeJob, listJobs}

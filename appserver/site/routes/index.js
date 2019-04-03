@@ -15,7 +15,7 @@ const jobs = require('../utils/jobs')
  * - the path is other than /elexis-* (which is the path to the p2 repositories)
  */
 router.get("/*", async (req, res, next) => {
-  if (req.session.user || req.path.startsWith("/elexis-")) {
+  if (req.session.user || req.path.startsWith("/elexis-") || process.env.NODE_ENV !== 'production') {
     next()
   } else {
     try {
@@ -46,7 +46,7 @@ router.get("/", async (req, res, next) => {
     dbname,
     username,
     password,
-    jobs
+    runningJobs: jobs.listJobs()
   })
 })
 

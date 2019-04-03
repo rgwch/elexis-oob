@@ -10,6 +10,7 @@ const zlib = require("zlib")
 const logger = require("winston")
 const cfg = new (require("conf"))()
 const { spawn } = require("child_process")
+const fs = require('fs')
 
 /**
  * Fetch a GZipped SQL-File from an URL and load it into the database
@@ -54,9 +55,20 @@ function mysqlFromGZipped(stream) {
     stream.on("error", err => {
       reject(err)
     })
-  }) 
+  })
 }
 
+function mysqlFromPlain(stream) {
+  return new Promise((resolve,reject)=>{
+    const out = fs.createWriteStream("./temp.sql")
+    stream.pipe(out)
+    stream.on("end",()=>{
+      resolve()
+    })
+  })
+ 
+}
+/*
 function mysqlFromPlain(stream){
   return new Promise((resolve, reject) => {
     const dbname=cfg.get("dbname")
@@ -72,28 +84,39 @@ function mysqlFromPlain(stream){
       "-p" + cfg.get("dbpwd"),
       dbname
     ])
+    mysql.on("close",(code,signal)=>{
+      logger.info(`mysql read closed with ${code}, signal ${signal}`)
+    })
     mysql.on('exit',(code,signal)=>{
       logger.info(`mysql read exited with ${code}, signal ${signal}`)
-      resolve()
+      // resolve()
     })
     mysql.on('error',(err)=>{
       logger.error("Could not launch mysql "+err)
       reject(err)
     })
+    mysql.stdout.on("data",chunk=>{
+      logger.info("Mysql output "+chunk)
+    })
     mysql.stderr.on("data", data => {
-      console.log(data.toString())
+      logger.info("Mysql errmsg: "+data.toString())
     })
     mysql.stdin.write("set foreign_key_checks = 0;\n")
     mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
-    stream.pipe(mysql.stdin)
-    stream.on("end", () => {
-      mysql.stdin.write("exit\n")
+    stream.on("data",chunk=>{
+      mysql.stdin.write(chunk.toString("utf-8"))
+      // console.log(chunk.toString("utf-8"))
     })
+    //stream.pipe(mysql.stdin)
     stream.on("error", err => {
       reject(err)
     })
+    stream.on("end",()=>{
+      resolve()
+    })
   })
 }
+*/
 
 function loadFromUrlGzipped(connection, url) {
   return fetch(url)

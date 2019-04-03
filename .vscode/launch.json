@@ -44,6 +44,7 @@
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/appserver/site/bin/www",
+      "cwd": "${workspaceFolder}/appserver/site",
       "outputCapture": "std"
     }
   ]

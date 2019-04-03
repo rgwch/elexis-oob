@@ -43,5 +43,5 @@ RUN npm install \
     && apk --no-cache add mariadb-client \
     && echo elexisapps>/etc/hostname
     
-
+ENV NODE_ENV=production
 ENTRYPOINT [ "npm", "start" ]

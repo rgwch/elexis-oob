@@ -25,7 +25,7 @@ block content
           h2.card-title Restore aus SQL-Datei
           h5.card-subtitle (Nur Elexis-Datenbank)
           .card-text.my-3  Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
-            form(action="/db/readsql" method="post")
+            form(action="/db/readsql" method="post" enctype="multipart/form-data")
               input(type="file" name="file")
               button.btn.btn-primary.btn-small(type="submit") Hochladen
 
