@@ -11,7 +11,7 @@ const addJob=(name,totalWork)=>{
 const updateJob=(name,workDone)=>{
     if(jobs[name]){
         jobs[name]-=workDone;
-        if(jobs[name<=0]){
+        if(jobs[name]<=0){
             delete jobs[name]
             return 0
         }else{
