@@ -12,7 +12,7 @@ const fs = require("fs")
 const initWebelexis = () => {
   defaults = {
     testing: false,
-    sitename: "Praxis Webelexis",
+    sitename: (cfg.get("sitename") || "Praxis Webelexis"),
     adminpwd: cfg.get("adminpwd"),
     mandators: {
       default: {
@@ -36,9 +36,63 @@ const initWebelexis = () => {
     },
     lucinda: {
       url: "http://localhost:2016/lucinda/2.0"
+    },
+    agenda: {
+      resources: ["Arzt", "MPA"],
+      daydefaults: `FS1~#<ASa=A0000-0900
+  1200-2359~#<ADo=A0000-0800
+  1200-1300
+  1700-2359~#<AFr=A0000-0800
+  1200-1300
+  1700-2359~#<AMi=A0000-0800
+  1300-2359~#<ADi=A0000-0900
+  1300-1400
+  1800-2359~#<AMo=A0000-0800
+  1200-1300
+  1700-2359~#<ASo=A0000-2359`,
+      termintypdefaults: ["Frei", "Reserviert", "Normal"],
+      terminstatedefaults: ["-", "geplant", "eingetroffen", "fertig", "abgesagt"],
+      typcolordefaults: {
+        Reserviert: "000000",
+        Frei: "80ff80",
+        Normal: "ff8040"
+      },
+      statecolordefaults: {
+        geplant: "ff8000",
+        eingetroffen: "ff0000",
+        fertig: "008000",
+        abgesagt: "e5e5e5"
+      },
+      timedefaults: {
+        Reserviert: 30,
+        Frei: 30,
+        Normal: 30
+      }
+    },
+    /**
+     * Settings for the self-service scheduling
+     */
+    schedule: {
+      minDuration: 30,
+      terminTyp: "Internet",
+      resource: "Arzt",
+      maxPerDay: 4,
+      sitename: (cfg.get("sitename") || "Praxis Webelexis"),
+      siteaddr: cfg.get("street")+", "+cfg.get("place"),
+      sitephone: cfg.get("phone"),
+      sitemail: cfg.get("email")
+    },
+    /**
+     * Preset for Fall settings
+     */
+
+    fall: {
+      "fallgesetz": "KVG",
+      "fallgrund": "Krankheit",
+      "fallbezeichnung": "Allg.",
     }
   }
-  const str = "module.exports="+JSON.stringify(defaults)
+  const str = "module.exports=" + JSON.stringify(defaults)
   try {
     fs.writeFileSync("/mnt/webelexisdata/settings.js", str)
     fs.mkdirSync("/mnt/webelexisdata/sample-docbase")
