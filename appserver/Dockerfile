@@ -24,7 +24,7 @@ RUN apt-get update \
 
 FROM node:alpine
 LABEL maintainer="weirich@webelexis.ch" \
-      version=1.0 \
+      version="1.0 Beta"\
       description="deploy and manage elexis-oob products"
 
 EXPOSE 3000 

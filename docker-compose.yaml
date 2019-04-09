@@ -13,6 +13,7 @@ services:
       - DBPWD=${DBPWD}
       - PUBLIC_DBPORT=${PUBLIC_DBPORT}
       - HOST_HOSTNAME=<Server Name>
+      - NODE_ENV)production
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
