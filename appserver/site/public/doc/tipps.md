@@ -17,24 +17,24 @@ Warnung: Mit
 ## Existierende Elexis-Datenbank in OOB einlesen
 
 ```bash
-docker-compose up -d
+# existierende Datenbank in dumpfile schreiben
 mysqldump -h localhost -u elexisuser -pelexispwd elexis>elexis-dump.sql
+docker-compose up -d
+# Dann mit localhost:3000 die Datenbank initialisieren, dann:
+docker-compose restart
 docker cp elexis-dump.sql elx_elexisdb:/opt/
 docker exec -it elx_elexisdb /bin/bash
 mysql -u root -pelexisadmin
-create database elexis;
-create user elexisuser@'%' identified by 'topsecret';
-grant all on elexis.* to elexisuser;
+use elexisoob;
 create user elexisbackup@'localhost' identified by 'backuppwd';
 grant SUPER on *.* to elexisbackup@'localhost';
-use elexis;
 source /opt/elexis-dump.sql
 exit
 rm /opt/elexis-dump.sql
 exit
 ```   
-(Danach braucht die Datenbank selbstverständlich nicht mehr initialisiert zu werden)
 
+Wenn Sie danach mit http://nuno:3000 auf die Verwaltungsoberfläche zugreifen, müssen Sie einen Elexis-User mit Administratorrechten der existierenden Datenbank zum Einloggen verwenden. Selbstverständlich sollten Sie jetzt nicht mehr die Datenbank initialisieren oder Basis-Datenbestände einlesen.
 
 ## Vorgaben ändern; erweiterte Konfiguration
 
