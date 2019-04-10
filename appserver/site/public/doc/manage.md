@@ -154,3 +154,4 @@ Hier haben Sie die Möglichkeit, das Verhalten der [Termin-Selbstbedienung](http
 
 ![](../images/selfservice.png)
 
+Hier definieren Sie das Aussehen der Seite, die man bei der Terminreservation zu sehen bekommt. und die Daten des SMTP-Servers, der benötigt wird, um Bestätigungs-Mails zu versenden.
