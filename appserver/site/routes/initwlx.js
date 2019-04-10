@@ -10,11 +10,10 @@ const fs = require("fs")
  * Create initial config for Webelexis
  */
 const initWebelexis = () => {
-  defaults = {
-    testing: false,
-    sitename: (cfg.get("sitename") || "Praxis Webelexis"),
-    adminpwd: cfg.get("adminpwd"),
-    mandators: {
+  const defaults = require('../utils/wlxdefaults')
+  defaults.testing = false,
+    defaults.sitename = (cfg.get("sitename") || "Praxis Webelexis"),
+    defaults.mandators = {
       default: {
         name: cfg.get("title") + " " + cfg.get("firstname") + " " + cfg.get("lastname"),
         subtitle: "Facharzt für Webelexik",
@@ -26,18 +25,18 @@ const initWebelexis = () => {
         gln: cfg.get("gln")
       }
     },
-    docbase: "../data/sample-docbase",
-    elexisdb: {
+    defaults.docbase = "../data/sample-docbase",
+    defaults.elexisdb = {
       host: "elexisdb",
       database: cfg.get("dbname"),
       user: cfg.get("dbuser"),
       password: cfg.get("dbpwd"),
       port: cfg.get("dbport"),
     },
-    lucinda: {
+    defaults.lucinda = {
       url: "http://localhost:2016/lucinda/2.0"
     },
-    agenda: {
+    defaults.agenda = {
       resources: ["Arzt", "MPA"],
       daydefaults: `FS1~#<ASa=A0000-0900
   1200-2359~#<ADo=A0000-0800
@@ -72,13 +71,13 @@ const initWebelexis = () => {
     /**
      * Settings for the self-service scheduling
      */
-    schedule: {
+    defaults.schedule = {
       minDuration: 30,
       terminTyp: "Internet",
       resource: "Arzt",
       maxPerDay: 4,
       sitename: (cfg.get("sitename") || "Praxis Webelexis"),
-      siteaddr: cfg.get("street")+", "+cfg.get("place"),
+      siteaddr: cfg.get("street") + ", " + cfg.get("place"),
       sitephone: cfg.get("phone"),
       sitemail: cfg.get("email")
     },
@@ -86,12 +85,12 @@ const initWebelexis = () => {
      * Preset for Fall settings
      */
 
-    fall: {
+    defaults.fall = {
       "fallgesetz": "KVG",
       "fallgrund": "Krankheit",
       "fallbezeichnung": "Allg.",
     }
-  }
+
   const str = "module.exports=" + JSON.stringify(defaults)
   try {
     fs.writeFileSync("/mnt/webelexisdata/settings.js", str)

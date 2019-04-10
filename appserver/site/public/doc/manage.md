@@ -148,3 +148,9 @@ ACHTUNG: Es genügt <em>nicht</em>, einfach 'docker-compose restart' einzugeben,
 
 Wenn Sie Zertifikat und privaten Schlüssel von anderer Stelle bezogen haben, dann können Sie diese mit "Schlüsselpaar installieren" für Elexis-OOB verwendbar machen. Beachten Sie, dass der Name jeweils dem Namen des Dienstes entsprechen muss, und die Endung muss "crt" für das Zertifikat und "key" für den privaten Schlüssel sein. Also etwa 'appserver.nuno.crt' und 'appserver.nuno.key'.
 
+## Termine-Selbstbedienung konfigurieren
+
+Hier haben Sie die Möglichkeit, das Verhalten der [Termin-Selbstbedienung](http://www.webelexis.ch/dox/selfschedule.html) zu steuern. Die grundsätzliche Einrichtung ist [hier](https://elexis.ch/oob/doc/#!letsencrypt.md) und [hier](http://webelexis.ch/dox/selfschedule.html) beschrieben. 
+
+![](../images/selfservice.png)
+
