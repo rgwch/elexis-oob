@@ -4,7 +4,7 @@
 
 Datensicherung ist nie überflüssig. Jede Computer-Festplatte wird irgendwann defekt sein. Leider weiss man nicht wann. Die Ausfallrate ist am Anfang relativ hoch (wegen Produktionsfehlern), sinkt dann auf sehr geringe Werte ab und steigt ab etwa dem dritten Jahr wieder an. Die Datenspeicherungs-Firma Backblaze gibt regelmässig Lebensdauerwerte ihrer derzeit rund 100000 Festplatten an: <https://www.backblaze.com/blog/2018-hard-drive-failure-rates/>. Die durchschnittliche jährliche Ausfallrate wird mit rund 1.7% errechnet, wobei die Firma ihre Platten jeweils nach etwa 4 Jahren austauscht. 
 
-Bei SSDs gibt es naturgemäss noch weniger Daten, als bei magnetischen Festplatten, aber es ist bekannt, dass jede SSD-Spüeicherzelle nur eine limitierte Zahl von Schreibvorgängen aushält (die allerdings immerhin wesentlich grösser ist, als früher angenommen).
+Bei SSDs gibt es naturgemäss noch weniger Daten, als bei magnetischen Festplatten, aber es ist bekannt, dass jede SSD-Speicherzelle nur eine limitierte Zahl von Schreibvorgängen aushält (die allerdings immerhin wesentlich grösser ist, als früher angenommen).
 
 Wie auch immer: Das Prinzip Hoffnung ist verkehrt, wenn es um wichtige Daten geht. Und es nützt auch nicht viel, ein RAID statt einer einzelnen Platte zu verwenden. Einige Überlegungen dazu habe ich [hier](http://rgwch.github.io/2015/09/datensicherheit) zusammengefasst.
 
@@ -118,7 +118,7 @@ echo pacs resticed >>$log
 
 
 ```` 
-#### Zahl der aufzubewahrenden Dantenbank-Backups limitieren
+#### Zahl der aufzubewahrenden Datenbank-Backups limitieren
 
 ````
 #! /bin/bash
@@ -162,7 +162,7 @@ rsync -a /srv/repositories ${dest}/pxserv/srv
 rsync -a /srv/public ${dest}/pxserv/srv
 rsync -a /srv/lucinda ${dest}/pxserv/srv
 
-mount -t cifs //192.168.0.99/pxbackup -o credentials=/root/backupcred,vers=1.0 /mnt/backup
+mount -t cifs //192.168.17.121/backup -o credentials=/root/bcred,vers=1.0 /mnt/backup
 rsync -a --exclude={"system/*","snapshots/*"} ${dest}/ /mnt/backup/usb4tback/
 umount /mnt/backup
 ````
