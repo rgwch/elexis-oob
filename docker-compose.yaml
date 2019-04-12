@@ -86,8 +86,8 @@ services:
       - lucindadata:/mount
     command: >
       -w WORKGROUP
-      -s "elexisfiles;/mount;yes;no;yes" 
-      -u "elexisuser;elexis"
+      -s "elexisdata;/mount;yes;no;yes" 
+      -u "${FILEUSER};${FILEPWD}"
       -p 
     ports:
       - 139:139
