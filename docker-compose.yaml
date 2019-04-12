@@ -79,16 +79,19 @@ services:
     labels: 
       - "traefik.frontend.rule=Host:lucinda.${LOCAL_NAME}"  
  
-
-  samba: 
-    build: ./elx-samba
+  samba:
+    image: dperson/samba
     container_name: elx_samba
-    depends_on:
-      - lucinda
     volumes:
-      - lucindadata:/mnt/lucinda
-    restart: always
-    network_mode: host
+      - lucindadata:/mount
+    command: >
+      -w WORKGROUP
+      -s "elexisfiles;/mount;yes;no;yes" 
+      -u "elexisuser;elexis"
+      -p 
+    ports:
+      - 139:139
+      - 445:445
           
   pacs:
     image: sparklyballs/pacs
