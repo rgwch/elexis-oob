@@ -57,39 +57,48 @@ function mysqlFromGZipped(stream) {
   })
 }
 
-async function mysqlFromChunks(basename,totalchunks) {
-  const jobname = "Einlesen: " + path.basename(basename)
-  const dbname=cfg.get("dbname")
-  jobs.addJob(jobname,totalchunks)
-  const mysql = spawn("mysql", [
-    "-h",
-    cfg.get("dbhost"),
-    "--protocol",
-    "tcp",
-    "-P",
-    cfg.get("dbport"),
-    "-u",
-    cfg.get("dbuser"),
-    "-p" + cfg.get("dbpwd"),
-    dbname
-  ])
-  mysql.stderr.on("data", data => {
-    console.log(data.toString())
+function mysqlFromChunks(basename, totalchunks) {
+  return new Promise(async (resolve, reject) => {
+    const jobname = "Einlesen: " + path.basename(basename)
+    const dbname = cfg.get("dbname")
+    jobs.addJob(jobname, totalchunks)
+    const mysql = spawn("mysql", [
+      "-h",
+      cfg.get("dbhost"),
+      "--protocol",
+      "tcp",
+      "-P",
+      cfg.get("dbport"),
+      "-u",
+      cfg.get("dbuser"),
+      "-p" + cfg.get("dbpwd"),
+      dbname
+    ])
+    mysql.stderr.on("data", data => {
+      console.log(data.toString())
+    })
+
+    mysql.stdin.write("set foreign_key_checks = 0;\n")
+    mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
+    for (let i = 1; i <= totalchunks; i++) {
+      const stream = fs.createReadStream(basename + i)
+      await readChunk(stream, mysql.stdin)
+      jobs.updateJob(jobname, 1)
+      fs.unlink(basename + i, err => {
+        if (err) {
+          console.log("Could not delete " + basename + i)
+        }
+      })
+    }
+    mysql.stdin.end()
+    jobs.removeJob(jobname)
+    resolve()
   })
-  mysql.stdin.write("set foreign_key_checks = 0;\n")
-  mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
-  let chunknumber = "1"
-  while (fs.existsSync(basename + chunknumber)) {
-    const stream = fs.createReadStream(basename + chunknumber)
-    await(readChunk(stream,mysql.stdin))
-    jobs.updateJob(jobname,1)
-  }
-  jobs.removeJob(jobname)
 }
 
 function readChunk(instream, outstream) {
   return new Promise((resolve, reject) => {
-    instream.pipe(outstream)
+    instream.pipe(outstream, { end: false })
     instream.on("end", () => {
       resolve()
     })
@@ -99,16 +108,6 @@ function readChunk(instream, outstream) {
   })
 }
 
-function mysqlFromPlain(stream) {
-  return new Promise((resolve, reject) => {
-    const out = fs.createWriteStream("./temp.sql")
-    stream.pipe(out)
-    stream.on("end", () => {
-      resolve()
-    })
-  })
-
-}
 /*
 function mysqlFromPlain(stream){
   return new Promise((resolve, reject) => {

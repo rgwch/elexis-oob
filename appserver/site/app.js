@@ -80,14 +80,23 @@ app.get('/fileid', function (req, res) {
 
 // Handle uploads through Resumable.js
 app.post('/upload', function (req, res) {
-  let total = 0
-  resumable.post(req, function (status, filename, original_filename, identifier) {
-    // console.log('POST', status, original_filename, identifier);
-    total++
+
+  resumable.post(req, function (status, filename, original_filename, identifier, total) {
+    console.log('app-POST', status, original_filename, total);
     res.send(status);
     if (status === "done") {
-      mysqlFromChunks(resumable.baseFilename(identifier), total)
+      try {
+        console.log("done")
+        mysqlFromChunks(resumable.baseFilename(identifier), total).then(()=>{
+          console.log("finished")
+        }).catch(err=>{
+          console.log("catched err"+err)
+        })
+      } catch (err) {
+        console.log(err)
+      }
     }
+    
   });
 });
 
