@@ -51,6 +51,13 @@ app.use('/elexis-core', serveIndex('public/core-repository'))
 app.use('/elexis-base', serveIndex('public/base-repository'))
 app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
 
+// static route to resumable script
+app.get('/resumable.js', function (req, res) {
+  var fs = require('fs');
+  res.setHeader("content-type", "application/javascript");
+  fs.createReadStream("./utils/resumable.js").pipe(res);
+});
+
 // configure valid routes
 app.use('/', indexRouter);
 app.use("/backup", backupRouter)
