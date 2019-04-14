@@ -4,7 +4,6 @@
  ****************************************/
 
 const createError = require('http-errors');
-const https = require('https')
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -17,14 +16,16 @@ const winston = require('winston')
 const crypto = require('crypto')
 winston.level = "debug"
 winston.add(new winston.transports.Console())
-winston.info("Appserver running in mode "+process.env.NODE_ENV)
+winston.info("Appserver running in mode " + process.env.NODE_ENV)
 const serveIndex = require('serve-index')
 const indexRouter = require('./routes/index');
 const backupRouter = require('./routes/backup')
 const manageRouter = require('./routes/manage')
 const dbRouter = require('./routes/db')
-const tmpdir=require('os').tmpdir()
-const resumable=require("./utils/resumable-node")(tmpdir+"/resumable.tmp")
+const tmpdir = require('os').tmpdir()
+var multipart = require('connect-multiparty');
+const resumable = require("./utils/resumable-node")(tmpdir + "/resumable.tmp")
+const { mysqlFromChunks } = require('./utils/loader')
 
 
 // view engine setup
@@ -32,6 +33,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(logger('dev'));
+app.use(multipart());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -54,12 +57,6 @@ app.use('/elexis-core', serveIndex('public/core-repository'))
 app.use('/elexis-base', serveIndex('public/base-repository'))
 app.use('/elexis-ungrad', serveIndex('public/ungrad-repository'))
 
-// static route to resumable script
-app.get('/resumable.js', function (req, res) {
-  var fs = require('fs');
-  res.setHeader("content-type", "application/javascript");
-  fs.createReadStream("./utils/resumable.js").pipe(res);
-});
 
 // configure valid routes
 app.use('/', indexRouter);
@@ -69,33 +66,37 @@ app.use("/manage", manageRouter)
 
 // routes for large file upload
 // retrieve file id. invoke with /fileid?filename=my-file.jpg
-app.get('/fileid', function(req, res){
-  if(!req.query.filename){
+app.get('/fileid', function (req, res) {
+  if (!req.query.filename) {
     return res.status(500).end('query parameter missing');
   }
   // create md5 hash from filename
   res.end(
     crypto.createHash('md5')
-    .update(req.query.filename)
-    .digest('hex')
+      .update(req.query.filename)
+      .digest('hex')
   );
 });
 
 // Handle uploads through Resumable.js
-app.post('/upload', function(req, res){
-    resumable.post(req, function(status, filename, original_filename, identifier){
-        console.log('POST', status, original_filename, identifier);
-
-        res.send(status);
-    });
+app.post('/upload', function (req, res) {
+  let total = 0
+  resumable.post(req, function (status, filename, original_filename, identifier) {
+    // console.log('POST', status, original_filename, identifier);
+    total++
+    res.send(status);
+    if (status === "done") {
+      mysqlFromChunks(resumable.baseFilename(identifier), total)
+    }
+  });
 });
 
 // Handle status checks on chunks through Resumable.js
-app.get('/upload', function(req, res){
-    resumable.get(req, function(status, filename, original_filename, identifier){
-        console.log('GET', status);
-        res.send((status == 'found' ? 200 : 404), status);
-    });
+app.get('/upload', function (req, res) {
+  resumable.get(req, function (status, filename, original_filename, identifier) {
+    // console.log('GET', status);
+    res.send((status == 'found' ? 200 : 404), status);
+  });
 });
 
 

@@ -63,6 +63,7 @@ module.exports = resumable = function (temporaryFolder) {
         return 'valid';
     }
 
+
     //'found', filename, original_filename, identifier
     //'not_found', null, null, null
     $.get = function (req, callback) {
@@ -86,22 +87,24 @@ module.exports = resumable = function (temporaryFolder) {
         }
     }
 
+    $.baseFilename = function (identifier) {
+        return getChunkFilename("", identifier)
+    }
     //'partly_done', filename, original_filename, identifier
     //'done', filename, original_filename, identifier
     //'invalid_resumable_request', null, null, null
     //'non_resumable_request', null, null, null
     $.post = function (req, callback) {
 
-        var fields = req.body;
-        var files = req.files;
+        const fields = req.body;
+        const files = req.files;
 
-        var chunkNumber = fields['resumableChunkNumber'];
-        var chunkSize = fields['resumableChunkSize'];
-        var totalSize = fields['resumableTotalSize'];
-        var identifier = cleanIdentifier(fields['resumableIdentifier']);
-        var filename = fields['resumableFilename'];
-
-        var original_filename = fields['resumableIdentifier'];
+        const chunkNumber = fields['resumableChunkNumber'];
+        const chunkSize = fields['resumableChunkSize'];
+        const totalSize = fields['resumableTotalSize'];
+        const identifier = cleanIdentifier(fields['resumableIdentifier']);
+        const filename = fields['resumableFilename'];
+        const original_filename = fields['resumableIdentifier'];
 
         if (!files[$.fileParameterName] || !files[$.fileParameterName].size) {
             callback('invalid_resumable_request', null, null, null);

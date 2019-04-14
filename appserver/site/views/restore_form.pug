@@ -1,6 +1,9 @@
 extends layout
 
 block content
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js")
+  script(src="/javascripts/resumable.js")
+  
   .container
 
     h1.h1 Daten wiederherstellen
@@ -25,12 +28,30 @@ block content
           h2.card-title Restore aus SQL-Datei
           h5.card-subtitle (Nur Elexis-Datenbank)
           .card-text.my-3  Wenn das Backup von einem mysql-Backup (z.B. mysqldump) erstellt wurde, wählen Sie die entsprechende .sql - Datei:
-            a(href="/backup/largefile") Upload
-  //-
-            form(action="/db/readsql" method="post" enctype="multipart/form-data")
-              input(type="file" name="file")
-              button.btn.btn-primary.btn-small(type="submit") Hochladen
+            .resumable-error.
+              Ihr Browser unterstützt den Dateiupload nicht. Empfohlen sind: Chrome, Firefox oder Safari.
+            .resumable-drop
+              p Ziehen Sie die SQL Datei hierher oder 
+                a.resumable-browse 
+                  u wählen Sie eine SQL-Datei
+                          
+            .resumable-progress
+              table
+                tr
+                  td(width="100%")
+                    .progress-container
+                      .progress-bar
+                  td.progress-text(nowrap="nowrap")
+                  td.progress-pause(nowrap="nowrap")    
+                    a.progress-resume-link(href="#" onclick="r.upload(); return(false);")
+                        img(src="/images/resume.png" title="Upload fortsetzen")
+                    a.progress-pause-link(href="#" onclick="r.pause(); return(false);")
+                        img(src="/images/pause.png" title="Upload pausieren")
+                    a.progress-cancel-link(href="#" onclick="r.cancel(); return(false);")
+                        img(src="/images/cancel.png" title="Upload abbrechen")    
+            .resumable-list
 
+            script(src="/javascripts/handle_resumable.js")
     
     .row
       p(style="margin-top:20px;")

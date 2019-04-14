@@ -11,7 +11,8 @@ const logger = require("winston")
 const cfg = new (require("conf"))()
 const { spawn } = require("child_process")
 const fs = require('fs')
-
+const path = require('path')
+const jobs = require('./jobs')
 /**
  * Fetch a GZipped SQL-File from an URL and load it into the database
  * database credentials must be in cfg, 'mysql' must be in the path
@@ -52,21 +53,61 @@ function mysqlFromGZipped(stream) {
     stream.on("end", () => {
       resolve()
     })
-    stream.on("error", err => {
+
+  })
+}
+
+async function mysqlFromChunks(basename,totalchunks) {
+  const jobname = "Einlesen: " + path.basename(basename)
+  const dbname=cfg.get("dbname")
+  jobs.addJob(jobname,totalchunks)
+  const mysql = spawn("mysql", [
+    "-h",
+    cfg.get("dbhost"),
+    "--protocol",
+    "tcp",
+    "-P",
+    cfg.get("dbport"),
+    "-u",
+    cfg.get("dbuser"),
+    "-p" + cfg.get("dbpwd"),
+    dbname
+  ])
+  mysql.stderr.on("data", data => {
+    console.log(data.toString())
+  })
+  mysql.stdin.write("set foreign_key_checks = 0;\n")
+  mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
+  let chunknumber = "1"
+  while (fs.existsSync(basename + chunknumber)) {
+    const stream = fs.createReadStream(basename + chunknumber)
+    await(readChunk(stream,mysql.stdin))
+    jobs.updateJob(jobname,1)
+  }
+  jobs.removeJob(jobname)
+}
+
+function readChunk(instream, outstream) {
+  return new Promise((resolve, reject) => {
+    instream.pipe(outstream)
+    instream.on("end", () => {
+      resolve()
+    })
+    instream.on("error", err => {
       reject(err)
     })
   })
 }
 
 function mysqlFromPlain(stream) {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     const out = fs.createWriteStream("./temp.sql")
     stream.pipe(out)
-    stream.on("end",()=>{
+    stream.on("end", () => {
       resolve()
     })
   })
- 
+
 }
 /*
 function mysqlFromPlain(stream){
@@ -194,5 +235,5 @@ class SqlLoader extends Writable {
 }
 
 
-module.exports = { loadGzipped, loadFromUrlGzipped, mysqlFromUrlGzipped, mysqlFromPlain }
+module.exports = { loadGzipped, loadFromUrlGzipped, mysqlFromUrlGzipped, mysqlFromChunks }
 

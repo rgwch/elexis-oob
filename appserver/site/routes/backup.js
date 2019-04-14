@@ -51,10 +51,6 @@ router.post("/exec", async (req, res) => {
   }
 })
 
-router.get("/largefile",async (req,res)=>{
-  res.render("upload_large")
-})
-
 router.get("/restore", async (req, res) => {
   const archie = new archiver(backupdir)
   const dates = await archie.list_dates()

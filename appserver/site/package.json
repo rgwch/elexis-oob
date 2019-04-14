@@ -9,6 +9,7 @@
   "dependencies": {
     "conf": "^2.2.0",
     "connect-busboy": "0.0.2",
+    "connect-multiparty": "^2.2.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
