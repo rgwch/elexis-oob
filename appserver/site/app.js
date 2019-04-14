@@ -23,6 +23,9 @@ const indexRouter = require('./routes/index');
 const backupRouter = require('./routes/backup')
 const manageRouter = require('./routes/manage')
 const dbRouter = require('./routes/db')
+const tmpdir=require('os').tmpdir()
+const resumable=require("./utils/resumable-node")(tmpdir+"/resumable.tmp")
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,6 +66,38 @@ app.use('/', indexRouter);
 app.use("/backup", backupRouter)
 app.use("/db", dbRouter)
 app.use("/manage", manageRouter)
+
+// routes for large file upload
+// retrieve file id. invoke with /fileid?filename=my-file.jpg
+app.get('/fileid', function(req, res){
+  if(!req.query.filename){
+    return res.status(500).end('query parameter missing');
+  }
+  // create md5 hash from filename
+  res.end(
+    crypto.createHash('md5')
+    .update(req.query.filename)
+    .digest('hex')
+  );
+});
+
+// Handle uploads through Resumable.js
+app.post('/upload', function(req, res){
+    resumable.post(req, function(status, filename, original_filename, identifier){
+        console.log('POST', status, original_filename, identifier);
+
+        res.send(status);
+    });
+});
+
+// Handle status checks on chunks through Resumable.js
+app.get('/upload', function(req, res){
+    resumable.get(req, function(status, filename, original_filename, identifier){
+        console.log('GET', status);
+        res.send((status == 'found' ? 200 : 404), status);
+    });
+});
+
 
 // all other routes: forward 404 to error handler
 app.use(function (req, res, next) {
