@@ -104,6 +104,38 @@ Wenn Sie jetzt die SSH Verbindung in JuiceSSH öffnen, wird direkt der Browser m
 
 ### iOS
 
+Für iOS zeige ich hier 'Termius', die Sie aus dem App-Storte laden können. Aber natürlich gibt es auch viele andere SSH Clients, die Sie verwenden können.
+
+* Erstellen Sie eine neue Verbindung:
+
+![](../images/termios1.png)
+
+* Klicken Sie unten auf 'key' um einen Schlüssel zu erstellen:
+
+![](../images/termios2.png)
+
+Speichern Sie den Schlüssel und dann die Verbindung mit "save".
+
+ Wenn Sie die bezahlte Version von Termius haben, können Sie auch hier ein "startup snippet" erstellen, das den public key zum Server hochlädt und in authorized_keys installiert. Ansonsten müssen Sie das manuell tun. Termius hilft dabei aber, so dass das keine Hexerei ist: 
+ 
+ ![](../images/termios5.png)
+
+ Gehen Sie auf den tab "keychain", wählen Sie den Schlüssel und klicken Sie "export". Wenn der Server zu diesem Zeitpunkt noch Passwort-Login erlaubt, wird der Schlüssel so direkt hochgeladen und in authorized_keys eingefügt. (Sie müssen nur darauf achten, jeweils die richtigen Passwörter einzutippen: Einmal will er das Passwort für den Schlüssel, dann das fürs Login)
+
+Zukünftig gelingt das Login dann einfach nur mit Eingabe des Schlüssel-Passworts.
+
+* Dann müssen wir noch das Port Forwarding einrichten (Die Theorie dazu habe ich im Aschnitt 'Linux' beschrieben):
+
+![](../images/termios3.png)
+
+Erstellen Sie eine "New Rule":
+
+![](../images/termios4.png)
+
+Geben Sie dort die passenden Daten und die dazugehörigre Verbindung ein, und Sie haben es geschafft: Künftig können Sie direkt unter "Port Forwarding" die Verbindung zu Ihrer Praxis öffnen, und dann mit dem Web-Browser auf localhost:2018 surfen. Achtung: Die derzeitige Version von Webelexis unterstützt mobile-Safari nicht vollständig. Manche Buttons tun möglicherweise nichts.
+
+
+
 ### Windows
 
 Unter Windows erledigen Sie die SSH-Verbindung am besten mit dem Programm [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). Sie benötigen eigentlich nur "putty.exe" und "puttygen.exe", nicht den kompletten Installer.
