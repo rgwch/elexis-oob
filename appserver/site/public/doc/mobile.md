@@ -108,6 +108,36 @@ Wenn Sie jetzt die SSH Verbindung in JuiceSSH öffnen, wird direkt der Browser m
 
 Unter Windows erledigen Sie die SSH-Verbindung am besten mit dem Programm [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). Sie benötigen eigentlich nur "putty.exe" und "puttygen.exe", nicht den kompletten Installer.
 
+* Erstellen Sie ein Schlüsselpaar mit puttygen.exe
+
+![](../images/puttygen.png)
+
+Speichern Sie den privaten Schlüssel an einem Ort, den Sie später wiederfinden, zum Beispiel als 'praxis_key.ppk'. Den öffentlichen Schlüssel können Sie auf einem tragbaren Medium speichern, oder per strg+X aus dem oberen Feld ausschneiden. Dieser muss nach 'authorized_keys' auf dem Server.
+
+* Erstellen Sie eine neue Verbindung in putty.exe.
+
+![](../images/putty1.png)
+
+Speichern Sie die Verbindung.
+
+* Geben Sie die benötigten Daten ein (Zur Theorie, siehe den Abschnitt unter "Linux".)
+
+Username eingeben: 
+
+![](../images/putty2.png)
+
+Privaten Schlüssel angeben:
+
+![](../images/putty3.png)
+
+Tunnels konfigurieren:
+
+![](../images/putty4.png)
+
+Vergessen Sie nicht, am Ende wieder zur Anfangsseite (Session) zurückzukehren, und die Verbindung nochmal zu speichern, wenn Sie alles eingegeben haben. Sonst "vergisst" Putty es bis zum  nächsten Mal wieder.
+
+Von da an können Sie einfach auf die gespeicherte Session doppelklicken, um die Verbindung zu Ihrer Praxis erzustellen. Sie können dann entweder eine Elexis-Verbindung zu localhost auf Port 3307 oder eine Browser-Verbindung zu localhost auf Port 2018 machen, die von putty zum SSH Server der Praxis durchgeleitet wird.
+
 
 ## Absichern
 
