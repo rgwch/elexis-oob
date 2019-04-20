@@ -80,13 +80,36 @@ In beiden Fällen wird ssh die Verbindung automatisch und unsichtbar auf den Pra
 
 Ich zeige hier das Vorgehen für die App 'JuiceSSH', die Sie vom Playstore herunterladen können. Es gibt viele andere SSH clients für Android; möglicherweise ist das Vorgehen dort anders.
 
-* Erstellen Sie eine neue Identität und generieren Sie einen Schlüssel für diese Identität.
+* Gehen Sie nach dem Start vonm JuiceSSH auf 'Verbindungen' und dort auf 'Identitäten'. Berühren Sie das '+' unten rechts, um eine neue Identität zu erstellen. Erstellen Sie für diese Identität ein neues Schlüsselpaar:
+
+![](../images/juice1.jpg)
+
+Klicken Sie dann auf OK und geben Sie den usernamen auf dem Server und ev. das Kennwort ein.
+
+![](../images/juice2.jpg)
+
+Wenn Sie die Kaufversion von JuiceSSH haben, können Sie untern auf "Snippet erstellen" klicken, um das Hochladen des öffentlichen Schlüssels zu automatisieren.
+
 * Erstellen Sie eine neue Verbindung für Ihre Praxis und ordnen Sie dieser Verbindung die vorhin erstellte Identität zu.
+
+![](../images/juice3.jpg)
+
+Vergessen Sie nicht, auf das Häkchen rechts oben zu drücken, um die Verbindung zu speichern.
+
+* Als Letztes müssen wir noch die Port-Weiterleitung einrichten (Die Theorie dazu habe ich weiter oben unter "Linux" beschrieben).
+
+![](../images/juice4.jpg)
+
+Wenn Sie jetzt die SSH Verbindung in JuiceSSH öffnen, wird direkt der Browser mit Webelexis gestartet. Allerdings hat Webelexis in der derzeitigen Version noch keine gute Drarsellung für kleine Mobilbildschirme. Wählen Sie in den Browser-Optionen die "Desktop-Version" an, um damit arbeiten zu können.
+
+### iOS
+
+### Windows
+
+Unter Windows erledigen Sie die SSH-Verbindung am besten mit dem Programm [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html). Sie benötigen eigentlich nur "putty.exe" und "puttygen.exe", nicht den kompletten Installer.
+
 
 ## Absichern
 
 Wenn die Schlüsselerstellung auf allen SSH-berechtigten Computern  aller zugelassenen Anwender durchgeführt wurde, kann man auf dem Server in /etc/ssh/sshd_config die Zeile PasswoerAuthentication auf 'no' setzen und den SSH Server mit `sudo service sshd restart`bzw. `sudo systemctl restart sshd` neu starten. Von da an ist der Zugriff nur noch via Schlüssel möglich.
 
-## Webelexis starten
-
-Wenn der SSH Tunnel soweit funktioniert, müssen wir noch dafür sorgen, dass Elexis oder Webelexis durch diesen Tunnel mit dem Server kommunizieren können.
