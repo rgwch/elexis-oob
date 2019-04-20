@@ -88,9 +88,9 @@ app.post('/upload', function (req, res) {
       try {
         console.log("done")
         mysqlFromChunks(resumable.baseFilename(identifier), total).then(()=>{
-          console.log("finished")
+          console.log("upload finished")
         }).catch(err=>{
-          console.log("catched err"+err)
+          console.log("caught: "+err)
         })
       } catch (err) {
         console.log(err)

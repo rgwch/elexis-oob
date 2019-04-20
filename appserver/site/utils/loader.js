@@ -59,9 +59,24 @@ function mysqlFromGZipped(stream) {
 
 function mysqlFromChunks(basename, totalchunks) {
   return new Promise(async (resolve, reject) => {
-    const jobname = "Einlesen: " + path.basename(basename)
+    const destfile = path.join(path.dirname(basename), path.basename(basename) + "sql")
+    const output = fs.createWriteStream(destfile)
+    for (let i = 1; i <= totalchunks; i++) {
+      const stream = fs.createReadStream(basename + i)
+      await readChunk(stream, output)
+      // jobs.updateJob(jobname, 1)
+      fs.unlink(basename + i, err => {
+        if (err) {
+          console.log("Could not delete " + basename + i + "(" + JSON.stringify(err) + ")")
+        }
+      })
+    }
+    output.end()
+
+    const infile = fs.createReadStream(destfile)
+    // const jobname = "Einlesen: " + path.basename(basename)
     const dbname = cfg.get("dbname")
-    jobs.addJob(jobname, totalchunks)
+    // jobs.addJob(jobname, totalchunks)
     const mysql = spawn("mysql", [
       "-h",
       cfg.get("dbhost"),
@@ -71,31 +86,46 @@ function mysqlFromChunks(basename, totalchunks) {
       cfg.get("dbport"),
       "-u",
       cfg.get("dbuser"),
-      "-p" + cfg.get("dbpwd"),
-      dbname
+      "-p" + cfg.get("dbpwd")
     ])
     mysql.stderr.on("data", data => {
-      console.log(data.toString())
+      console.log("mysql errstream: " + data.toString())
     })
-
-    mysql.stdin.write("set foreign_key_checks = 0;\n")
-    mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
-    for (let i = 1; i <= totalchunks; i++) {
-      const stream = fs.createReadStream(basename + i)
-      await readChunk(stream, mysql.stdin)
-      jobs.updateJob(jobname, 1)
-      fs.unlink(basename + i, err => {
-        if (err) {
-          console.log("Could not delete " + basename + i)
-        }
+    mysql.stdin.on("error", err => {
+      console.log("mysql input stream error:" + err)
+      fs.unlink(destfile, () => {
+        reject(err)
       })
+    })
+    infile.on('end', () => {
+      fs.unlink(destfile, () => {
+        // jobs.dele
+        resolve()
+      })
+    })
+    try {
+      await sendCommand(mysql.stdin, "set foreign_key_checks = 0;\n")
+      // await sendCommand(mysql.stdin, `drop database ${dbname};\n`)
+      await sendCommand(mysql.stdin, `create database if not exists ${dbname};\n use ${dbname};\n`)
+      infile.pipe(mysql.stdin)
+
+    } catch (err) {
+      console.log("command error " + err)
     }
-    mysql.stdin.end()
-    jobs.removeJob(jobname)
-    resolve()
   })
 }
 
+function sendCommand(stream, command) {
+  return new Promise((resolve,reject) => {
+    stream.write(command, err => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
+  })
+}
 function readChunk(instream, outstream) {
   return new Promise((resolve, reject) => {
     instream.pipe(outstream, { end: false })
