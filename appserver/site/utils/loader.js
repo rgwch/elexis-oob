@@ -61,6 +61,10 @@ function mysqlFromChunks(basename, totalchunks) {
   return new Promise(async (resolve, reject) => {
     const destfile = path.join(path.dirname(basename), path.basename(basename) + "sql")
     const output = fs.createWriteStream(destfile)
+    const dbname = cfg.get("dbname")
+    await sendCommand(output, `drop database ${dbname};`)
+    await sendCommand(output, `create database ${dbname};`)
+    await sendCommand(output, `use ${dbname};\n`)
     for (let i = 1; i <= totalchunks; i++) {
       const stream = fs.createReadStream(basename + i)
       await readChunk(stream, output)
@@ -73,9 +77,7 @@ function mysqlFromChunks(basename, totalchunks) {
     }
     output.end()
 
-    const infile = fs.createReadStream(destfile)
     const jobname = "Einlesen: " + path.basename(basename)
-    const dbname = cfg.get("dbname")
     jobs.addJob(jobname, totalchunks)
     const mysql = spawn("mysql", [
       "-h",
@@ -86,37 +88,29 @@ function mysqlFromChunks(basename, totalchunks) {
       cfg.get("dbport"),
       "-u",
       cfg.get("dbuser"),
-      "-p" + cfg.get("dbpwd")
+      "-p" + cfg.get("dbpwd"),
+      "-e",
+      `source ${destfile}`
     ])
     mysql.stderr.on("data", data => {
       console.log("mysql errstream: " + data.toString())
     })
-    mysql.stdin.on("error", err => {
-      console.log("mysql input stream error:" + err)
-      fs.unlink(destfile, () => {
-        reject(err)
-      })
+    mysql.on("error",err=>{
+      console.log(err)
+      reject(err)
     })
-    infile.on('end', () => {
-      fs.unlink(destfile, () => {
+    mysql.on('exit', code => {
+      console.log("exit with code " + code)
+      //fs.unlink(destfile, () => {
         jobs.removeJob(jobname)
         resolve()
-      })
+      //})
     })
-    try {
-      await sendCommand(mysql.stdin, "set foreign_key_checks = 0;\n")
-      // await sendCommand(mysql.stdin, `drop database ${dbname};\n`)
-      await sendCommand(mysql.stdin, `create database if not exists ${dbname};\n use ${dbname};\n`)
-      infile.pipe(mysql.stdin)
-
-    } catch (err) {
-      console.log("command error " + err)
-    }
   })
 }
 
 function sendCommand(stream, command) {
-  return new Promise((resolve,reject) => {
+  return new Promise((resolve, reject) => {
     stream.write(command, err => {
       if (err) {
         reject(err)
@@ -138,55 +132,6 @@ function readChunk(instream, outstream) {
   })
 }
 
-/*
-function mysqlFromPlain(stream){
-  return new Promise((resolve, reject) => {
-    const dbname=cfg.get("dbname")
-    const mysql = spawn("mysql", [
-      "-h",
-      cfg.get("dbhost"),
-      "--protocol",
-      "tcp",
-      "-P",
-      cfg.get("dbport"),
-      "-u",
-      cfg.get("dbuser"),
-      "-p" + cfg.get("dbpwd"),
-      dbname
-    ])
-    mysql.on("close",(code,signal)=>{
-      logger.info(`mysql read closed with ${code}, signal ${signal}`)
-    })
-    mysql.on('exit',(code,signal)=>{
-      logger.info(`mysql read exited with ${code}, signal ${signal}`)
-      // resolve()
-    })
-    mysql.on('error',(err)=>{
-      logger.error("Could not launch mysql "+err)
-      reject(err)
-    })
-    mysql.stdout.on("data",chunk=>{
-      logger.info("Mysql output "+chunk)
-    })
-    mysql.stderr.on("data", data => {
-      logger.info("Mysql errmsg: "+data.toString())
-    })
-    mysql.stdin.write("set foreign_key_checks = 0;\n")
-    mysql.stdin.write(`drop database ${dbname}; create database ${dbname}; use ${dbname};\n`)
-    stream.on("data",chunk=>{
-      mysql.stdin.write(chunk.toString("utf-8"))
-      // console.log(chunk.toString("utf-8"))
-    })
-    //stream.pipe(mysql.stdin)
-    stream.on("error", err => {
-      reject(err)
-    })
-    stream.on("end",()=>{
-      resolve()
-    })
-  })
-}
-*/
 
 function loadFromUrlGzipped(connection, url) {
   return fetch(url)
