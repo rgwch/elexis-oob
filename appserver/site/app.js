@@ -87,16 +87,19 @@ app.post('/upload', function (req, res) {
     if (status === "done") {
       try {
         console.log("done")
-        mysqlFromChunks(resumable.baseFilename(identifier), total).then(()=>{
+        mysqlFromChunks(resumable.baseFilename(identifier), total).then(() => {
           console.log("upload finished")
-        }).catch(err=>{
-          console.log("caught: "+err)
+          res.render("success", { header: "SQL hochgeladen", body: "Die SQL Datei wurde hochgeladen und wird jetzt auf den Server übertragen." })
+        }).catch(err => {
+          res.render("error", { error: err, message: "Beim Übertragen ist ein Fehler geschehen." })
+          console.log("caught: " + err)
         })
       } catch (err) {
         console.log(err)
+        res.render("error", { error: err, message: "Fehler beim Hochladen" })
       }
     }
-    
+
   });
 });
 
