@@ -22,40 +22,40 @@ SSH ist einfacher aufzubauen, als VPN, daher werde ich mich hier auf SSH beschr�
 
 ## Server
 
-Auf einem Linux Server ist der SSH daemon (sshd) üblicherweise bereits vorinstalliert und läuft. Wenn nicht, können Sie ihn jederzeit aus den Paketquellen nachinstallieren (sudo apt-get install openssh-server). Für Windows gibt es vorkompilierte Packages.
+Auf einem Linux Server ist der SSH daemon (sshd) üblicherweise bereits vorinstalliert und läuft. Wenn nicht, können Sie ihn jederzeit aus den Paketquellen nachinstallieren (Debian/Ubuntu: `sudo apt-get install openssh-server`, Arch/Manjaro: `sudo pacman -S openssh`, Alpine: `sudo apk add openssh`). Auf einem Mac wird er idR ebenfalls schon vorinstalliert sein, andernfalls können Sie ihn z.B. via [Homebrew](https://brew.sh) nachinstallieren (`brew install openssh`). Neuere Windows-Versionen stellen ihn ebenfalls direkt zur Installation bereit (s. hier: <https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse)>. Für ältere Windows-Varianten kann man ihn z.B. via [Cygwin](https://www.cygwin.com) installieren.
 
-Sie können alle Einstellungen in /etc/ssh/sshd_config auf den Voreinstellungen belassen, nur die Einstellung "PasswordAuthentication" sollten Sie nur für die Einrichtung auf "yes" lassen und dann für den Alltagsgebrauch auf "no" stellen. Ich zeige den Grund gleich.
+Sie können alle Einstellungen in /etc/ssh/sshd_config auf den Voreinstellungen belassen, nur die Einstellung "PasswordAuthentication" sollten Sie für die Einrichtung auf "yes" lassen und dann für den Alltagsgebrauch auf "no" stellen. Ich zeige den Grund gleich.
 
 Erstellen Sie auf dem Server für jeden Anwender, der SSH-Zugriff erhalten soll, ein Benutzerkonto.
 
 ## Router
 
-Damit Ihr Server aus dem Internet erreichbar ist, müssen Sie auf dem Router eine Portweiterleitung einstellen. Ich würde empfehlen, einen nicht-Standard-Port für den Fernzugriff zu wählen, da Sie sonst Dauerziel für Brute-Force-Attacken werden, die zwar, sorgfältige Einrichgung vorausgesetzt, nicht wirklich gefährlich sind, aber Netzwerk und Router belasten können. Nehmen wir an, Sie wählen (willkürlich) den Port 36223, dann müssten Sie eine Portweiterleitung von 36223 auf dem Router auf 22 auf dem Server einrichten (Die externe Portnummer kann irgendeine Zahl zwischen 1025 (2^10+1) und 65535 (2^16) sein), die nicht von einem anderen Dienst bereits verwendet wird).
+Damit Ihr Server aus dem Internet erreichbar ist, müssen Sie auf dem Router eine Portweiterleitung einstellen. Ich würde empfehlen, einen nicht-Standard-Port für den Fernzugriff zu wählen, da Sie sonst Dauerziel für Brute-Force-Attacken werden, die zwar, sorgfältige Einrichtung vorausgesetzt, nicht wirklich gefährlich sind, aber Netzwerk und Router belasten können. Nehmen wir an, Sie wählen (willkürlich) den Port 36223, dann müssten Sie eine Portweiterleitung von 36223 auf dem Router auf 22 auf dem Server einrichten (Die externe Portnummer kann irgendeine Zahl zwischen 1025 (2^10+1) und 65535 (2^16) sein), die nicht von einem anderen Dienst bereits verwendet wird. Wenn Sie unbedingt wollen, können Sie auch eine Zahl unter 1025 wählen, kommen dann aber eher mal Standardanwendungen in den Weg oder werden von Hackern behelligt, die solche Standardanwendungen angreifen wollen).
 
 ## DNS
 
-Wenn Sie wollen, dass Ihr Server nicht nur unter der IP-Adresse (11.21.234.17), sondern auch unter einem symbolischen Namen (praxis-dr-eisenbart.ch) erreichbar ist, dann müssen sie ihn dem DNS-System bekannt machen. Wie das geht, habe ich an [anderer Stelle](letsencrypt.md)  gezeigt. (Den Teil mit den Zertifikaten brauchen Sie hier nicht zu beachten, da wir für den SSH Zugang kein Webserver-Zertifikat verwenden müssen).
+Wenn Sie wollen, dass Ihr Server nicht nur unter der IP-Adresse (z.B. etwas wie 11.21.234.17), sondern auch unter einem symbolischen Namen (etwas wie praxis-dr-eisenbart.ch) erreichbar ist, dann müssen sie ihn dem DNS-System bekannt machen. Wie das geht, habe ich an [anderer Stelle](letsencrypt.md), Abschnitt 1 und 2,  gezeigt. (Den Teil mit den Zertifikaten brauchen Sie hier nicht zu beachten, da wir für den SSH Zugang kein Webserver-Zertifikat verwenden müssen).
 
 ## Client
 
-Grundsätzlich kann man sich bei SSH mit Username/Passwort einloggen, oder mit einem digitalen Schlüsselpaar. Letzteres ist sicherer, da ein ausreichend langer Schlüssel mit heutiger Technik nicht knackbar ist, während Passwörter oft zu kurz und zu leicht erratbar gewählt werden. Bedenken Sie, dass ein Angreifer beliebig oft beliebige Passwörter ausprobieren kann, solange Ihr SSH-Zugriff offen ist. Ich empfehle daher, ausschliesslich die Schlüsselbasierte Authentisierung anzuwenden und den Schlüssel mit einem Passwort zusätzlich zu sichern, falls das Endgerät einmal in falsche Hände geraten sollte.
+Grundsätzlich kann man sich bei SSH mit Username/Passwort einloggen, oder mit einem digitalen Schlüsselpaar. Letzteres ist sicherer, da ein ausreichend langer Schlüssel mit heutiger Technik nicht knackbar ist, während Passwörter oft zu kurz und zu leicht erratbar gewählt werden. Bedenken Sie, dass ein Angreifer beliebig oft beliebige Passwörter ausprobieren kann, solange Ihr SSH-Zugriff offen ist, und dass er das meist nicht von Hand tut, sondern mit Programmen, die Tag und Nacht viele Versuche pro Sekunde laufen lassen können. Ich empfehle daher, ausschliesslich die schlüsselbasierte Authentisierung anzuwenden und den Schlüssel mit einem Passwort zusätzlich zu sichern, falls das Endgerät einmal in falsche Hände geraten sollte.
 
 ### Linux und Mac
 
 Erstellen Sie ein Schlüsselpaar mit `ssh-keygen -t rsa`.  Das Programm wird Sie fragen, wohin Sie den Schlüssel speichern wollen. Wenn dies sowieso Ihr einziger ssh-Schlüssel ist, können Sie die Vorgabe belassen (macOS: /Users/username/.ssh/id_rsa, linux: /home/username/.ssh/id_rsa). Andernfalls geben Sie einen anderen Pfadnahmen an, ich würde aber empfehlen, als Speicherort den Ordner .ssh in Ihrem Heimatverzeichnis zu belassen. Also z.B. /Users/ihrname/.ssh/praxis_key. Dann möchte das Programm ein Passwort oder einfach Eingabetaste, um den Schlüssel ohne Passwort zu speichern. Ich würde empfehlen, ein Passwort einzugeben, für den Fall, dass mal Unbefugte an den Coomputer kommen.
 Wohlbemerkt: Hier geht es nicht um das Passwort für den Zugriff, sondern nur um ein Passwort, mit dem der eigentliche Schlüssel auf dem lokalen Computer gesichert wird. Daher sind hier die Anforderungen auch nicht so hoch, und dieses Passwort darf ruhig relativ "banal" sein. Es muss keinen automatisierten Knackprogrammen standhalten, sondern nur Eintippen an der Konsole, und auch das nur so lang, bis der Zugriff auf dem Server gesperrt wird.
 
-Wenn es erfolgreich durchgelaufen ist, hat ssh-keygen einen öffentlichen Schlüssel (id_rsa.pub, resp. praxis_key.pub) und einen privaten Schlüssek (id_rsa resp. praxis_key) erstellt. Nun müssen wir den öffentlichen Schlüssel auf den Server hochladen. Der Private Schlüssel bleibt immer auf dem lokalen Computer. Bei der Vernindungsaufnahme wird der Server den Client auffordern, eine bestimmte Zeichenfolge mit dem privaten Schlüssel zu versachlüsseln und kann dann mit dem öffentlichen Schlüssek prüfen, ob der Client wirklich den passenden privaten Schlüssel hat.
+Wenn es erfolgreich durchgelaufen ist, hat ssh-keygen einen öffentlichen Schlüssel (id_rsa.pub, resp. praxis_key.pub) und einen privaten Schlüssel (id_rsa resp. praxis_key) erstellt. Nun müssen wir den öffentlichen Schlüssel auf den Server hochladen. Der Private Schlüssel bleibt immer auf dem lokalen Computer. Bei der Verbindungsaufnahme wird der Server den Client auffordern, eine bestimmte Zeichenfolge mit dem privaten Schlüssel zu verschlüsseln und kann dann mit dem öffentlichen Schlüssel prüfen, ob der Client wirklich den passenden privaten Schlüssel hat. Diese Vorgänge übernehmen die beteiligten Programme transparent für Sie; Sie müssen nur den Schlüssel bereitstellen.
 
-Am einfachsten laden Sie den öffentlichen Schlüssel mit `ssh-copy-id username@praxis-dr-eisenbart.ch` auf das Konto 'username' des Praxisservers hoch. Dazu werden Sie das Passwort des Loginkontos von 'username' eingeben müssen.
+Am einfachsten laden Sie den öffentlichen Schlüssel mit `ssh-copy-id username@praxis-dr-eisenbart.ch` auf das Konto 'username' des Praxisservers hoch. Dazu werden Sie das Passwort des Loginkontos von 'username' eingeben müssen, und der Server muss zu diesem Zeitpunkt auch noch "PasswordAuthentication yes" in der Konfiguration haben.
 
 Sie können das natürlich auch manuell erledigen: Der öffentliche Schlüssel muss in die Datei authorized_keys auf dem Server eingefügt werden. Anleitungen dazu finden Sie im Netz.
 
 Die Verbindungsaufnahme erfolgt dann mit `ssh -i ~/.ssh/praxis_key username@praxis-dr-eisenbart.ch`. Dieses Kommando sollte Sie nach dem Passwort des Schlüssels fragen und dann ohne weitere Fragen in ein Konsolenfenster auf dem Server führen.
 
-Das genügt aber noch nicht. Wir wollen ja einen Zugriff auf mysql bzw. Webelexis haben. Dazu müssen wir eine sogenannte 'Portweiterleitung' oder port `forwarding einrichten`. Genau: Etwas Ähnliches, was Sie bereits beim Router gemacht haben. Nur dass jetzt der SSH Server die Rolle des Routers übernimmt und der SSH Client die Portweiterleitung dynamisch erstellen kann. Man kann eine solche Weiterleitung ebenfalls auf der ssh Kommandozeile einrichten, aber ich würde ein einfacheres Vorgehen empfehlen:
+Das genügt aber noch nicht. Wir wollen ja einen Zugriff auf mysql bzw. Webelexis haben. Dazu müssen wir eine sogenannte 'Portweiterleitung' oder 'port forwarding' einrichten. Genau: Etwas Ähnliches, was Sie bereits beim Router gemacht haben. Nur dass jetzt der SSH Server die Rolle des Routers übernimmt und der SSH Client die Portweiterleitung dynamisch erstellen kann. Man kann eine solche Weiterleitung ebenfalls auf der ssh Kommandozeile einrichten, aber ich würde ein einfacheres Vorgehen empfehlen:
 
-Erstellen Sie eine Dtaei namens 'config' im Verzeichnis .ssh in Ihrem Heimatverzeichnis. Schreiben Sie in diese Daqtei den folgenden Block:
+Erstellen Sie eine Datei namens 'config' im Verzeichnis .ssh in Ihrem Heimatverzeichnis. Schreiben Sie in diese Datei den folgenden Block:
 
 ```
 Host praxis
@@ -73,7 +73,7 @@ Natürlich müssen Sie for HostName, User, Port und Identityfile die bei Ihnen z
 
 * Sie können mit einem Webbrowser auf localhost:2018 gehen, um Webelexis zu starten.
 
-In beiden Fällen wird ssh die Verbindung automatisch und unsichtbar auf den Praxisserver umleiten. Das Einzige, was Sie bemerken werden ist eine geringere Geschwindigkeit insbesondere bei Elexis, das nicht gut für Langsame Verbindungen geeignet ist.
+In beiden Fällen wird ssh die Verbindung automatisch und unsichtbar auf den Praxisserver umleiten. Das Einzige, was Sie bemerken werden ist eine geringere Geschwindigkeit insbesondere bei Elexis, das nicht gut für langsame Verbindungen geeignet ist.
 
 
 ### Android
@@ -132,8 +132,9 @@ Erstellen Sie eine "New Rule":
 
 ![](../images/termios4.png)
 
-Geben Sie dort die passenden Daten und die dazugehörigre Verbindung ein, und Sie haben es geschafft: Künftig können Sie direkt unter "Port Forwarding" die Verbindung zu Ihrer Praxis öffnen, und dann mit dem Web-Browser auf localhost:2018 surfen. Achtung: Die derzeitige Version von Webelexis unterstützt mobile-Safari nicht vollständig. Manche Buttons tun möglicherweise nichts.
+Geben Sie dort die passenden Daten und die dazugehörige Verbindung ein, und Sie haben es geschafft: Künftig können Sie direkt unter "Port Forwarding" die Verbindung zu Ihrer Praxis öffnen, und dann mit dem Web-Browser auf localhost:2018 surfen. 
 
+Hinweis: Die derzeitige Version von Webelexis unterstützt mobile-Safari nicht vollständig. Manche Buttons tun möglicherweise nichts.
 
 
 ### Windows
@@ -173,5 +174,5 @@ Von da an können Sie einfach auf die gespeicherte Session doppelklicken, um die
 
 ## Absichern
 
-Wenn die Schlüsselerstellung auf allen SSH-berechtigten Computern  aller zugelassenen Anwender durchgeführt wurde, kann man auf dem Server in /etc/ssh/sshd_config die Zeile PasswoerAuthentication auf 'no' setzen und den SSH Server mit `sudo service sshd restart`bzw. `sudo systemctl restart sshd` neu starten. Von da an ist der Zugriff nur noch via Schlüssel möglich.
+Wenn die Schlüsselerstellung auf allen SSH-berechtigten Computern  aller zugelassenen Anwender durchgeführt wurde, sollte man auf dem Server in /etc/ssh/sshd_config die Zeile PasswordAuthentication auf 'no' setzen und den SSH Server mit `sudo service sshd restart` bzw. `sudo systemctl restart sshd` neu starten. Von da an ist der Zugriff nur noch via Schlüssel möglich.
 

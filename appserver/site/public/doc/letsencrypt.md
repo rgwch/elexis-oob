@@ -41,7 +41,7 @@ Versuchen Sie es mit "ping termine.meine-praxis.ch". Es sollte dieselbe IP-Adres
 
 Allerdings "landet" die Anfrage nicht bei Elexis-OOB, sondern vorerst nur beim Router. Damit sie von dort weitergereicht wird, müssen Sie eine "Portweiterleitung" einrichten. Das ist in der Konfiguration des Routers oft unter "NAT" (Network Address Translation) zu finden, bei der Fritz!Box unter "Internet/Freigaben/Portfreigaben". Sorgen Sie dafür, dass zwei Freigaben eingerichtet werden: Eine für den https - Port 443 auf den Elexis-OOB Server und eine für den http-Port 80 auf Ihren Arbeitscomputer, der für die folgende Handlung im selben Netzwerk sein muss, wie der Server.
 
-### 3. Let's Encrypt Zertifikat besziehen
+### 3. Let's Encrypt Zertifikat beziehen
 
 Grundsätzlich gibt es zwei Möglichkeiten:
 
