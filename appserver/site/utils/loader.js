@@ -74,9 +74,9 @@ function mysqlFromChunks(basename, totalchunks) {
     output.end()
 
     const infile = fs.createReadStream(destfile)
-    // const jobname = "Einlesen: " + path.basename(basename)
+    const jobname = "Einlesen: " + path.basename(basename)
     const dbname = cfg.get("dbname")
-    // jobs.addJob(jobname, totalchunks)
+    jobs.addJob(jobname, totalchunks)
     const mysql = spawn("mysql", [
       "-h",
       cfg.get("dbhost"),
@@ -99,7 +99,7 @@ function mysqlFromChunks(basename, totalchunks) {
     })
     infile.on('end', () => {
       fs.unlink(destfile, () => {
-        // jobs.dele
+        jobs.removeJob(jobname)
         resolve()
       })
     })
