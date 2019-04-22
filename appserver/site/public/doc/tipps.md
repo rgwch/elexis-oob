@@ -1,6 +1,5 @@
 # Einige Tipps
 
-Warnung: Mit
 ## Alles löschen
 
     docker-compose down --rmi local
@@ -38,6 +37,10 @@ Wenn Sie danach mit http://nuno:3000 auf die Verwaltungsoberfläche zugreifen, m
 ## Vorgaben ändern; erweiterte Konfiguration
 
 Ports und Namen sind in .env definiert und werden von dort im docker-compose.yaml eingelesen.
+
+## Individuelle docker-compose
+
+Manchmal möchten Sie die docker-compose.yaml anpassen. Beispielsweise, wenn Sie bereits eine laufende alleinstehende Lucinda-Installation haben und deren Datenverzeichnis weiterverwenden möchten, oder ganz allgemein, um abweichende Verzeichnisstrukturen zu implementieren. Im Allgemeinen ist es besser, sich zuerst zu überlegen, wie man mit den Vorgaben zurecht kommen kann, aber manchmal muss es eben sein... Sobald man Änderungen an docker-compose.yaml macht, steht man aber vor einem Problem: Jedesmal, wenn man ein Update von elexis-oob einspielt, werden die Änderungen überschrieben. Ich würde daher etwas anderes tun. Kopieren Sie die docker-compose.yaml nach z.b. meine-praxis.yaml. Dann können Sie die Software mit `docker-compose up -d -f meine-praxis.yaml` starten, und bei einem Update mit `git pull` bleibt Ihre Konfiguration erhalten.
 
 ## SSH Schlüsselpaar erstellen
 
