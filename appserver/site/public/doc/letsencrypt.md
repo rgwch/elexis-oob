@@ -27,9 +27,9 @@ Im Folgenden gehe ich davon aus, dass Sie eine Domain namens **'meine-praxis.ch'
 
 Der nächste Schritt hängt von Ihrer Internet-Anbindung ab, Wenn Sie eine fixe IP haben, können Sie diese IP meist direkt beim Registrar mit Ihrem Dienstnamen (subdomain bzw. CNAME Entry: termine.meine-praxis.ch) vernüpfen. (Prüfen Sie, ob das geht, bevor Sie die Domain bei diesem Registrar kaufen und wählen Sie sonst einen anderen)
 
-Wenn Sie keine fixe IP haben, dann wird sich Ihre Internet-Adresse in mehr oder weniger regelmässigen Abständen ändern. Sie können dann keine feste Verknüpfung zwischen Domain-Namen und IP-Adresse einrichten, sondern benötigen einen "dynDNS" Dienst. Wenn Sie nach dyndns googlen, werden Sie fündig. Ein solcher Dienst verknüpft die jeweils gültige IP-Adresse dynamisch mit einem Domain-Namen. Damit er das tun kann, braucht er Informationen, wenn die IP-Adresse sich ändert. Manche Router haben eine Konfigurationsmöglichkeit für dyndns. Bei der Fritz!Box beispielsweise unter Internet/Freigaben/DynDNS. Am besten wählen Sie dann einen DynDNS Anbieter, den Ihr Router von sich aus unterstützt.
+Wenn Sie keine fixe IP haben, dann wird sich Ihre Internet-Adresse in mehr oder weniger regelmässigen Abständen ändern. Sie können dann keine feste Verknüpfung zwischen Domain-Namen und IP-Adresse einrichten, sondern benötigen einen "dynamic DNS" Dienst. Wenn Sie nach dyndns googlen, werden Sie fündig. Ein solcher Dienst verknüpft die jeweils gültige IP-Adresse dynamisch mit einem Domain-Namen. Damit er das tun kann, braucht er Informationen, wenn die IP-Adresse sich ändert. Manche Router haben eine Konfigurationsmöglichkeit für dyndns. Bei der Fritz!Box beispielsweise unter Internet/Freigaben/DynDNS. Am besten wählen Sie dann einen DynDNS Anbieter, den Ihr Router von sich aus unterstützt. Manche dynDNS Anbieter erlauben Ihnen auch, direkt einen Domainnamen zu reservieren, dann sparen Sie sich die Kosten des Domain-Registrars, aber meistens bekommen Sie dann nur eine Subdomain des Providers (meinepraxis.providername.com), was nicht unbedingt den besten Eindruck macht,
 
-Falls Ihr Router kein DynDNS unterstützt, benötigen Sie auf Ihrem Server ein kleines Programm (einen dyndns-client), das die aktuelle IP-Adresse jeweils meldet. Ein Beispiel wäre: ddclient. 
+Falls Ihr Router kein DynDNS unterstützt, benötigen Sie auf Ihrem Server ein kleines Programm (einen dyndns-client), das die aktuelle IP-Adresse jeweils meldet. Ein Beispiel wäre: [ddclient](https://sourceforge.net/projects/ddclient/). 
 
 Richten Sie den DynDNS Dienst so ein, dass er den Namen termine.meine-praxis.ch mit Ihrer IP verknüpft.
 
@@ -116,3 +116,5 @@ Jetzt sollten Sie Ihren Termin-Service von überallher auch mit mobilen Geräten
 Wenn Sie sich intern verbinden, z.B. mit `https://webelexis.nuno`, dann wird Traefik ebenfalls das Let's Encrypt Zertifikat vorweisen. Der Browser wird aber dennoch eine Warnung auswerfen, weil dieses Zertifikat nur für termine.meine-praxis.ch gilt und nicht für webelexis.nuno.
 
 Von aussen wird ausser dem Terminservice nichts erreichbar sein. Versuchen Sie: https://webelexis.meine-praxis.ch; das wird nicht gehen. Ebensowenig http(s)://meine-praxis.ch. Wir haben eine Freigabe eingerichtet,die ausschliesslich für den vom restlichen System sauber abgeschotteten Termine-Dienst gilt.
+
+Wie Sie für sich selber und ausgewählte Mitarbeiter/innen der Praxis auch Webelexis oder Elexis von Aussen erreichbar machen können, lesen Sie an [anderer Stelle](mobile.md)

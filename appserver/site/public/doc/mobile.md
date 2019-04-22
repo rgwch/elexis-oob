@@ -42,20 +42,22 @@ Grundsätzlich kann man sich bei SSH mit Username/Passwort einloggen, oder mit e
 
 ### Linux und Mac
 
-Erstellen Sie ein Schlüsselpaar mit `ssh-keygen -t rsa`.  Das Programm wird Sie fragen, wohin Sie den Schlüssel speichern wollen. Wenn dies sowieso Ihr einziger ssh-Schlüssel ist, können Sie die Vorgabe belassen (macOS: /Users/username/.ssh/id_rsa, linux: /home/username/.ssh/id_rsa). Andernfalls geben Sie einen anderen Pfadnahmen an, ich würde aber empfehlen, als Speicherort den Ordner .ssh in Ihrem Heimatverzeichnis zu belassen. Also z.B. /Users/ihrname/.ssh/praxis_key. Dann möchte das Programm ein Passwort oder einfach Eingabetaste, um den Schlüssel ohne Passwort zu speichern. Ich würde empfehlen, ein Passwort einzugeben, für den Fall, dass mal Unbefugte an den Coomputer kommen.
+Erstellen Sie ein Schlüsselpaar mit `ssh-keygen -t rsa`.  Das Programm wird Sie fragen, wohin Sie den Schlüssel speichern wollen. Wenn dies sowieso Ihr einziger ssh-Schlüssel ist, können Sie die Vorgabe belassen (macOS: /Users/username/.ssh/id_rsa, linux: /home/username/.ssh/id_rsa). Andernfalls geben Sie einen anderen Pfadnahmen an, ich würde aber empfehlen, als Speicherort den Ordner .ssh in Ihrem Heimatverzeichnis zu belassen. Also z.B. /Users/ihrname/.ssh/praxis_key. Dann möchte das Programm ein Passwort oder einfach Eingabetaste, um den Schlüssel ohne Passwort zu speichern. Ich würde empfehlen, ein Passwort einzugeben, für den Fall, dass mal Unbefugte an den Computer kommen.
 Wohlbemerkt: Hier geht es nicht um das Passwort für den Zugriff, sondern nur um ein Passwort, mit dem der eigentliche Schlüssel auf dem lokalen Computer gesichert wird. Daher sind hier die Anforderungen auch nicht so hoch, und dieses Passwort darf ruhig relativ "banal" sein. Es muss keinen automatisierten Knackprogrammen standhalten, sondern nur Eintippen an der Konsole, und auch das nur so lang, bis der Zugriff auf dem Server gesperrt wird.
 
 Wenn es erfolgreich durchgelaufen ist, hat ssh-keygen einen öffentlichen Schlüssel (id_rsa.pub, resp. praxis_key.pub) und einen privaten Schlüssel (id_rsa resp. praxis_key) erstellt. Nun müssen wir den öffentlichen Schlüssel auf den Server hochladen. Der Private Schlüssel bleibt immer auf dem lokalen Computer. Bei der Verbindungsaufnahme wird der Server den Client auffordern, eine bestimmte Zeichenfolge mit dem privaten Schlüssel zu verschlüsseln und kann dann mit dem öffentlichen Schlüssel prüfen, ob der Client wirklich den passenden privaten Schlüssel hat. Diese Vorgänge übernehmen die beteiligten Programme transparent für Sie; Sie müssen nur den Schlüssel bereitstellen.
 
 Am einfachsten laden Sie den öffentlichen Schlüssel mit `ssh-copy-id username@praxis-dr-eisenbart.ch` auf das Konto 'username' des Praxisservers hoch. Dazu werden Sie das Passwort des Loginkontos von 'username' eingeben müssen, und der Server muss zu diesem Zeitpunkt auch noch "PasswordAuthentication yes" in der Konfiguration haben.
 
-Sie können das natürlich auch manuell erledigen: Der öffentliche Schlüssel muss in die Datei authorized_keys auf dem Server eingefügt werden. Anleitungen dazu finden Sie im Netz.
+Sie können das natürlich auch manuell erledigen: Der öffentliche Schlüssel muss in die Datei ~/.ssh/authorized_keys auf dem Server eingefügt werden. Anleitungen dazu finden Sie im Netz.
 
 Die Verbindungsaufnahme erfolgt dann mit `ssh -i ~/.ssh/praxis_key username@praxis-dr-eisenbart.ch`. Dieses Kommando sollte Sie nach dem Passwort des Schlüssels fragen und dann ohne weitere Fragen in ein Konsolenfenster auf dem Server führen.
 
-Das genügt aber noch nicht. Wir wollen ja einen Zugriff auf mysql bzw. Webelexis haben. Dazu müssen wir eine sogenannte 'Portweiterleitung' oder 'port forwarding' einrichten. Genau: Etwas Ähnliches, was Sie bereits beim Router gemacht haben. Nur dass jetzt der SSH Server die Rolle des Routers übernimmt und der SSH Client die Portweiterleitung dynamisch erstellen kann. Man kann eine solche Weiterleitung ebenfalls auf der ssh Kommandozeile einrichten, aber ich würde ein einfacheres Vorgehen empfehlen:
+Das genügt aber noch nicht. Wir wollen ja einen Zugriff auf mysql bzw. Webelexis haben. Dazu müssen wir eine sogenannte 'Portweiterleitung' oder 'port forwarding' einrichten. Genau: Etwas Ähnliches, was Sie bereits beim Router gemacht haben. Nur dass jetzt der SSH Server die Rolle des Routers übernimmt und der SSH Client die Portweiterleitung dynamisch erstellen kann. Man kann eine solche Weiterleitung ebenfalls auf der ssh Kommandozeile einrichten, aber ich würde ein einfacheres Vorgehen empfehlen: 
 
-Erstellen Sie eine Datei namens 'config' im Verzeichnis .ssh in Ihrem Heimatverzeichnis. Schreiben Sie in diese Datei den folgenden Block:
+Schliessen Sie zunächst die vorhin hergestellte Konsolenverbindung wieder mit 'exit'.
+
+Erstellen Sie dann im Verzeichnis .ssh in Ihrem Heimatverzeichnis eine Datei namens 'config' mit folgendem Inhalt:
 
 ```
 Host praxis
@@ -67,7 +69,9 @@ Host praxis
     IdentityFile /Users/username/.ssh/praxis_key        
 ```
 
-Natürlich müssen Sie for HostName, User, Port und Identityfile die bei Ihnen zutreffenden Angaben einsetzen. Dann können Sie zukünftig einfach mit `ssh praxis` die Verbindung herstellen. Danach geht folgendes:
+Die Einrückung nach der ersten Zeile ist relevant. Natürlich müssen Sie für HostName, User, Port und Identityfile die bei Ihnen zutreffenden Angaben einsetzen. Falls Sie ein Programm wie Windows-Notepad oder den Mac Texteditor verwenden, müssen Sie darauf achten, dass das Programm nicht "heimlich" eine Endung wie .txt anfügt resp. diese Endung wieder entfernen, Die Datei muss einfach 'config' heissen und in reinem Text-Format sein.
+
+Dann können Sie zukünftig einfach mit `ssh praxis` die Verbindung herstellen. Danach geht folgendes:
 
 * Sie können eine lokale Elexis-Instanz mit dem Server localhost, Port 3307 verbinden und Elexis starten.
 
@@ -100,11 +104,11 @@ Vergessen Sie nicht, auf das Häkchen rechts oben zu drücken, um die Verbindung
 
 ![](../images/juice4.jpg)
 
-Wenn Sie jetzt die SSH Verbindung in JuiceSSH öffnen, wird direkt der Browser mit Webelexis gestartet. Allerdings hat Webelexis in der derzeitigen Version noch keine gute Drarsellung für kleine Mobilbildschirme. Wählen Sie in den Browser-Optionen die "Desktop-Version" an, um damit arbeiten zu können.
+Wenn Sie jetzt die SSH Verbindung in JuiceSSH öffnen, wird direkt der Browser mit Webelexis gestartet. Allerdings hat Webelexis in der derzeitigen Version noch keine gute Darstellung für kleine Mobilbildschirme. Wählen Sie in den Browser-Optionen die "Desktop-Version" an, um damit arbeiten zu können.
 
 ### iOS
 
-Für iOS zeige ich hier 'Termius', die Sie aus dem App-Storte laden können. Aber natürlich gibt es auch viele andere SSH Clients, die Sie verwenden können.
+Für iOS zeige ich hier 'Termius', die Sie aus dem App-Store laden können. Aber natürlich gibt es auch viele andere SSH Clients, die Sie verwenden können.
 
 * Erstellen Sie eine neue Verbindung:
 
@@ -124,7 +128,7 @@ Speichern Sie den Schlüssel und dann die Verbindung mit "save".
 
 Zukünftig gelingt das Login dann einfach nur mit Eingabe des Schlüssel-Passworts.
 
-* Dann müssen wir noch das Port Forwarding einrichten (Die Theorie dazu habe ich im Aschnitt 'Linux' beschrieben):
+* Dann müssen wir noch das Port Forwarding einrichten (Die Theorie dazu habe ich oben im Abschnitt 'Linux' beschrieben):
 
 ![](../images/termios3.png)
 
@@ -145,7 +149,7 @@ Unter Windows erledigen Sie die SSH-Verbindung am besten mit dem Programm [Putty
 
 ![](../images/puttygen.png)
 
-Speichern Sie den privaten Schlüssel an einem Ort, den Sie später wiederfinden, zum Beispiel als 'praxis_key.ppk'. Den öffentlichen Schlüssel können Sie auf einem tragbaren Medium speichern, oder per strg+X aus dem oberen Feld ausschneiden. Dieser muss nach 'authorized_keys' auf dem Server.
+Speichern Sie den privaten Schlüssel an einem Ort, den Sie später wiederfinden, zum Beispiel als 'praxis_key.ppk'. Den öffentlichen Schlüssel können Sie auf einem tragbaren Medium speichern, oder per strg+X aus dem oberen Feld ausschneiden. Dieser muss nach '~/.ssh/authorized_keys' auf dem Server.
 
 * Erstellen Sie eine neue Verbindung in putty.exe.
 
@@ -163,13 +167,13 @@ Privaten Schlüssel angeben:
 
 ![](../images/putty3.png)
 
-Tunnels konfigurieren:
+Tunnels (= port forwarding) konfigurieren:
 
 ![](../images/putty4.png)
 
 Vergessen Sie nicht, am Ende wieder zur Anfangsseite (Session) zurückzukehren, und die Verbindung nochmal zu speichern, wenn Sie alles eingegeben haben. Sonst "vergisst" Putty es bis zum  nächsten Mal wieder.
 
-Von da an können Sie einfach auf die gespeicherte Session doppelklicken, um die Verbindung zu Ihrer Praxis erzustellen. Sie können dann entweder eine Elexis-Verbindung zu localhost auf Port 3307 oder eine Browser-Verbindung zu localhost auf Port 2018 machen, die von putty zum SSH Server der Praxis durchgeleitet wird.
+Von da an können Sie einfach auf die gespeicherte Session doppelklicken, um die Verbindung zu Ihrer Praxis erzustellen. Sie können dann entweder eine Elexis-Verbindung zu localhost auf Port 3307 oder eine Browser-Verbindung zu localhost auf Port 2018 herstellen, die von putty zum SSH Server der Praxis durchgeleitet wird.
 
 
 ## Absichern
