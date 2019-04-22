@@ -51,7 +51,7 @@ Am einfachsten laden Sie den öffentlichen Schlüssel mit `ssh-copy-id username@
 
 Sie können das natürlich auch manuell erledigen: Der öffentliche Schlüssel muss in die Datei ~/.ssh/authorized_keys auf dem Server eingefügt werden. Anleitungen dazu finden Sie im Netz.
 
-Die Verbindungsaufnahme erfolgt dann mit `ssh -i ~/.ssh/praxis_key username@praxis-dr-eisenbart.ch`. Dieses Kommando sollte Sie nach dem Passwort des Schlüssels fragen und dann ohne weitere Fragen in ein Konsolenfenster auf dem Server führen.
+Die Verbindungsaufnahme erfolgt dann mit `ssh -p 36223 -i ~/.ssh/praxis_key username@praxis-dr-eisenbart.ch`. Dieses Kommando sollte Sie nach dem Passwort des Schlüssels fragen und dann ohne weitere Fragen in ein Konsolenfenster auf dem Server führen.
 
 Das genügt aber noch nicht. Wir wollen ja einen Zugriff auf mysql bzw. Webelexis haben. Dazu müssen wir eine sogenannte 'Portweiterleitung' oder 'port forwarding' einrichten. Genau: Etwas Ähnliches, was Sie bereits beim Router gemacht haben. Nur dass jetzt der SSH Server die Rolle des Routers übernimmt und der SSH Client die Portweiterleitung dynamisch erstellen kann. Man kann eine solche Weiterleitung ebenfalls auf der ssh Kommandozeile einrichten, aber ich würde ein einfacheres Vorgehen empfehlen: 
 
