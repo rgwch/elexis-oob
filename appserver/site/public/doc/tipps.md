@@ -1,11 +1,26 @@
 # Einige Tipps
 
-## Alles löschen
+## Dcoker-Compose Kommandos
+
+### Neustart
+
+    docker-compose restart
+
+### Programme löschen, Daten behalten, z.B. Update 
 
     docker-compose down --rmi local
-    docker volume prune
+    git pull
+    docker-compose up --build -d
 
-**Achtung:** Die zweite Zeile löscht WIRKLICH alle Daten! Nach einem erneuten `docker-compose up -d` ist Ihre Elexis-Datenbank wieder wie neu. Wenn Sie nur die Programme neu aufbauen wollen, geben Sie nur die erste Zeile ein. **Und machen Sie vor solchen Aktionen IMMER ein Backup**.
+### Programme und alle Container löschen, Daten behalten
+
+    docker-compose down --rmi all
+
+### Programme und Daten komplett löschen       
+
+    docker-compose down -v --rmi all
+    
+**Achtung:** Dies löscht WIRKLICH und ohne jede Rückfrage alle Daten! Nach einem erneuten `docker-compose up -d` ist Ihre Elexis-Datenbank wieder wie neu. **Machen Sie vor solchen Aktionen IMMER ein Backup**.
 
 ## Login in den dockerisierten MariaDB-Server
 

@@ -1,6 +1,6 @@
 # Aus der Ferne via Internet auf die Praxisdaten zugreifen
 
-Der Bedarf, zum Beispiel von zuhause aus auf die Praxisdaten zugreifen zu können, oder beispielsweise die Terminvergabe an eine externe Person zu delegieren, ist zweifellos da. Etliche Anwender haben dafür Verbindungen über eine Remote-Desktop-Software, zum Beispiel TeamViewer oder AnyDesk eingerichtet. Eine solche Verbindung hat mehrere Nachteile:
+Der Bedarf, zum Beispiel von zuhause aus auf die Praxisdaten zugreifen zu können, oder beispielsweise die Terminvergabe an eine externe Person zu delegieren, ist zweifellos da. Etliche Anwender haben dafür Verbindungen über eine Remote-Desktop-Software wie TeamViewer oder AnyDesk eingerichtet. Eine solche Verbindung hat mehrere Nachteile:
 
 * Die Geheimhaltung der Daten ist nicht gewährleistet. Alle Daten laufen über einen Server des betreffenden Unternehmens und können dort im Prinzip auch gelesen werden. Das ist für Arztpraxis-Software schlicht unzulässig.
 
@@ -18,6 +18,8 @@ Ich würde ganz grundsätzlich empfehlen, den Zugriff von aussen nur via SSH (se
 
 * Sie sorgen dafür, dass die gesamte Kommunikation sicher verschlüsselt stattfindet.
 
+Für beide Technologien gibt es quelloffene, seit Jahrzehnten bewährte und immer wieder verbesserte Programme, so dass man davon ausgehen kann, dass die Zahl sowohl der unentdeckten Fehler als auch der von Dritten eingeschleusten Hintertüren vergleichsweise klein sein dürfte - Natürlich sind solche Fehler oder Hintertüren niemals ganz sicher auszuschliessen, aber bei proprietären und vergleichsweise neuen Produkten wahrscheinlicher, als bei openSSH und openVPN. 
+
 SSH ist einfacher aufzubauen, als VPN, daher werde ich mich hier auf SSH beschränken.
 
 ## Server
@@ -26,7 +28,7 @@ Auf einem Linux Server ist der SSH daemon (sshd) üblicherweise bereits vorinsta
 
 Sie können alle Einstellungen in /etc/ssh/sshd_config auf den Voreinstellungen belassen, nur die Einstellung "PasswordAuthentication" sollten Sie für die Einrichtung auf "yes" lassen und dann für den Alltagsgebrauch auf "no" stellen. Ich zeige den Grund gleich.
 
-Erstellen Sie auf dem Server für jeden Anwender, der SSH-Zugriff erhalten soll, ein Benutzerkonto.
+Erstellen Sie auf dem Server für jeden Anwender, der SSH-Zugriff erhalten soll, ein Benutzerkonto. Im Prinzip können Sie auch Sammel-Benutzerkontos erstellen, etwa "mpa" für alle MPAs, es ist dann aber schwieriger, Einzelnen den Zugriff wieder zu entziehen.
 
 ## Router
 
@@ -45,13 +47,15 @@ Grundsätzlich kann man sich bei SSH mit Username/Passwort einloggen, oder mit e
 Erstellen Sie ein Schlüsselpaar mit `ssh-keygen -t rsa`.  Das Programm wird Sie fragen, wohin Sie den Schlüssel speichern wollen. Wenn dies sowieso Ihr einziger ssh-Schlüssel ist, können Sie die Vorgabe belassen (macOS: /Users/username/.ssh/id_rsa, linux: /home/username/.ssh/id_rsa). Andernfalls geben Sie einen anderen Pfadnahmen an, ich würde aber empfehlen, als Speicherort den Ordner .ssh in Ihrem Heimatverzeichnis zu belassen. Also z.B. /Users/ihrname/.ssh/praxis_key. Dann möchte das Programm ein Passwort oder einfach Eingabetaste, um den Schlüssel ohne Passwort zu speichern. Ich würde empfehlen, ein Passwort einzugeben, für den Fall, dass mal Unbefugte an den Computer kommen.
 Wohlbemerkt: Hier geht es nicht um das Passwort für den Zugriff, sondern nur um ein Passwort, mit dem der eigentliche Schlüssel auf dem lokalen Computer gesichert wird. Daher sind hier die Anforderungen auch nicht so hoch, und dieses Passwort darf ruhig relativ "banal" sein. Es muss keinen automatisierten Knackprogrammen standhalten, sondern nur Eintippen an der Konsole, und auch das nur so lang, bis der Zugriff auf dem Server gesperrt wird.
 
-Wenn es erfolgreich durchgelaufen ist, hat ssh-keygen einen öffentlichen Schlüssel (id_rsa.pub, resp. praxis_key.pub) und einen privaten Schlüssel (id_rsa resp. praxis_key) erstellt. Nun müssen wir den öffentlichen Schlüssel auf den Server hochladen. Der Private Schlüssel bleibt immer auf dem lokalen Computer. Bei der Verbindungsaufnahme wird der Server den Client auffordern, eine bestimmte Zeichenfolge mit dem privaten Schlüssel zu verschlüsseln und kann dann mit dem öffentlichen Schlüssel prüfen, ob der Client wirklich den passenden privaten Schlüssel hat. Diese Vorgänge übernehmen die beteiligten Programme transparent für Sie; Sie müssen nur den Schlüssel bereitstellen.
+Wenn es erfolgreich durchgelaufen ist, hat ssh-keygen einen öffentlichen Schlüssel (id_rsa.pub, resp. praxis_key.pub) und einen privaten Schlüssel (id_rsa resp. praxis_key) erstellt. Nun müssen wir den öffentlichen Schlüssel auf den Server hochladen. Der private Schlüssel bleibt immer auf dem lokalen Computer. Bei der Verbindungsaufnahme wird der Server den Client auffordern, eine bestimmte Zeichenfolge mit dem privaten Schlüssel zu verschlüsseln und kann dann mit dem öffentlichen Schlüssel prüfen, ob der Client wirklich den passenden privaten Schlüssel hat. Diese Vorgänge übernehmen die beteiligten Programme transparent für Sie; Sie müssen nur den Schlüssel bereitstellen.
 
 Am einfachsten laden Sie den öffentlichen Schlüssel mit `ssh-copy-id username@praxis-dr-eisenbart.ch` auf das Konto 'username' des Praxisservers hoch. Dazu werden Sie das Passwort des Loginkontos von 'username' eingeben müssen, und der Server muss zu diesem Zeitpunkt auch noch "PasswordAuthentication yes" in der Konfiguration haben.
 
 Sie können das natürlich auch manuell erledigen: Der öffentliche Schlüssel muss in die Datei ~/.ssh/authorized_keys auf dem Server eingefügt werden. Anleitungen dazu finden Sie im Netz.
 
-Die Verbindungsaufnahme erfolgt dann mit `ssh -p 36223 -i ~/.ssh/praxis_key username@praxis-dr-eisenbart.ch`. Dieses Kommando sollte Sie nach dem Passwort des Schlüssels fragen und dann ohne weitere Fragen in ein Konsolenfenster auf dem Server führen.
+Die Verbindungsaufnahme erfolgt dann mit `ssh -p 36223 -i ~/.ssh/praxis_key username@praxis-dr-eisenbart.ch`. Dieses Kommando sollte Sie nach dem Passwort des Schlüssels fragen. Wenn dies die erste Verbindung zu diesem Server ist, werden Sie ausserdem gebeten, zu bestätigen, dass die Identität des Servers stimmt. Sie können das mit dem Key Fingerprint überprüfen, allerdings ist die Wahrscheinlichgkeit, dass just jetzt zum Zeitpunkt der Einrichtung Ihres Fernzugriffs, eine Man-In-The-Middle-Attack stattfindet, auch relativ gering. Trotzdem: Vertrauen ist gut, Kontrolle ist besser. Diese direkte 1:1 Bestätigung tritt bei SSH an die Stelle der Zertifikate, die Sie beim Einrichten von [TLS/SSL](tls.md) gesehen haben. BEi SSH benötigen wir keinen Dritten, der uns die Rechtmässigkeit eines Schlüssels bestätigt, dafür müssen wir aber bei der ersten Verbindungsaufnahme selbst Verantwortung für diesen Schlüssel übernehmen.
+
+Wenn Sie die Identität des Servers mit "yes" bestätigen, wird SSH Sie ohne weitere Fragen in ein Konsolenfenster auf dem Server führen.
 
 Das genügt aber noch nicht. Wir wollen ja einen Zugriff auf mysql bzw. Webelexis haben. Dazu müssen wir eine sogenannte 'Portweiterleitung' oder 'port forwarding' einrichten. Genau: Etwas Ähnliches, was Sie bereits beim Router gemacht haben. Nur dass jetzt der SSH Server die Rolle des Routers übernimmt und der SSH Client die Portweiterleitung dynamisch erstellen kann. Man kann eine solche Weiterleitung ebenfalls auf der ssh Kommandozeile einrichten, aber ich würde ein einfacheres Vorgehen empfehlen: 
 
