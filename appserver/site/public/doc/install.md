@@ -7,9 +7,15 @@ Falls Sie (erst mal) nur mit Testdaten arbeiten wollen, spricht aber nichts dage
 
 ## Was Sie benötigen
 
-* Einen Computer als Server, auf dem [git](https://git-scm.com), [Docker](http://docker.io) und [Docker-Compose](https://docs.docker.com/compose/) installiert sind. Dies ist idealerweise ein Linux-Computer. Windows und Mac sind zwar auch möglich, es wird aber eventuell nicht alles funktionieren (z.B. der Samba-Server zum Zugriff auf das Lucinda-Dokumentenverzeichnis).
+* Einen Computer als Server, auf dem [git](https://git-scm.com), [Docker](http://docker.io) und [Docker-Compose](https://docs.docker.com/compose/) installiert sind. Dies ist idealerweise ein Linux- oder Mac-Computer. Windows (10 Professional, 10 Enterprise oder Server) ist zwar auch möglich, es wird aber eventuell nicht alles funktionieren. Die Verwendung mit Windows<10 und Windows 10 Home ist deutlich schwieriger und wird am Ende auch nicht korrekt funktionieren. Sie können sich für Testzwecke allerdings mit einer Linux-VM z.B. unter [VirtualBox](https://www.virtualbox.org) behelfen. Die darf dann durchaus auch auf einem "schwächeren" Windows installiert sein.
 
-* Einen oder mehrere Arbeitsplatz-Computer (Clients), auf denen [Java](http://java.sun.com), idealerweise in Version 8, installiert ist. Hier sind Windows, macOS und Linux möglich.
+Wenn Sie offen und (noch) nicht festgelegt sind, empfehle ich einen Server mit Linux ohne GUI, z.B. [Ubuntu Server](https://www.ubuntu.com/download/server).
+
+Die Hardware sollte zeitgemäss sein - ein Prozessor mit 4 oder mehr Kernen und mindestens 16GB Arbeitsspeicher sind empfehlenswert.
+
+* Einen oder mehrere Arbeitsplatz-Computer (Clients), auf denen [Java](http://java.sun.com), Version 8 installiert ist. Hier sind Windows, macOS und Linux möglich. 
+
+Wichtig: Elexis ist für Java 8 optimiert und funktioniert derzeit nicht mit den neueren Java-Versionen. 
 
 ## Wie Sie anfangen
 

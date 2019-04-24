@@ -81,9 +81,9 @@ Dann können Sie zukünftig einfach mit `ssh praxis` die Verbindung herstellen. 
 
 * Sie können eine lokale Elexis-Instanz mit dem Server localhost, Port 3307 verbinden und Elexis starten.
 
-* Sie können mit einem Webbrowser auf localhost:2018 gehen, um Webelexis zu starten.
+* Sie können mit einem Webbrowser auf http://localhost:2018 gehen, um Webelexis zu starten. 
 
-In beiden Fällen wird ssh die Verbindung automatisch und unsichtbar auf den Praxisserver umleiten. Das Einzige, was Sie bemerken werden ist eine geringere Geschwindigkeit insbesondere bei Elexis, das nicht gut für langsame Verbindungen geeignet ist.
+In beiden Fällen wird ssh die Verbindung automatisch und unsichtbar auf den Praxisserver umleiten. Das Einzige, was Sie bemerken werden ist eine geringere Geschwindigkeit insbesondere bei Elexis, das nicht gut für langsame Verbindungen geeignet ist. Der Browser wird bei Webelexis zwar "nicht sicher" monieren (weil es keine TLS-Verbindung ist), aber da irrt er sich: Die http-Verbindung wird ja durch den SSH-Tunnel geleitet, ist also sehr wohl verschlüsselt und gesichert.
 
 Vielleicht noch eine Klärung zur Portweiterleitung: Sie haben im Abschnitt "Router" eine Portweiterleitung von Ihrem Router zum Server eingerichtet, in unserem Beispiel von Router:36223 auf Server:22. Aber der SSH-Server, der an Port 22 sitzt, macht seinerseits Portweiterleitungen von 2018 auf 2018 und von 3306 auf 3307. Muss man dann nicht auch diese Ports am Router freischalten? Nein. Die Verbindung zwischen SSH Client und SSH Server geht vollständig durch einen "Tunnel", das ist ein verschlüsselter Datenstrom, der hier via Port 36223 geführt wird und alles andere, inklusive Endanwender-Ports beinhaltet. Die Zerlegung in einzelne Ports findet erst beim SSH Server statt. Sie könnten in 'config' auch beliebige weitere Ports definieren, wenn Sie auch Daten für andere Anwendungen durch den Tunnel senden wollen. Und Sie könnten auch Weiterleitungen zu anderen Computern im Praxis-Netzwerk einrichten. 
 
