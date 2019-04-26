@@ -18,7 +18,7 @@ cd elexis-oob
 docker-compose up -d
 ```
 
-Der Build-Vorgang dauerte bei mir  deutlich länger, als auf den Linux- und Mac-Computern (rund 40 Minuten), was aber auch daran liegen kann, dass der Windows-Comoputer, den ich für dieses Experiment ausgrub, schon etliche jahre auf dem Buckel hat.
+Der Build-Vorgang dauerte bei mir  deutlich länger, als auf den Linux- und Mac-Computern (rund 40 Minuten), was aber auch daran liegen kann, dass der Windows-Computer, den ich für dieses Experiment ausgrub, schon etliche Jahre auf dem Buckel hat.
 
 Wie auch immer: Am Ende lief Elexis-OOB und konnte auch aus dem Netzwerk erreicht werden (Allerdings muss man die Adresse des OOB Hosts mit `docker-machine ip default` herausfinden). Und es läuft alles sehr viel langsamer und hakeliger, als unter Linux oder macOS. Wirklich empfehlen kann ich es nicht.
 

@@ -8,6 +8,7 @@ const cfg = new (require("conf"))()
 const elxcrypt = require('../utils/elxcrypt')
 const { getConnection, exec } = require('../utils/dbutils')
 const jobs = require('../utils/jobs')
+const log=require('winston')
 
 /**
  * Validate user if
@@ -16,6 +17,7 @@ const jobs = require('../utils/jobs')
  */
 router.get("/*", async (req, res, next) => {
   if (req.session.user || req.path.startsWith("/elexis-") || process.env.NODE_ENV !== 'production') {
+    log.info(`Bypassing Login für ${req.session.user} on ${req.path} in mode ${process.env.NODE_ENV}`)
     next()
   } else {
     try {
