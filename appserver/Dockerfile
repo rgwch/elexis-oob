@@ -22,7 +22,7 @@ RUN apt-get update \
 
 # ------------------------------- end of build stage --------------------------------
 
-FROM node:alpine
+FROM node:10-alpine
 LABEL maintainer="weirich@webelexis.ch" \
       version="1.0 Beta"\
       description="deploy and manage elexis-oob products"
