@@ -18,7 +18,7 @@ services:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
       - elexisdb:/mnt/elexisdb
-      - lucindadata:/mnt/lucindadata
+      - ${LUCINDA_DIR}:/mnt/lucindadata
       - lucindabase:/mnt/lucindabase
       - pacsdata:/mnt/pacsdata
     restart: always  
@@ -71,7 +71,7 @@ services:
     container_name: elx_lucinda
     hostname: lucinda.{$LOCAL_NAME}
     volumes:
-      - lucindadata:/var/lucinda/docs
+      - ${LUCINDA_DIR}:/var/lucinda/docs
       - lucindabase:/var/lucinda/base    
     ports: 
       - "${LUCINDA_PORT}:2016"
@@ -83,7 +83,7 @@ services:
     image: dperson/samba
     container_name: elx_samba
     volumes:
-      - lucindadata:/mount
+      - ${LUCINDA_DIR}:/mount
     command: >
       -w WORKGROUP
       -s "elexisdata;/mount;yes;no;yes" 
