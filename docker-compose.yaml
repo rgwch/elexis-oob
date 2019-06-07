@@ -13,7 +13,7 @@ services:
       - DBPWD=${DBPWD}
       - PUBLIC_DBPORT=${PUBLIC_DBPORT}
       - HOST_HOSTNAME=<Server Name>
-      - NODE_ENV)production
+      - NODE_ENV=production
     volumes:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
@@ -75,7 +75,7 @@ services:
       - lucindabase:/var/lucinda/base    
     ports: 
       - "${LUCINDA_PORT}:2016"
-    restart: always  
+    restart: "no"
     labels: 
       - "traefik.frontend.rule=Host:lucinda.${LOCAL_NAME}"  
  
