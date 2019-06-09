@@ -51,11 +51,20 @@ Wenn Sie danach mit http://nuno:3000 auf die Verwaltungsoberfläche zugreifen, m
 
 ## Vorgaben ändern; erweiterte Konfiguration
 
-Ports und Namen sind in .env definiert und werden von dort im docker-compose.yaml eingelesen.
+Ports und Namen sind in .env definiert und werden von dort im docker-compose.yaml eingelesen. Die .env Datei ist unter Linux und Mac unsichtbar, wird also nur angezeigt, wenn Sie explizit versteckte Dateien anzeigen lassen. z.B. mit `ls -la` oder durch die entsprechende Einstellung im Dateimanager.
 
 ## Individuelle docker-compose
 
-Manchmal möchten Sie die docker-compose.yaml anpassen. Beispielsweise, wenn Sie bereits eine laufende alleinstehende Lucinda-Installation haben und deren Datenverzeichnis weiterverwenden möchten, oder ganz allgemein, um abweichende Verzeichnisstrukturen zu implementieren. Im Allgemeinen ist es besser, sich zuerst zu überlegen, wie man mit den Vorgaben zurecht kommen kann, aber manchmal muss es eben sein... Sobald man Änderungen an docker-compose.yaml macht, steht man aber vor einem Problem: Jedesmal, wenn man ein Update von elexis-oob einspielt, werden die Änderungen überschrieben. Ich würde daher etwas anderes tun. Kopieren Sie die docker-compose.yaml nach z.b. meine-praxis.yaml. Dann können Sie die Software mit `docker-compose up -d -f meine-praxis.yaml` starten, und bei einem Update mit `git pull` bleibt Ihre Konfiguration erhalten.
+Manchmal möchten Sie die docker-compose.yaml anpassen. Im Allgemeinen ist es besser, sich zuerst zu überlegen, wie man mit den Vorgaben zurecht kommen kann, aber manchmal muss es eben sein... Sobald man Änderungen an docker-compose.yaml macht, steht man aber vor einem Problem: Jedesmal, wenn man ein Update von elexis-oob einspielt, werden die Änderungen überschrieben. Ich würde daher etwas anderes tun. Kopieren Sie die docker-compose.yaml nach z.b. meine-praxis.yaml. Dann können Sie die Software mit `docker-compose up -d -f meine-praxis.yaml` starten, und bei einem Update mit `git pull` bleibt Ihre Konfiguration erhalten.
+
+## Lucinda auf eigenes Dokument- und Basisverzeichnis richten
+
+Standardmässig richtet elexis-oob das Dokumentenmanagement-System so ein, dass sowohl Dokumente, als auch Index in speziellen "Volumes" namens lucindadata und lucindabase abgelegt wereden. Daran ist an sich nichts falsch, aber manchmal möchte man zumindest die Dokumente lieber in einem Verzeichnis, auf das man auch mit anderen Programmen zugreifen kann, zum Beispiel um Dokumente vom Scanner direkt dort hin zu schicken. Das geht so:
+
+* erstellen Sie ein Unterverzeichnis in Ihrem elexis-oob Verzeichnis, zum Beispiel namens "local". 
+* Kopieren Sie die Datei .env in dieses Verzeichnis
+* Ändern Sie den Eintrag `LUCINDA_DOCS=lucindadata` so, dass er auf das gewünschte Verzeichnis zeigt. Hier muss der volle absolute Pfad angegeben werden, also etwa `LUCINDA_DOCS=/srv/praxis/berichte`.
+* Starten Sie elexis-oob von diesem Verzeichznis aus: `docker-compose up -d`. Docker wird dann die docker-compose.yaml im übergeordneten Verzeichnis finden, aber die .env Datei des aktuellen Verzeichnisses verwenden.
 
 ## SSH Schlüsselpaar erstellen
 

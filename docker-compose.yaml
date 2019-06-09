@@ -18,8 +18,8 @@ services:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
       - elexisdb:/mnt/elexisdb
-      - ${LUCINDA_DIR}:/mnt/lucindadata
-      - lucindabase:/mnt/lucindabase
+      - ${LUCINDA_DOCS}:/mnt/lucindadata
+      - ${LUCINDA_BASE}:/mnt/lucindabase
       - pacsdata:/mnt/pacsdata
     restart: always  
     ports:
@@ -67,12 +67,12 @@ services:
       - "traefik.external.port=4040"  
     
   lucinda:
-    image: rgwch/lucinda-server:2.1.1
+    image: rgwch/lucinda-server:2.1.2
     container_name: elx_lucinda
     hostname: lucinda.{$LOCAL_NAME}
     volumes:
-      - ${LUCINDA_DIR}:/var/lucinda/docs
-      - lucindabase:/var/lucinda/base    
+      - ${LUCINDA_DOCS}:/var/lucinda/docs
+      - ${LUCINDA_BASE}:/var/lucinda/base    
     ports: 
       - "${LUCINDA_PORT}:2016"
     restart: "no"
@@ -83,7 +83,7 @@ services:
     image: dperson/samba
     container_name: elx_samba
     volumes:
-      - ${LUCINDA_DIR}:/mount
+      - ${LUCINDA_DOCS}:/mount
     command: >
       -w WORKGROUP
       -s "elexisdata;/mount;yes;no;yes" 
