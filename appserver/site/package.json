@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest",
-    "puppeteer": "npm start && cd node tests/puppeteer/integration-test.js"
+    "test": "mocha tests"
   },
   "dependencies": {
     "conf": "^2.2.0",
