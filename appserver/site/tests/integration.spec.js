@@ -41,6 +41,13 @@ describe('oob', () => {
         await page.waitForSelector('button#tomain');
         (await page.$eval("h1",h=>h.innerText)).should.equal("Erfolg")
         await page.click('button[type="submit"]');
+        // launch webelexis
+        await page.waitForSelector('button[href="#dl_webelexis"]')
+        await page.click('button[href="#dl_webelexis"]')
+        await page.click('a[href="http://localhost:2019"]')
+        await page.waitForSelector('input#username')
+        await page.$eval("input#username",i=>i.value="test")
+        await page.$eval('input#password',p=>p.value="test")
 
     }).timeout(20000)
 })
