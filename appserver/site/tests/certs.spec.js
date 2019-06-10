@@ -14,5 +14,5 @@ describe('create self signed certificate', () => {
             ou: "OOB"
         })
         key.should.be.ok
-    })
+    }).timeout(5000)
 })

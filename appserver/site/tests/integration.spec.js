@@ -34,10 +34,12 @@ describe('oob', () => {
         await page.waitForSelector('button#tomain')
         await page.click('button[type="submit"]');
         await page.waitForSelector('a[href="/db/loaddata"]')
+        // load demoDB
         await page.click('a[href="/db/loaddata"]')
         await page.click("#demodb")
         await page.click('button[type="submit"]')
-        await page.waitForSelector('button#tomain')
+        await page.waitForSelector('button#tomain');
+        (await page.$eval("h1",h=>h.innerText)).should.equal("Erfolg")
         await page.click('button[type="submit"]');
 
     }).timeout(20000)
