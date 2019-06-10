@@ -16,7 +16,7 @@ describe('oob', () => {
             console.log(prem)
         }
 
-        browser = await player.launch({ headless: false, slowMo: 50, defaultViewport: { width: 1024, height: 800 } });
+        browser = await player.launch({ headless: false, slowMo: 10, defaultViewport: { width: 1024, height: 800 } });
         page = await browser.newPage();
     })
     after(async () => {
