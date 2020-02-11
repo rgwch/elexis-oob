@@ -15,9 +15,9 @@ RUN apt-get update \
     && cd elexis-3-core \
     && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -P all-archs \
     && cd ../elexis-3-base \
-    && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true \
+    && mvn verify -Dtycho.localArtifacts=ignore -Dmaven.test.skip=true -Delexis_root=/ \
     && cd ../elexis-ungrad \
-    && mvn verify
+    && mvn verify -Delexis_root=/
  
 
 # ------------------------------- end of build stage --------------------------------
