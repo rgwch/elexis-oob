@@ -67,7 +67,7 @@ services:
       - "traefik.external.port=4040"  
     
   lucinda:
-    image: rgwch/lucinda-server:2.1.2
+    image: rgwch/lucinda-server:2.1.4
     container_name: elx_lucinda
     hostname: lucinda.{$LOCAL_NAME}
     volumes:
