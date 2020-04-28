@@ -79,6 +79,21 @@ services:
     labels: 
       - "traefik.frontend.rule=Host:lucinda.${LOCAL_NAME}"  
  
+  solr:
+    image: solr
+    container_name: elx_solr
+    volumes:
+      - ${SOLR_DATA}:/var/solr
+    ports:
+      - ${SOLR_PORT}:8983
+    restart: "no"
+    
+  tika:
+    image: apache/tika:1.23
+    container_name: elx_tika
+    ports: 
+      - ${TIKA_PORT}:9998    
+
   samba:
     image: dperson/samba
     container_name: elx_samba
@@ -130,5 +145,6 @@ volumes:
   lucindabase:
   pacsdata:
   backup:
+  solrdata:
 
     
