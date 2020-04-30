@@ -67,7 +67,7 @@ services:
       - "traefik.external.port=4040"  
     
   lucinda:
-    image: rgwch/lucinda-server:2.1.4
+    image: rgwch/lucinda-server:2.1.3
     container_name: elx_lucinda
     hostname: lucinda.{$LOCAL_NAME}
     volumes:
@@ -86,6 +86,9 @@ services:
       - ${SOLR_DATA}:/var/solr
     ports:
       - ${SOLR_PORT}:8983
+    command:
+      - solr-precreate
+      - gettingstarted
     restart: "no"
     
   tika:
