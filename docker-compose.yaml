@@ -86,6 +86,9 @@ services:
       - ${SOLR_DATA}:/var/solr
     ports:
       - ${SOLR_PORT}:8983
+    command:
+      - solr-precreate
+      - gettingstarted
     restart: "no"
     
   tika:
