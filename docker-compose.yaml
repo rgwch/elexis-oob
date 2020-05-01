@@ -66,19 +66,6 @@ services:
       - "traefik.external.frontend.rule=Host:termine.${EXTERNAL_NAME}"
       - "traefik.external.port=4040"  
     
-  lucinda:
-    image: rgwch/lucinda-server:2.1.4
-    container_name: elx_lucinda
-    hostname: lucinda.{$LOCAL_NAME}
-    volumes:
-      - ${LUCINDA_DOCS}:/var/lucinda/docs
-      - ${LUCINDA_BASE}:/var/lucinda/base    
-    ports: 
-      - "${LUCINDA_PORT}:2016"
-    restart: "no"
-    labels: 
-      - "traefik.frontend.rule=Host:lucinda.${LOCAL_NAME}"  
- 
   solr:
     image: solr
     container_name: elx_solr
@@ -97,6 +84,14 @@ services:
     ports: 
       - ${TIKA_PORT}:9998    
 
+  pdfocr:
+    image: jbarlow83/ocrmypdf
+    container_name: elx_ocr
+    ports:
+      - 5000:5000
+    entrypoint: python3  
+    command: webservice.py
+        
   samba:
     image: dperson/samba
     container_name: elx_samba
