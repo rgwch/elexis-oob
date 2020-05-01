@@ -94,21 +94,7 @@ services:
       - 5000:5000
     entrypoint: python3  
     command: webservice.py
-        
-  samba:
-    image: dperson/samba
-    container_name: elx_samba
-    volumes:
-      - ${LUCINDA_DOCS}:/mount
-    command: >
-      -w WORKGROUP
-      -s "elexisdata;/mount;yes;no;yes" 
-      -u "${FILEUSER};${FILEPWD}"
-      -p 
-    ports:
-      - 139:139
-      - 445:445
-          
+                
   pacs:
     image: sparklyballs/pacs
     container_name: elx_pacs
@@ -142,8 +128,6 @@ services:
 volumes:
   webelexisdata:
   elexisdb:
-  lucindadata:
-  lucindabase:
   pacsdata:
   backup:
   solrdata:
