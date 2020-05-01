@@ -18,8 +18,7 @@ services:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
       - elexisdb:/mnt/elexisdb
-      - ${LUCINDA_DOCS}:/mnt/lucindadata
-      - ${LUCINDA_BASE}:/mnt/lucindabase
+      - ${SOLR_DATA}:/mnt/solrdata
       - pacsdata:/mnt/pacsdata
     restart: always  
     ports:
@@ -77,10 +76,7 @@ services:
       - solr-precreate
       - gettingstarted
     restart: "no"
-    command:
-      - solr-precreate
-      - gettingstarted
-    
+  
   tika:
     image: apache/tika:1.23
     container_name: elx_tika
