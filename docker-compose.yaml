@@ -87,6 +87,9 @@ services:
     ports:
       - ${SOLR_PORT}:8983
     restart: "no"
+    command:
+      - solr-precreate
+      - gettingstarted
     
   tika:
     image: apache/tika:1.23
