@@ -34,7 +34,7 @@ const initWebelexis = () => {
       port: cfg.get("dbport"),
     },
     defaults.lucinda = {
-      url: "http://localhost:2016/lucinda/2.0"
+      url: "http://localhost:9997/lucinda/3.0"
     },
     defaults.agenda = {
       resources: ["Arzt", "MPA"],

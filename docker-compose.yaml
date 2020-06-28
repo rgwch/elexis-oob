@@ -82,22 +82,23 @@ services:
     restart: always
     labels: 
       - "traefik.enable=true"
-      - "traefik.ui.frontend.rule=Host:pacs.${LOCAL_NAME}"  
-      - "traefik.ui.port=8080"
-      - "traefik.aet.frontend.rule=Host:aet.${LOCAL_NAME}"
-      - "traefik.aet.port=11112"
- 
-  
+      - "traefik.http.routers.pacs.rule=Host(`pacs.${LOCAL_NAME}`)"  
+      - "traefik.http.routers.pacs.entrypoints=http"
+      - "traefik.http.routers.pacs.service=service3"
+      - "traefik.http.services.service3.loadbalancer.server.port=8080"
+      - "traefik.http.routers.aet.rule=Host(`aet.${LOCAL_NAME}`)"  
+      - "traefik.http.routers.aet.entrypoints=http"
+      - "traefik.http.routers.aet.service=service4"
+      - "traefik.http.services.service4.loadbalancer.server.port=11112"
+   
   proxy:
     image: traefik:v2.2
     command: 
-      - "--api.insecure=true"
+      - "--api.insecure=false"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.http.address=:80"
       - "--entrypoints.https.address=:443"
-      - "--entrypoints.termine.address=:4040"
-      - "--entrypoints.agenda.address=:3030"
     container_name: elx_proxy
     ports:
       - "80:80"    
