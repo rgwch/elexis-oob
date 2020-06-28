@@ -18,7 +18,6 @@ services:
       - backup:/backup
       - webelexisdata:/mnt/webelexisdata
       - elexisdb:/mnt/elexisdb
-      - ${SOLR_DATA}:/mnt/solrdata
       - pacsdata:/mnt/pacsdata
     restart: always  
     ports:
@@ -65,23 +64,6 @@ services:
       - "traefik.external.frontend.rule=Host:termine.${EXTERNAL_NAME}"
       - "traefik.external.port=4040"  
     
-  solr:
-    image: solr
-    container_name: elx_solr
-    volumes:
-      - ${SOLR_DATA}:/var/solr
-    ports:
-      - ${SOLR_PORT}:8983
-    command:
-      - solr-precreate
-      - gettingstarted
-    restart: "no"
-  
-  tika:
-    image: apache/tika:1.23
-    container_name: elx_tika
-    ports: 
-      - ${TIKA_PORT}:9998    
 
   pacs:
     image: sparklyballs/pacs
@@ -118,6 +100,5 @@ volumes:
   elexisdb:
   pacsdata:
   backup:
-  solrdata:
 
     
