@@ -25,9 +25,10 @@ services:
     depends_on:
       - elexisdb
     labels: 
-      - "traefik.frontend.rule=Host:appserver.${LOCAL_NAME}"  
+      - "traefik.enable=true"
+      - "traefik.http.routers.appserver.rule=Host(`appserver.${LOCAL_NAME}`)"  
+      - "traefik.http.routers.appserver.entrypoints=http"
  
-   
   elexisdb:
     image: mariadb:10.3
     command: --lower-case-table-names=1 --max-allowed-packet=128M
@@ -41,8 +42,9 @@ services:
       - "${PUBLIC_DBPORT}:3306"
     restart: always
     labels: 
-      - "traefik.frontend.rule=Host:elexisdb.${LOCAL_NAME}"  
- 
+      - "traefik.enable=false"
+      - "traefik.http.routers.elexisdb.rule=Host(`elexisdb.${LOCAL_NAME}`)"  
+      
    
   webelexis:
     image: rgwch/webelexis:3.3.5
@@ -55,16 +57,20 @@ services:
     depends_on:
       - appserver    
       - elexisdb
-    restart: always
     environment:
       - EXTERNAL_PORT=${WEBELEXIS_PORT}
     labels:
-      - "traefik.internal.frontend.rule=Host:webelexis.${LOCAL_NAME}"
-      - "traefik.internal.port=3030"
-      - "traefik.external.frontend.rule=Host:termine.${EXTERNAL_NAME}"
-      - "traefik.external.port=4040"  
-    
+      - "traefik.enable=true"
+      - "traefik.http.routers.webelexis.rule=Host(`webelexis.${LOCAL_NAME}`)"  
+      - "traefik.http.routers.webelexis.entrypoints=http"
+      - "traefik.http.routers.webelexis.service=service1"
+      - "traefik.http.services.service1.loadbalancer.server.port=3030"
+      - "traefik.http.routers.termine.rule=Host(`termine.${EXTERNAL_NAME}`)"  
+      - "traefik.http.routers.termine.entrypoints=http"
+      - "traefik.http.routers.termine.service=service2"
+      - "traefik.http.services.service2.loadbalancer.server.port=4040"
 
+      
   pacs:
     image: sparklyballs/pacs
     container_name: elx_pacs
@@ -75,6 +81,7 @@ services:
       - pacsdata:/config
     restart: always
     labels: 
+      - "traefik.enable=true"
       - "traefik.ui.frontend.rule=Host:pacs.${LOCAL_NAME}"  
       - "traefik.ui.port=8080"
       - "traefik.aet.frontend.rule=Host:aet.${LOCAL_NAME}"
@@ -82,18 +89,23 @@ services:
  
   
   proxy:
-    image: traefik
-    command: --api --docker
+    image: traefik:v2.2
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.termine.address=:4040"
+      - "--entrypoints.agenda.address=:3030"
     container_name: elx_proxy
-    restart: always
     ports:
       - "80:80"    
       - "443:443"
       - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.toml:/traefik.toml
-      - webelexisdata:/mnt
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "webelexisdata:/mnt"
 
 volumes:
   webelexisdata:

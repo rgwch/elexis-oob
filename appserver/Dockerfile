@@ -4,7 +4,7 @@ LABEL maintainer="weirich@webelexis.ch" \
   description="create elexis products and repositories"
 
 WORKDIR /opt
-ENV BRANCH=ungrad2019
+ENV BRANCH=ungrad2020
 
 RUN apt-get update \
   && apt-get install -y git \
