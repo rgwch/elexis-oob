@@ -31,7 +31,10 @@ services:
  
   elexisdb:
     image: mariadb:10.3
-    command: --lower-case-table-names=1 --max-allowed-packet=128M
+    command: 
+      --lower-case-table-names=1 
+      --max-allowed-packet=128M
+      --wait-timeout=3600
     container_name: elx_elexisdb
     hostname: elexisdb.{$LOCAL_NAME}
     environment:
@@ -78,7 +81,7 @@ services:
       - "${PACS_WEBPORT}:8080"
       - "${PACS_AETPORT}:11112"
     volumes:
-      - pacsdata:/config
+      - ${PACS_DATA:-pacsdata}:/config
     restart: always
     labels: 
       - "traefik.enable=true"
