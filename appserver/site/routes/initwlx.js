@@ -1,7 +1,7 @@
-/****************************************
- * This file is part of elexis-oob      *
- * Copyright (c) 2019 by G. Weirich     *
- ****************************************/
+/*****************************************
+ * This file is part of elexis-oob       *
+ * Copyright (c) 2019-2020 by G. Weirich *
+ *****************************************/
 
 const cfg = new (require("conf"))()
 const fs = require("fs")

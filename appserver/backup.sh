@@ -1,9 +1,9 @@
 #! /bin/sh
 
-####################################
-# THis file is part of elexis-oob  #
-# Copyright (c) 2019 by G. Weirich #
-####################################
+#########################################
+# THis file is part of elexis-oob       #
+# Copyright (c) 2019-2020 by G. Weirich #
+#########################################
 
 # Backup all Elexxis-OOB Volumes into the
 # Volume mounted at /backup

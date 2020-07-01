@@ -1,5 +1,9 @@
-const forge = require('node-forge')
+/*****************************************
+ * This file is part of elexis-oob       *
+ * Copyright (c) 2019-2020 by G. Weirich *
+ *****************************************/
 
+const forge = require('node-forge')
 
 const createSelfSignedKeyCert = attrs => {
     var pki = forge.pki;
