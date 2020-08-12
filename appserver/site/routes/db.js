@@ -13,14 +13,23 @@ const initwlx = require("./initwlx")
 const { mysqlFromUrlGzipped, mysqlFromPlain } = require("../utils/loader")
 const log = require('winston')
 const { getConnection, exec } = require('../utils/dbutils')
-const {addJob, removeJob} = require('../utils/jobs')
+const { addJob, removeJob } = require('../utils/jobs')
 
 let conn
-/** 
+/* 
  * Database management routes (/db/...)
  */
+
+/**
+ * Initialize form. Paramater values are from (1) Environemnt (2) Configuration (3) Defaults
+ */
 router.get("/init", (req, res) => {
-  res.render("init_form")
+  res.render("init_form", {
+    dbname: cfg.get("dbname"),
+    dbuser: cfg.get("dbuser"),
+    dbpwd: cfg.get("dbpwd"),
+    dbrootpwd: cfg.get("dbrootpwd")
+  })
 })
 
 router.get("/loaddata", (req, res) => {
@@ -31,30 +40,35 @@ router.get("/loaddata", (req, res) => {
  */
 router.post("/do_initialize", async (req, res) => {
   body2cfg(req.body)
-  conn = getConnection(true,false)
+  conn = getConnection(true, false)
   conn.connect(err => {
     if (err) {
       res.render("error", { message: "could not connect", error: err })
       return
     }
   })
+
   try {
     await exec(conn, `CREATE DATABASE ${cfg.get("dbname")}`)
-    await exec(conn,`CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
-    await exec(conn,"flush privileges")
-    await exec(conn,`grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
-    await exec(conn,`grant super on *.* to ${cfg.get("dbuser")}@'%'`)
+    await exec(conn, `CREATE USER ${cfg.get("dbuser")}@'%' identified by '${cfg.get("dbpwd")}'`)
+    await exec(conn, "flush privileges")
+    await exec(conn, `grant all on ${cfg.get("dbname")}.* to ${cfg.get("dbuser")}@'%'`)
+    await exec(conn, `grant super on *.* to ${cfg.get("dbuser")}@'%'`)
+    const wikidb = process.env.WKIDB_NAME || "wikijs"
+    await exec(conn, `CREATE DATABASE ${wikidb}`)
+    await exec(conn, `grant all on ${wikidb}.* to  ${cfg.get("dbuser")}@'%'`)
+    await exec(conn, "flush privileges")
     conn.end()
     const response = await prequest.get(
       "https://raw.githubusercontent.com/rgwch/elexis-3-core/ungrad2019/bundles/ch.elexis.core.data/rsc/createDB.script"
     )
     let cr1 = response.replace(/#.*\r?\n/g, "")
     const createdb = cr1.split(";")
-    conn = getConnection(false,true)
+    conn = getConnection(false, true)
     for (const stm of createdb) {
       const trimmed = stm.trim()
       if (trimmed.length > 0) {
-        await exec(conn,trimmed)
+        await exec(conn, trimmed)
       }
     }
     conn.end()
@@ -69,16 +83,16 @@ router.post("/do_initialize", async (req, res) => {
  */
 router.post("/createaccount", async (req, res) => {
   body2cfg(req.body)
-  conn=getConnection(false,true)
+  conn = getConnection(false, true)
   try {
     const uid = uuidv4()
-    await exec(conn,`INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
+    await exec(conn, `INSERT INTO KONTAKT(id,Bezeichnung1,Bezeichnung2,istPerson,istAnwender,istMandant,deleted) 
   VALUES ('${uid}','${req.body.lastname}','${req.body.firstname}','1','1','1','0')`)
     const hashes = encrypt(req.body.adminpwd)
-    await exec(conn,`INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
+    await exec(conn, `INSERT INTO USER_ (id, KONTAKT_ID, IS_ADMINISTRATOR, SALT, HASHED_PASSWORD,deleted) 
   VALUES ('Administrator', '${uid}', '1', '${hashes.salt}', '${hashes.hashed}','0')`)
     const uhashes = encrypt(req.body.userpwd)
-    await exec(conn,`INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
+    await exec(conn, `INSERT into USER_ (id,KONTAKT_ID,IS_ADMINISTRATOR,SALT,HASHED_PASSWORD) 
       VALUES ('${req.body.username}','${uid}','0','${uhashes.salt}','${uhashes.hashed}')`)
     initwlx()
     res.render("success", {
@@ -133,15 +147,15 @@ router.post("/loaddata", async (req, res) => {
  * Load an SQL file into the database
  */
 router.post("/readsql", async (req, res) => {
-  req.busboy.on("finish",()=>{
+  req.busboy.on("finish", () => {
     console.log("end")
   })
   req.busboy.on('file', (fieldname, file, filename) => {
     console.log(`Upload of '${filename}' started`);
-    addJob(`${filename} einlesen`,100)
+    addJob(`${filename} einlesen`, 100)
     mysqlFromPlain(file).then(result => {
       removeJob(`${filename} einlesen`)
-      res.render("success",{header: "Gestartet", body: "Der Prozess wurde gestartet und läuft jetzt im Hintergrund. Sie sehen auf der Hauptseite, wenn er fertig ist."})
+      res.render("success", { header: "Gestartet", body: "Der Prozess wurde gestartet und läuft jetzt im Hintergrund. Sie sehen auf der Hauptseite, wenn er fertig ist." })
     }).catch(err => {
       log.error(err)
     })

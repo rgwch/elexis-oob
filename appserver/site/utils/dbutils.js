@@ -20,11 +20,11 @@ if (!cfg.get("dbname")) {
 }
 
 if (!cfg.get("dbuser")) {
-  cfg.set("dbuser", (process.env.DBUSER || "root"))
+  cfg.set("dbuser", (process.env.DBUSER || "elexisuser"))
 }
 
 if (!cfg.get("dbpwd")) {
-  cfg.set("dbpwd", (process.env.DBPWD || "elexisadmin"))
+  cfg.set("dbpwd", (process.env.DBPWD || "elexis"))
 }
 
 if (!cfg.get("dbrootpwd")) {

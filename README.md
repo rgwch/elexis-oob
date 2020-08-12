@@ -21,6 +21,8 @@ Dieses docker-compose Projekt erstellt eine vollständige Elexis-Arbeitsumgebung
 
 * PACS (Picture Archiving and Communication System): Ein Verwaltungssystem für z.B. DICOM-Dateien (Röntgenbilder etc.)
 
+* Wiki; Ein "schwarzes Brett" für die Praxis
+
 ## Voraussetzungen
 
 Als Vorbedingung benötigen Sie nur Git, Docker und Docker-Compose auf dem Server, sowie Java JRE 8 auf den Clients. 

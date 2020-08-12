@@ -1,0 +1,3 @@
+# Wiki
+
+Jede Praxis braucht einen Ort, wo Prozeduren, Dokumente und Mitteilungen festgehalten werden. Elexis-OOB installiert zu diesem Zweck ein Wiki für Sie, genauer gesagt: [wikijs](https://wiki.js.org). Standardmässig erreichen Sie das Wiki unter `http://IhrServer:5000`. Beim ersten Start müssen Sie einige Fragen zur Konfiguration beantworten. Eine Ausführliche Dokumentation zur Konfguration und Benutzung von WikiJS finden Sie [hier](https://docs.requarks.io).

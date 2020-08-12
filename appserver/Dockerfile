@@ -1,6 +1,6 @@
 FROM maven:3.6.0-jdk-8-slim as build-stage
 LABEL maintainer="weirich@webelexis.ch" \
-  version=1.0.1 \
+  version=1.1.0 \
   description="create elexis products and repositories"
 
 WORKDIR /opt
@@ -24,7 +24,7 @@ RUN apt-get update \
 
 FROM node:10-alpine
 LABEL maintainer="weirich@webelexis.ch" \
-  version="1.0.1"\
+  version="1.1.0"\
   description="deploy and manage elexis-oob products"
 
 EXPOSE 3000 
