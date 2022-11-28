@@ -1,6 +1,6 @@
 FROM maven:3.6.0-jdk-8-slim as build-stage
 LABEL maintainer="weirich@webelexis.ch" \
-  version=1.2.0 \
+  version=1.2.1 \
   description="create elexis products and repositories"
 
 WORKDIR /opt
