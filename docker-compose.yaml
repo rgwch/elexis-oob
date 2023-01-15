@@ -6,12 +6,12 @@ services:
     container_name: elx_appserver
     hostname: appserver.${LOCAL_NAME}
     environment:
-      - DBHOST=${DBHOST}
-      - DBPORT=${DBPORT}
-      - DBNAME=${DBNAME}
-      - DBUSER=${DBUSER}
+      - DBHOST=${DBHOST:-elexisdb}
+      - DBPORT=${DBPORT:-3306}
+      - DBNAME=${DBNAME:-elexisoob}
+      - DBUSER=${DBUSER:-elexisuser}
       - DBPWD=${DBPWD}
-      - PUBLIC_DBPORT=${PUBLIC_DBPORT}
+      - PUBLIC_DBPORT=${PUBLIC_DBPORT:-3312}
       - HOST_HOSTNAME=<Server Name>
       - NODE_ENV=production
     volumes:
@@ -21,7 +21,7 @@ services:
       - pacsdata:/mnt/pacsdata
     restart: always
     ports:
-      - ${APPSERVER_PORT}:3000
+      - ${APPSERVER_PORT:-3000}:3000
     depends_on:
       - elexisdb
     labels:
@@ -31,9 +31,7 @@ services:
 
   elexisdb:
     image: mariadb:10.3
-    command: --lower-case-table-names=1
-      --max-allowed-packet=128M
-      --wait-timeout=3600
+    command: --lower-case-table-names=1 --max-allowed-packet=128M --wait-timeout=3600
     container_name: elx_elexisdb
     hostname: elexisdb.{$LOCAL_NAME}
     environment:
@@ -41,7 +39,7 @@ services:
     volumes:
       - elexisdb:/var/lib/mysql
     ports:
-      - "${PUBLIC_DBPORT}:3306"
+      - "${PUBLIC_DBPORT:-3312}:3306"
     restart: always
     labels:
       - "traefik.enable=false"
@@ -53,8 +51,8 @@ services:
     volumes:
       - webelexisdata:/home/node/webelexis/data
     ports:
-      - "${WEBELEXIS_PORT}:3030"
-      - "${SELFSERVICE_PORT}:4040"
+      - "${WEBELEXIS_PORT:-3030}:3030"
+      - "${SELFSERVICE_PORT:-4040}:4040"
     depends_on:
       - appserver
       - elexisdb
@@ -91,8 +89,8 @@ services:
     image: sparklyballs/pacs
     container_name: elx_pacs
     ports:
-      - "${PACS_WEBPORT}:8080"
-      - "${PACS_AETPORT}:11112"
+      - "${PACS_WEBPORT:-8080}:8080"
+      - "${PACS_AETPORT:-11112}:11112"
     volumes:
       - ${PACS_DATA:-pacsdata}:/config
     restart: always
