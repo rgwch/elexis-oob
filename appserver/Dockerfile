@@ -1,6 +1,6 @@
-FROM maven:3.6.0-jdk-8-slim as build-stage
+FROM maven:3.8.6-jdk-8-slim as build-stage
 LABEL maintainer="weirich@webelexis.ch" \
-  version="1.3.0" \
+  version="1.4.0" \
   description="create elexis products and repositories"
 
 WORKDIR /opt
@@ -22,9 +22,9 @@ RUN apt-get update \
 
 # ------------------------------- end of build stage --------------------------------
 
-FROM node:16-alpine
+FROM node:18-alpine
 LABEL maintainer="weirich@webelexis.ch" \
-  version="1.3.0"\
+  version="1.4.0"\
   description="deploy and manage elexis-oob products"
 
 EXPOSE 3000 

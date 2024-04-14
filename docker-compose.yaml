@@ -1,10 +1,12 @@
-version: "3"
+version: "3.3"
 
 services:
   appserver:
     build: ./appserver
     container_name: elx_appserver
     hostname: appserver.${LOCAL_NAME}
+    networks: 
+      - elexis_oob_net
     environment:
       - DBHOST=${DBHOST:-elexisdb}
       - DBPORT=${DBPORT:-3306}
@@ -40,19 +42,23 @@ services:
       - elexisdb:/var/lib/mysql
     ports:
       - "${PUBLIC_DBPORT:-3312}:3306"
+    networks: 
+      - elexis_oob_net
     restart: always
     labels:
       - "traefik.enable=false"
       - "traefik.http.routers.elexisdb.rule=Host(`elexisdb.${LOCAL_NAME}`)"
 
   webelexis:
-    image: rgwch/webelexis:3.3.5
+    image: rgwch/webelexis:3.8.0
     container_name: elx_webelexis
     volumes:
       - webelexisdata:/home/node/webelexis/data
     ports:
       - "${WEBELEXIS_PORT:-3030}:3030"
       - "${SELFSERVICE_PORT:-4040}:4040"
+    networks: 
+      - elexis_oob_net   
     depends_on:
       - appserver
       - elexisdb
@@ -77,6 +83,8 @@ services:
       - appserver
     ports:
       - ${WIKI_PORT:-5000}:3000
+    networks: 
+      - elexis_oob_net
     environment:
       DB_TYPE: mariadb
       DB_HOST: elexisdb
@@ -84,13 +92,16 @@ services:
       DB_USER: ${DBUSER:-elexisuser}
       DB_PASS: ${DBPWD:-elexis}
       DB_NAME: ${WIKIDB_NAME:-wikijs}
+    profiles: ["donotstart"]  
 
   pacs:
     image: sparklyballs/pacs
     container_name: elx_pacs
     ports:
-      - "${PACS_WEBPORT:-8080}:8080"
+      - "${PACS_WEBPORT:-8085}:8080"
       - "${PACS_AETPORT:-11112}:11112"
+    networks: 
+      - elexis_oob_net
     volumes:
       - ${PACS_DATA:-pacsdata}:/config
     restart: always
@@ -118,6 +129,8 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
+    networks: 
+      - elexis_oob_net
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "webelexisdata:/mnt"
@@ -127,3 +140,7 @@ volumes:
   elexisdb:
   pacsdata:
   backup:
+
+networks: 
+  elexis_oob_net:
+    driver: bridge
