@@ -38,6 +38,7 @@ services:
     hostname: elexisdb.{$LOCAL_NAME}
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PWD}
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PWD}
     volumes:
       - elexisdb:/var/lib/mysql
     ports:
@@ -50,7 +51,7 @@ services:
       - "traefik.http.routers.elexisdb.rule=Host(`elexisdb.${LOCAL_NAME}`)"
 
   webelexis:
-    image: rgwch/webelexis:3.8.0
+    image: rgwch/webelexis:3.9.0
     container_name: elx_webelexis
     volumes:
       - webelexisdata:/home/node/webelexis/data
@@ -115,6 +116,18 @@ services:
       - "traefik.http.routers.aet.entrypoints=http"
       - "traefik.http.routers.aet.service=service4"
       - "traefik.http.services.service4.loadbalancer.server.port=11112"
+
+  couchdb:
+    image: couchdb:3.3.3
+    container_name: couchdb
+    environment:
+      - COUCHDB_USER=${COUCHDB_ADMIN:-couchadmin}
+      - COUCHDB_PASSWORD=${COUCHDB_ADMINPWD:-pleasechangethis}
+    volumes:
+      - /media/USBdrive/couchdata:/opt/couchdb/data
+    ports:
+      - "${PUBLIC_COUCHDB_PORT:-5984}:5984"
+    restart: always
 
   proxy:
     image: traefik:v2.8
