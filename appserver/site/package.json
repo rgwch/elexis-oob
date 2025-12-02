@@ -29,7 +29,7 @@
     "rimraf": "^2.7.1",
     "serve-index": "^1.9.1",
     "tar-fs": "^2.1.0",
-    "tmp": "0.0.33",
+    "tmp": "0.2.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {
